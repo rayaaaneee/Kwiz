@@ -1,0 +1,11 @@
+.green-container {
+    height: fit-content;
+    width: 100%;
+    background-color: #45c4b0;
+    border-radius: 20px;
+}
+
+.green-container > * {
+    overflow-y: auto;
+    padding: 20px 40px;
+}

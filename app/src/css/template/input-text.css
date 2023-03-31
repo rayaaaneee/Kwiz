@@ -1,0 +1,21 @@
+.input-text {
+    width: auto;
+    height: 12px;
+    border: none;
+    border-radius: 15px;
+}
+
+.input-text:focus {
+    outline: none;
+}
+
+.input-text {
+    color: #45c4b0;
+    font-size: 28px;
+    padding: 0 20px !important;
+    height: 50px;
+}
+
+.main-container-page .create-container * {
+    text-transform: none;
+}

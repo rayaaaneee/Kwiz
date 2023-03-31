@@ -1,0 +1,27 @@
+.new-question-container {
+    height: 290px !important;
+    position: relative;
+}
+
+.new-question-container .no-bold {
+    width: fit-content;
+}
+
+#validateQuestionButton {
+    position: absolute;
+    bottom: 10px;
+    right: 15px;
+}
+
+.validate-button-container {
+    width: 100%;
+}
+
+.enter-question-container {
+    width: 100%;
+    column-gap: 20px;
+}
+
+.questions-container {
+    max-height: 270px;
+}

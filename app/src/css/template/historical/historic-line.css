@@ -1,0 +1,21 @@
+.historic-line-container {
+    width: 100%;
+    padding: 12px 40px;
+    margin: 15px  0;
+    row-gap: 10px;
+    overflow-y: auto;
+}
+
+.historic-line h1 {
+    font-weight: 100;
+    font-size: 21px;
+    text-transform: none;
+}
+
+.historic-line strong {
+    text-transform: none;
+}
+
+.play-container {
+    max-height: 500px;
+}

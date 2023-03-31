@@ -1,0 +1,12 @@
+.input-text-green-border {
+    padding: 7px 15px;
+    border: 1px solid #45c4b0;
+    border-radius: 8px;
+    color: #45c4b0;
+    font-size: 22px;
+    text-transform: none;
+}
+
+.input-text-green-border:focus {
+    outline: none;
+}
