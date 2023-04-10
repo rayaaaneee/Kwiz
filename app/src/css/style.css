@@ -105,9 +105,14 @@ strong {
 .main-container-page {
     width: 100%;
     row-gap: 7px;
-    padding-top: 25px;
+    padding: 25px 0;
 }
 
 .no-bold {
     font-weight: 300;
+}
+
+html {
+    --main-green-color: #45c4b0;
+    --main-blue-color: #13678a;
 }

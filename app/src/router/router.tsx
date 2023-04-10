@@ -3,7 +3,7 @@ import {BrowserRouter, Routes, Route} from "react-router-dom";
 import Create from "../components/page/create";
 import Play from "../components/page/play";
 import Quiz from "../components/page/quiz";
-import Result from "../components/page/score";
+import Result from "../components/page/result";
 import Historical from "../components/page/historical";
 
 const Router = (): JSX.Element => {

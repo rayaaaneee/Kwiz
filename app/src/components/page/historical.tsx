@@ -4,6 +4,8 @@ import { MainContainerPage } from '../template/main-container-page';
 import { HistoricLine } from '../template/historical/historic-line';
 
  const Historical = (): JSX.Element => {
+
+    document.title = "Historique - Kwiz";
     return (
         <>
             <GreenContainer className="play-container" children={

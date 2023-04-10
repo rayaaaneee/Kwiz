@@ -8,7 +8,7 @@ export const ViewQuiz = (props: { quizName : string, quizQuestions : string , se
                 <NavLink to="/new/1" className="modify-quiz">
                     Modifier
                 </NavLink>
-                <NavLink to="/results/" className="modify-quiz">
+                <NavLink to="/result/1" className="modify-quiz">
                     Résultats
                 </NavLink>
             </div>

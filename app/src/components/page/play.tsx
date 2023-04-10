@@ -11,6 +11,9 @@ import React, { useState } from 'react';
 
     const [selected, setSelected] = useState<string>('');
 
+    /* Changer le <title></title> de la page */
+    document.title = "Jouer - Kwiz";
+
     const selectQuiz = (name: string) => {
         setSelected(name);
     };
