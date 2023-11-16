@@ -17,7 +17,7 @@ import { HistoricLine } from '../template/historical/historic-line';
                         <>
                         <div className="historic-line-container flex-column align-start">
                             <HistoricLine pseudo="Pseudo" quizName="Quiz 1" score="10" maxScore="100" date="01/01/2021"/>
-                            <HistoricLine pseudo="Viggo" quizName="de la nulité" score="10" maxScore="14" date="01/01/2021"/>
+                            <HistoricLine pseudo="Viggo" quizName="Pokemon" score="10" maxScore="14" date="01/01/2021"/>
                         </div>
                         </>
                     }/>

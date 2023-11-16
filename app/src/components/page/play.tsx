@@ -6,6 +6,7 @@ import { InputTextGreenBorder } from '../template/input-text-green-border';
 import { Button } from '../template/button';
 
 import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 
  const Play = (): JSX.Element => {
 
@@ -35,7 +36,9 @@ import React, { useState } from 'react';
                     <div className="informations-to-play flex-row flex-center">
                         <h1>Mon nom :</h1>
                         <InputTextGreenBorder/>
-                        <Button id="play" onClick={() => {}} text="Jouer !"/>
+                        <NavLink to="/play/1" id="linkToPlay">
+                            <Button id="play" onClick={() => {}} text="Jouer !"/>
+                        </NavLink>
                     </div>
                 </>
             }/>

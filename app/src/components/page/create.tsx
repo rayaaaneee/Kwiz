@@ -14,11 +14,16 @@ import { useState } from 'react';
 
     const {id} = useParams();
 
-    document.title = "Créer un quiz - Kwiz";
-
     const [index, setIndex] = useState<number>(1);
+    let titleText: string = "";
 
-    const titleText = id === undefined ? 'Nouveau quiz' : 'Modifier le quiz';
+    if (id === undefined) {
+        document.title = "Créer un quiz - Kwiz";
+        titleText = "Nouveau quiz";
+    } else {
+        document.title = "Modifier un quiz - Kwiz";
+        titleText = "Modifier le quiz";
+    }
 
     return (
         <>

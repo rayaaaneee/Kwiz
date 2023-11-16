@@ -65,7 +65,8 @@
     font-weight: 400;
 }
 
-#playButton {
+
+#linkToPlay {
     position: absolute;
     right: 0;
 }
