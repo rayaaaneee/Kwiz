@@ -1,4 +1,4 @@
-import '../../css/page/create.css';
+import '../../css/page/create.scss';
 import { useParams } from 'react-router-dom';
 import { InputText } from '../template/input-text';
 import { GreenContainer } from '../template/green-container';
@@ -6,7 +6,6 @@ import { MainContainerPage } from '../template/main-container-page';
 import { Button } from '../template/button';
 import { Answer } from '../template/create/answer';
 import { QuestionsRecap } from '../template/create/questions-recap';
-import { ChangeEvent } from 'react';
 
 import { useState } from 'react';
 

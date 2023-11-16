@@ -1,5 +1,4 @@
-import logo from '../img/icon.png';
-import '../css/menu.css';
+import '../css/menu.scss';
 import { NavLink } from 'react-router-dom';
 
 export const Menu = (): JSX.Element => {

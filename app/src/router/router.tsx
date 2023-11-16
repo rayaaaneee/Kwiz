@@ -20,6 +20,7 @@ const Router = (): JSX.Element => {
                   <Route path={'/new/'} element={<Create/>} />
                   <Route path={'/new/:id'} element={<Create/>} />
                   <Route path={'/historical'} element={<Historical/>} />
+                  <Route path={'*'} element={<Play/>} />
                 </Routes>
               </div>
             </div>

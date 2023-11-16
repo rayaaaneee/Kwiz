@@ -1,4 +1,4 @@
-import '../../css/page/play.css';
+import '../../css/page/play.scss';
 import { GreenContainer } from '../template/green-container';
 import { MainContainerPage } from '../template/main-container-page';
 import { ViewQuiz } from '../template/view-quiz';

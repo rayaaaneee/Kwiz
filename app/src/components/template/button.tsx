@@ -1,4 +1,4 @@
-import '../../css/template/button.css'
+import '../../css/template/button.scss'
 
 export const Button = (props: { id: string, onClick: () => void, text: string }): JSX.Element => 
 {

@@ -1,4 +1,4 @@
-import '../../css/page/historical.css';
+import '../../css/page/historical.scss';
 import { GreenContainer } from '../template/green-container';
 import { MainContainerPage } from '../template/main-container-page';
 import { HistoricLine } from '../template/historical/historic-line';

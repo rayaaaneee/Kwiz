@@ -1,0 +1,14 @@
+@import '../colors.scss';
+
+.input-text-green-border {
+    padding: 7px 15px;
+    border: 1px solid $main-green-color;
+    border-radius: 8px;
+    color: $main-green-color;
+    font-size: 22px;
+    text-transform: none;
+
+    &:focus {
+        outline: none;
+    }
+}

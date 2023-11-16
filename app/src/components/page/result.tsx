@@ -1,9 +1,9 @@
 import { GreenContainer } from "../template/green-container";
 import { MainContainerPage } from "../template/main-container-page";
 import { ResultLine } from "../template/result/result-line";
-
-import "../../css/page/result.css";
 import { ResultLinesContainer } from "../template/result/result-lines-container";
+
+import "../../css/page/result.scss";
 
 
 const result = (): JSX.Element => {

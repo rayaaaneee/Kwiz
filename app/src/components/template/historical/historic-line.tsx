@@ -1,4 +1,4 @@
-import '../../../css/template/historical/historic-line.css';
+import '../../../css/template/historical/historic-line.scss';
 
 export const HistoricLine = (props : {pseudo: string, quizName: string, score: string, date : string, maxScore : string}): JSX.Element => {
     return (

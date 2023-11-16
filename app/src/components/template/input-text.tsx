@@ -1,5 +1,5 @@
 import { ChangeEvent, useState } from 'react';
-import '../../css/template/input-text.css'
+import '../../css/template/input-text.scss'
 
 export const InputText = (props: { id: string, placeholder: string, value: string }): JSX.Element =>
 {

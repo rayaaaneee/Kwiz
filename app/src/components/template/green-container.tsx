@@ -1,4 +1,4 @@
-import '../../css/template/green-container.css';
+import '../../css/template/green-container.scss';
 
 export const GreenContainer = (props: { className: string, children: JSX.Element }): JSX.Element => {
     return (
