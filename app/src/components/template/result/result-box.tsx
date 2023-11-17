@@ -1,4 +1,11 @@
-export const ResultBox = (props: {pseudo: string, score: number, maxScore: number, range: number}): JSX.Element => {
+interface ResultBoxInterface {
+    pseudo: string,
+    score: number,
+    maxScore: number,
+    range: number
+}
+
+export const ResultBox = (props: ResultBoxInterface): JSX.Element => {
 
     let range: string = "";
     switch (props.range) {

@@ -4,6 +4,7 @@ import { MainContainerPage } from "../template/main-container-page";
 const Quiz = (): JSX.Element => {
 
     document.title = "Quiz : Pokemon";
+
     return (
         <>
             <GreenContainer className="title-container" children={

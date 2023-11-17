@@ -1,7 +1,12 @@
+import { Question as QuestionObject } from "../../../object/question";
 import { Question } from "./question";
 import { useState } from "react";
 
-export const QuestionsRecap = () => {
+interface QuestionRecapInterface {
+    questions: QuestionObject[];
+}
+
+export const QuestionsRecap = (props: QuestionRecapInterface) => {
 
     const [selectedIndex, setSelectedIndex] = useState<number>(-1);
 
@@ -11,10 +16,13 @@ export const QuestionsRecap = () => {
 
     return (
     <div className="questions-recap flex flex-column">
-        {[...Array(10)].map((_, index) => {
+        { props.questions.length === 0 && 
+            (<p style={{ cursor: 'default' }}>Aucune question n'a été ajoutée</p>) 
+        }
+        {props.questions.map((question, index) => {
             index += 1;
             return (
-            <Question key={index} index={index} question={"Ceci est une question ma fois interessante ?"} selectedIndex={selectedIndex} onClick={handleClick} />
+            <Question key={index} index={index} question={ question.name } selectedIndex={selectedIndex} onClick={handleClick} />
             )}
         )}
     </div>

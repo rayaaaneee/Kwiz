@@ -1,6 +1,11 @@
 import '../../css/template/green-container.scss';
 
-export const GreenContainer = (props: { className: string, children: JSX.Element }): JSX.Element => {
+interface GreenContainerInterface {
+    className: string, 
+    children: JSX.Element
+}
+
+export const GreenContainer = (props: GreenContainerInterface): JSX.Element => {
     return (
         <div className={`green-container ${props.className}`}>
             {props.children}

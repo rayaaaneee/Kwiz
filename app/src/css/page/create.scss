@@ -68,23 +68,24 @@
         }
     }
 
-    input[type="checkbox"] {
-        display: none;
+}
 
+input[type="checkbox"] {
+    display: none;
+
+    & ~ label {
+        height: 19px;
+        width: 19px;
+        cursor: pointer;
+        border: none;
+        border-radius: 50%;
+        border: 1px solid white;
+        background-color: $main-green-color;
+    }
+
+    &:checked {
         & ~ label {
-            height: 19px;
-            width: 19px;
-            cursor: pointer;
-            border: none;
-            border-radius: 100px;
-            border: 1px solid white;
-            background-color: $main-green-color;
-        }
-
-        &:checked {
-            & ~ label {
-                background-color: white;
-            }
+            background-color: white;
         }
     }
 }

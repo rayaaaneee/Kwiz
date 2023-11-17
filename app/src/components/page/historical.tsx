@@ -2,8 +2,13 @@ import '../../css/page/historical.scss';
 import { GreenContainer } from '../template/green-container';
 import { MainContainerPage } from '../template/main-container-page';
 import { HistoricLine } from '../template/historical/historic-line';
+import { useEffect } from 'react';
 
  const Historical = (): JSX.Element => {
+
+    useEffect(() => {
+        console.log("historical");
+    });
 
     document.title = "Historique - Kwiz";
     return (

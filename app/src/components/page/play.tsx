@@ -5,15 +5,18 @@ import { ViewQuiz } from '../template/view-quiz';
 import { InputTextGreenBorder } from '../template/input-text-green-border';
 import { Button } from '../template/button';
 
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
  const Play = (): JSX.Element => {
 
     const [selected, setSelected] = useState<string>('');
 
-    /* Changer le <title></title> de la page */
     document.title = "Jouer - Kwiz";
+
+    useEffect(() => {
+        console.log("play");
+    });
 
     const selectQuiz = (name: string) => {
         setSelected(name);
@@ -37,7 +40,7 @@ import { NavLink } from 'react-router-dom';
                         <h1>Mon nom :</h1>
                         <InputTextGreenBorder/>
                         <NavLink to="/play/1" id="linkToPlay">
-                            <Button id="play" onClick={() => {}} text="Jouer !"/>
+                            <Button id="play" onClick={ () => {} } text="Jouer !"/>
                         </NavLink>
                     </div>
                 </>
