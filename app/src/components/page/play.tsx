@@ -31,16 +31,16 @@ import { NavLink } from 'react-router-dom';
                 <>
                     <GreenContainer className="play-container flex-row flex-center" children={
                         <div className="quiz-container flex-column flex-center align-start">
-                            <ViewQuiz quizName='Quiz 1' quizQuestions='10' selected={selected} selectQuiz={selectQuiz}/>
-                            <ViewQuiz quizName='Masterclass quiz' quizQuestions='24' selected={selected} selectQuiz={selectQuiz}/>
-                            <ViewQuiz quizName='Quoicoubel' quizQuestions='8' selected={selected} selectQuiz={selectQuiz}/>
+                            <ViewQuiz quizName='Quiz 1' quizQuestions='10' selected={selected} selectQuiz={selectQuiz} canModify={ false }/>
+                            <ViewQuiz quizName='Masterclass quiz' quizQuestions='24' selected={selected} selectQuiz={selectQuiz} canModify={ false }/>
+                            <ViewQuiz quizName='Quoicoubel' quizQuestions='8' selected={selected} selectQuiz={selectQuiz} canModify={ false }/>
                         </div>
                     }/>
                     <div className="informations-to-play flex-row flex-center">
                         <h1>Mon nom :</h1>
                         <InputTextGreenBorder/>
                         <NavLink to="/play/1" id="linkToPlay">
-                            <Button id="play" onClick={ () => {} } text="Jouer !"/>
+                            <Button id="play" onClick={ undefined } text="Jouer !"/>
                         </NavLink>
                     </div>
                 </>

@@ -1,8 +1,10 @@
+import { Answer } from "./answer";
+
 export class Question {
 
     name: string;
     isUniqueAnswer: boolean;
-    answers: Array<{ name: string, isAnswer: boolean }> = [];
+    answers: Array<Answer> = [];
 
 
     constructor(name: string, isUniqueAnswer: boolean) {
@@ -10,8 +12,8 @@ export class Question {
         this.isUniqueAnswer = isUniqueAnswer;
     }
 
-    addAnswer(answer: string, isAnswer: boolean) {
-        this.answers.push({ name: answer, isAnswer: isAnswer });
+    addAnswer(name: string, isAnswer: boolean) {
+        this.answers.push(new Answer(name, isAnswer));
     }
 
     getNumberOfAnswers() {

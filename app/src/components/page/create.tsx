@@ -8,11 +8,20 @@ import { Button } from '../template/button';
 import { QuestionsRecap } from '../template/create/questions-recap';
 import { InputCheckbox } from '../template/create/input-checkbox';
 
+import { Answer } from '../../object/answer';
 import { Question } from '../../object/question';
 import { Quiz } from '../../object/quiz';
 
 import '../../css/page/create.scss';
 
+interface AnswerInterface {
+    name: string;
+    setName: React.Dispatch<SetStateAction<string>>;
+    isAnswer: boolean;
+    setIsAnswer: React.Dispatch<SetStateAction<boolean>>;
+    checkBoxRef: React.RefObject<HTMLInputElement>;
+    inputRef: React.RefObject<HTMLInputElement>;
+}
 
 const Create = (): JSX.Element => {
 
@@ -24,15 +33,9 @@ const Create = (): JSX.Element => {
     const isUniqueAnswer: boolean = useMemo(() => (!isManyAnswers), [isManyAnswers]);
     const [answerIndex, setAnswerIndex] = useState<number>(0);
 
-    interface AnswerInterface {
-        name: string;
-        setName: React.Dispatch<SetStateAction<string>>;
-        isAnswer: boolean;
-        setIsAnswer: React.Dispatch<SetStateAction<boolean>>;
-        checkBoxRef: React.RefObject<HTMLInputElement>;
-        inputRef: React.RefObject<HTMLInputElement>;
-    }
-
+    
+    const [selectedIndexQuestion, setSelectedIndexQuestion] = useState<number>(-1);
+    
     const [answerOneIsTrue, setAnswerOneIsTrue] = useState<boolean>(false);
     const [answerTwoIsTrue, setAnswerTwoIsTrue] = useState<boolean>(false);
     const [answerThreeIsTrue, setAnswerThreeIsTrue] = useState<boolean>(false);
@@ -78,6 +81,34 @@ const Create = (): JSX.Element => {
         }
     ];
 
+    const [questionName, setQuestionName] = useState<string>('');
+
+    // Si une question est séléctionnée, on met ses informations pour la modifier
+    useEffect(() => {
+
+        if (selectedIndexQuestion !== -1) {
+            const question: Question = quiz.questions[selectedIndexQuestion];
+            const questionAnswers: Answer[] = question.answers;
+
+            setIsManyAnswers(!question.isUniqueAnswer);
+            setQuestionName(question.name);
+
+            answers.forEach((answer, index) => {
+                if (index < questionAnswers.length) {
+                    answer.setName(questionAnswers[index].name);
+                    if (answer.inputRef.current !== null) {
+                        answer.inputRef.current.value = questionAnswers[index].name;
+                    }
+                    answer.setIsAnswer(questionAnswers[index].isAnswer);
+                } else {
+                    answer.setName('');
+                    answer.setIsAnswer(false);
+                }
+            });
+        }
+
+    }, [selectedIndexQuestion]);
+
     const disableAnswers = (index: number) => {
         index--;
 
@@ -116,7 +147,7 @@ const Create = (): JSX.Element => {
         // Answer index vaut 0 si rien n'a été cliqué
         if (answerIndex !== 0) {
 
-            if (isUniqueAnswer === true) {
+            if (isUniqueAnswer) {
                 answers.forEach((answer, index) => {
                     if (index === answerIndexTmp) {
                         answer.setIsAnswer(bool => !bool);
@@ -124,7 +155,7 @@ const Create = (): JSX.Element => {
                         answer.setIsAnswer(false);
                     }
                 })
-            } else if (isManyAnswers === true) {
+            } else if (isManyAnswers) {
                 answers[answerIndexTmp].setIsAnswer(bool => !bool);
             }
 
@@ -152,30 +183,58 @@ const Create = (): JSX.Element => {
         // Vérifier si la question a des réposnes correctes
         let correctAnswers: number = answers.filter(answer => answer.isAnswer === true).length;
 
-        let canAdd: boolean = (correctAnswers > 0) && (isUniqueAnswer && (correctAnswers === 1)) && (questionName !== undefined && questionName.length > 0);
+        let canAdd: boolean = 
+            (correctAnswers > 0) && 
+            ((isUniqueAnswer && (correctAnswers === 1)) 
+                || 
+            (isManyAnswers && (correctAnswers > 1))) 
+            && (questionName !== undefined && questionName.length > 0);
 
         if (canAdd) {
             setQuiz((prevQuiz) => {
-                console.log("add");
                 let newQuiz: Quiz = Quiz.copy(prevQuiz);
-                newQuiz.addQuestion(question);
+
+                if (selectedIndexQuestion !== -1) {
+                    newQuiz.replaceQuestion(selectedIndexQuestion, question);
+                } else {
+                    newQuiz.addQuestion(question);
+                }
+
                 return newQuiz;
             });
+
+            // On désélectionne la question à modifier si il y en a une
+            setSelectedIndexQuestion(-1);
+
+            // On remet la valeur par défaut
+            setAnswerIndex(0);
+            setIsManyAnswers(false);
+
             e.currentTarget.reset();
+
+            // Remettre tout à 0
+            answers.forEach(answer => {
+                answer.setIsAnswer(false);
+                answer.setName('');
+            });
         }
 
     }
 
-    const themeInputRef: React.MutableRefObject<HTMLInputElement | null> = useRef<HTMLInputElement | null>(null);
+    const [theme, setTheme] = useState<string>('');
 
     const handleSubmitQuiz = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-        setQuiz((prevQuiz) => {
-            let newQuiz: Quiz = Quiz.copy(prevQuiz);
-            if (themeInputRef.current !== null) {
-                newQuiz.setTheme(themeInputRef.current.value);
-            }
-            return newQuiz;
-        });
+
+        const canSubmit: boolean = 
+        (theme !== undefined && theme.length !== 0)
+        && (quiz.questions.length > 0);
+        
+        if (canSubmit) {
+            quiz.setTheme(theme);
+            // TODO: Envoyer le quiz au serveur
+        } else {
+            e.preventDefault();
+        }
     }
 
     let titleText: string = "";
@@ -201,15 +260,15 @@ const Create = (): JSX.Element => {
                     <GreenContainer className="create-container theme-container flex-row align-center justify-start" children={
                         <>
                             <h1 className='no-bold'>Thème -</h1>
-                            <InputText id={ "theme" } pattern={ initialRegex } placeholder={ '' } ref={ themeInputRef } value= { '' } name={ 'quiz-theme' }/>
+                            <InputText id={ "theme" } pattern={ initialRegex } placeholder={ '' } ref={ null } value= { theme } setValue={ setTheme } name={ 'quiz-theme' }/>
                         </>
                     }/>
                     <form style={{ width: '100%' }} onSubmit={ handleSubmitQuestion }>
                         <GreenContainer className="create-container new-question-container flex-column flex-center" children={
                             <>
                                 <div className="enter-question-container flex-row align-center justify-start">
-                                    <h1 className='no-bold'>Nouvelle Question -</h1>
-                                    <InputText pattern={ initialRegex } name={ 'question-name' } id={ "questionName" } placeholder={ '' } value={ '' } />
+                                    <h1 className='no-bold'>{ selectedIndexQuestion === -1 ? 'Nouvelle Question' : 'Modifier Question' } -</h1>
+                                    <InputText pattern={ initialRegex } name={ 'question-name' } id={ "questionName" } placeholder={ '' } value={ questionName } setValue={ setQuestionName } />
                                 </div>
                                 <div className='flex-row align-center justify-start' style={{ alignSelf: 'start', columnGap: '15px'}}>
                                     <label htmlFor='multipleAnswersCheckbox' style={{ fontSize: '1.1em', 'fontWeight': 300, 'cursor': 'pointer' }}>• Plusieurs réponses possibles ?</label>
@@ -221,6 +280,7 @@ const Create = (): JSX.Element => {
                                         return (
                                             <div className="answer-container flex flex-center">
                                                 <p>{i} - </p>
+
                                                 <input ref={ answer.inputRef } 
                                                     onInput={ (e) => {
                                                         let iTmp: number = i - 1;
@@ -230,10 +290,15 @@ const Create = (): JSX.Element => {
                                                         answers[iTmp].setName(e.currentTarget.value);
                                                         disableAnswers(i)
                                                     } } type="text" placeholder={`Answer ${i}`} pattern={ initialRegex.toString().split('/')[1] } />
+
                                                 <InputCheckbox id={`checkbox${i}`} onCheck={ () => setAnswerIndex(index => {
                                                     if (index === i) return -1 * index;
                                                     return i;
-                                                } ) } checked={ answer.isAnswer } ref={ answer.checkBoxRef } disabled={ true } name={ `ans-${i}-is-answer` } title={ 'Séléctionner' } />
+                                                } ) } checked={ answer.isAnswer } ref={ answer.checkBoxRef } disabled={ true } name={ `ans-${i}-is-answer` } title={ answer.name.length > 0 ? 
+                                                    'Séléctionner' :
+                                                    'Veuillez entrer une réponse'
+                                                } />
+
                                             </div>
                                         )
                                     })}
@@ -245,7 +310,7 @@ const Create = (): JSX.Element => {
                     <GreenContainer className="create-container questions-container flex-column align-start justify-center" children={
                         <>
                             <h1 className='no-bold'>Questions du quizz :</h1>
-                            <QuestionsRecap questions={ quiz.questions }/>
+                            <QuestionsRecap selectedIndex={ selectedIndexQuestion } setSelectedIndex={ setSelectedIndexQuestion } questions={ quiz.questions }/>
                         </>
                     }/>
                     <div className="validate-button-container flex align-center justify-end">

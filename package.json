@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "kwiz app client & server",
   "scripts": {
-    "start-client": "cd app/ && npm start",
+    "client": "cd app/ && npm start",
     "build-client": "cd app/ && npm run build",
-    "start-server": "cd server/ && npm start",
+    "server": "cd server/ && npm start",
     "build-server": "cd server/ && npm run build",
     "dev-server": "cd server/ && npm run dev"
   },

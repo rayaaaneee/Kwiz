@@ -1,6 +1,8 @@
 import '../css/menu.scss';
 import { NavLink } from 'react-router-dom';
 
+import MenuItem from './menu-item';
+
 export const Menu = (): JSX.Element => {
   return (
     <header className="menu flex-column align-start">
@@ -9,27 +11,10 @@ export const Menu = (): JSX.Element => {
       </div>
       <nav className="menu-container flex-column align-start">
         <ul className="menu-list flex-column align-start">
-          <li className="menu-item flex-row flex-center">
-            <NavLink to={'/'} className="flex flex-center">
-              <div className="menu-title-part-container">
-                <h1 className='flex'>Jouer !</h1>
-              </div>
-            </NavLink> 
-          </li>
-          <li className="menu-item flex-row flex-center">
-            <NavLink to={'/new/'} className="flex flex-center">
-              <div className="menu-title-part-container">
-                <h1 className='flex'>Créer un quiz</h1>
-              </div>
-            </NavLink>
-          </li>
-          <li className="menu-item flex-row flex-center">
-            <NavLink to={'/historical/'} className="flex flex-center">
-              <div className="menu-title-part-container">
-                <h1 className='flex'>Historique</h1>
-              </div>
-            </NavLink>
-          </li>
+          <MenuItem to={ '/' } title={ 'Jouer !' } />
+          <MenuItem to={ '/new' } title={ 'Créer un quiz' } />
+          <MenuItem to={ '/historical' } title={ 'Historique' } />
+          <MenuItem to={ '/myquizzes' } title={ 'Mes quiz' } />
         </ul>
       </nav>
     </header>

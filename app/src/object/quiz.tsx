@@ -13,6 +13,10 @@ export class Quiz {
         return this.questions.length;
     }
 
+    replaceQuestion(index: number, question: Question): void {
+        this.questions[index] = question;
+    }
+
     addQuestion(question: Question): void {
         this.questions.push(question);
     }

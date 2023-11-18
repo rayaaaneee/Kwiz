@@ -6,18 +6,18 @@ interface InputTextInterface {
     id: string,
     placeholder: string,
     value: string
+    setValue: React.Dispatch<React.SetStateAction<string>>
     pattern: RegExp | undefined
 }
 
 export const InputText = forwardRef((props: InputTextInterface, ref: React.ForwardedRef<HTMLInputElement> | null): JSX.Element =>
 {
-    const [value, setValue] = useState<string>(props.value);
 
-    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setValue(event.target.value);
+    const handleInput = (event: ChangeEvent<HTMLInputElement>) => {
+        props.setValue(event.target.value);
     };
 
-    const initValue = () => (setValue(''));
+    const initValue = () => (props.setValue(''));
 
     let inputRef: any;
 
@@ -34,6 +34,6 @@ export const InputText = forwardRef((props: InputTextInterface, ref: React.Forwa
     });
 
     return (
-        <input name={ props.name } id={`${props.id}`} className="input-text" placeholder={props.placeholder} pattern={ props.pattern?.toString().split('/')[1] } type="text" value={value} onChange={handleChange} required ref={ inputRef }/>
+        <input name={ props.name } id={`${props.id}`} className="input-text" placeholder={props.placeholder} pattern={ props.pattern?.toString().split('/')[1] } type="text" value={props.value} onChange={handleInput} required ref={ inputRef }/>
     );
 });
