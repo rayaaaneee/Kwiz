@@ -18,10 +18,6 @@ import '../../asset/css/page/play.scss';
 
     document.title = "Jouer - Kwiz";
 
-    useEffect(() => {
-        console.log("play");
-    });
-
     const selectQuiz = (name: string) => {
         setSelected(name);
     };

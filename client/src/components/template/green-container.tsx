@@ -1,8 +1,8 @@
 import '../../asset/css/template/green-container.scss';
 
-interface GreenContainerInterface {
-    children: JSX.Element
+import { ChildrenInterface } from '../../interface/children-interface';
 
+interface GreenContainerInterface extends ChildrenInterface {
     className?: string,
     style?: React.CSSProperties, 
     isBlue?: boolean

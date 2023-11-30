@@ -1,16 +1,17 @@
-import MenuItem from './menu-item';
+import { useContext } from 'react';
 
-import useCookie from '../hook/use-cookie';
+import { ChildrenInterface } from '../interface/children-interface';
+import { CookieInterface } from '../interface/cookie-interface';
+
+import cookieContext from '../context/cookie-context';
+
+import MenuItem from './menu-item';
 
 import '../asset/css/menu.scss';
 
-interface MenuInterface {
-  children: JSX.Element
-}
+const Menu = (props: ChildrenInterface): JSX.Element => {
 
-const Menu = (props: MenuInterface): JSX.Element => {
-
-  const [userId, setUserId, deleteUserId] = useCookie('user_id');
+  const HandleUserIdCookie: CookieInterface = useContext(cookieContext).get('user_id');
 
   return (
     <>
@@ -24,8 +25,9 @@ const Menu = (props: MenuInterface): JSX.Element => {
             <MenuItem to={ '/new' } title={ 'Créer un quiz' } />
             <MenuItem to={ '/historical' } title={ 'Historique' } />
             <MenuItem to={ '/myquizzes' } title={ 'Mes quiz' } />
-            <MenuItem to={ '/myquizzes' } title={ 'Mes quiz' } />
-            <MenuItem to={ '/login' } onClick={ (e) => { deleteUserId() } } title={ 'Me déconnecter' } />
+            <MenuItem to={ '/profile' } title={ 'Mon profil' } />
+            <MenuItem to={ '/friends' } title={ 'Mes amis' } />
+            <MenuItem to={ '/login' } onClick={ HandleUserIdCookie.delete } title={ 'Me déconnecter' } />
           </ul>
         </nav>
       </header>

@@ -2,6 +2,7 @@ import { useState, useCallback } from "react"
 import Cookies from "js-cookie"
 
 const useCookie = (name: string, defaultValue?: any) => {
+
     const [value, setValue] = useState<any>(() => {
         const cookie: any = Cookies.get(name);
         if (cookie !== undefined) return cookie;
@@ -9,7 +10,7 @@ const useCookie = (name: string, defaultValue?: any) => {
     });
 
     const setCookie = useCallback(
-        (newValue: any, options: object) => {
+        (newValue: any, options?: object) => {
             Cookies.set(name, newValue, options);
             setValue(newValue);
         },
@@ -18,7 +19,7 @@ const useCookie = (name: string, defaultValue?: any) => {
 
     const deleteCookie = useCallback(() => {
         Cookies.remove(name);
-        setValue(null);
+        setValue(undefined);
     }, [name]);
 
     return [value, setCookie, deleteCookie];

@@ -1,20 +1,20 @@
-import useCookie from "../hook/use-cookie";
-import { useEffect, useMemo } from "react";
+import { useContext, useEffect, useMemo } from "react";
 import { NavigateFunction, useLocation, useNavigate } from "react-router-dom";
 
-interface RedirectorInterface {
-    children: JSX.Element
-}
+import { ChildrenInterface } from "../interface/children-interface";
 
-const Redirector = (props: RedirectorInterface): JSX.Element => {
+import cookieContext from "../context/cookie-context";
+
+import { CookieInterface } from "../interface/cookie-interface";
+
+const Redirector = (props: ChildrenInterface): JSX.Element => {
 
     const location = useLocation();
     const navigate: NavigateFunction = useNavigate();
 
-    const [userId, setCookie, deleteCookie] = useCookie('user_id');
+    const HandleUserIdCookie: CookieInterface = useContext(cookieContext).get('user_id');
 
-    const connected: boolean = useMemo(() => (userId !== undefined), [userId]);
-
+    const connected: boolean = useMemo(() => (HandleUserIdCookie.value !== undefined), [HandleUserIdCookie.value]);
 
     useEffect(() => {
 
@@ -28,8 +28,6 @@ const Redirector = (props: RedirectorInterface): JSX.Element => {
         }
 
     }, [connected, location.pathname, navigate]);
-
-    console.log(userId);
 
     return (
         <>

@@ -9,7 +9,7 @@ const update = (file: string) => {
 
     const sql: string = fs.readFileSync(`${__dirname}\\${file}.sql`, 'utf8');
     const queries: string[] = sql.split('--');
-    const db = new Database(`${__dirname}\\..\\${database_name}`);
+    const db = new Database(`${__dirname}\\..\\..\\${database_name}`);
 
     queries.forEach((query: string) => {
       db.prepare(query).run();
