@@ -1,3 +1,1 @@
-INSERT INTO User (username, password, public_name) VALUES ('admin', 'admin', 'Admin');
---
-INSERT INTO User (username, password, public_name) VALUES ('rayane', 'azerty', 'RayaneLeCrackDe7Géné');
+INSERT INTO User (username, password, public_name) VALUES ('admin', '$2b$10$kVKgxHXJCoX9jTjd00mXLex50R77SEC4bLMprGKp27zC2HV4Zib.S', 'Admin');

@@ -8,6 +8,7 @@ const update = (file: string) => {
     const database_name: string = process.env.DATABASE_NAME || 'database.db';
 
     const sql: string = fs.readFileSync(`${__dirname}\\${file}.sql`, 'utf8');
+
     const queries: string[] = sql.split('--');
     const db = new Database(`${__dirname}\\..\\..\\${database_name}`);
 
