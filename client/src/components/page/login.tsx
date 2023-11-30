@@ -62,6 +62,7 @@ const Login = (): JSX.Element => {
                 password: registerPassword,
             }),
         }).then(res => res.json()).then(data => {
+            console.log(data);
             if (data.success === true) {
                 HandleUserIdCookie.set(data.id);
                 navigate('/', { state: { from: location.pathname } });
@@ -83,6 +84,7 @@ const Login = (): JSX.Element => {
                 password: password,
             }),
         }).then(res => res.json()).then(data => {
+            console.log(data);
             if (data.success === true) {
                 HandleUserIdCookie.set(data.id);
                 navigate('/', { state: { from: location.pathname } });
@@ -94,7 +96,7 @@ const Login = (): JSX.Element => {
 
     return (
         <article className="w-full h-full flex flex-column">
-            <GreenContainer isBlue={ true } className="no-border-radius" style={{ height: '70px' }}>
+            <GreenContainer isBlue={ false } className="no-border-radius" style={{ height: '70px', position: "absolute", top: 0 }}>
                 <></>
             </GreenContainer>
             <div className="flex flex-column align-center justify-center h-full" style={{ rowGap: '40px' }}>
@@ -106,6 +108,9 @@ const Login = (): JSX.Element => {
                     </>
                 </GreenContainer>
             </div>
+            <GreenContainer isBlue={ false } className="no-border-radius" style={{ height: '70px', position:"absolute", bottom: 0 }}>
+                <></>
+            </GreenContainer>
         </article>
     )
 }

@@ -6,9 +6,10 @@ interface TitleInterface {
     alignCenter?: boolean;
 
     style?: React.CSSProperties;
+    isBlue?: boolean;
 }
 
 export const Title = (props: TitleInterface) => 
-    (<GreenContainer className="play-container" style={ props.style }>
+    (<GreenContainer isBlue={ props.isBlue !== undefined ? props.isBlue : false } className="play-container" style={ props.style }>
         <h1 style={{ textAlign: (props.alignCenter === true ? 'center' : 'start')}}>{ props.text }</h1>
     </GreenContainer>)
