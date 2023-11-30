@@ -5,9 +5,9 @@
   "main": "main.ts",
   "scripts": {
     "start": "node build/main.js",
-    "init-database": "npm run create-database && npm run insert-data",
+    "init-database": "npm run create-database && npm run fill-database",
     "create-database": "ts-node src/database/create.ts",
-    "insert-data": "ts-node src/database/insert.ts",
+    "fill-database": "ts-node src/database/fill.ts",
     "dev": "nodemon src/main.ts",
     "build": "tsc -p ."
   },
