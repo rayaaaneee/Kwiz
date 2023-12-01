@@ -1,0 +1,203 @@
+import { NavLink } from "react-router-dom";
+import { Button } from "../template/button";
+import { InputCheckbox } from "../template/create/input-checkbox";
+import { QuestionsRecap } from "../template/create/questions-recap";
+import { GreenContainer } from "../template/green-container";
+import { InputText } from "../template/input-text";
+import { MainContainerPage } from "../template/main-container-page";
+import { Title } from "../template/title";
+import { AnswerInterface } from "./create";
+import { Quiz } from "../../object/entity/quiz";
+import { useEffect } from "react";
+import { Question } from "../../object/entity/question";
+import { Answer } from "../../object/entity/answer";
+
+interface QuizEditorInterface {
+
+    titleText: string;
+
+    theme: string;
+    setTheme: React.Dispatch<React.SetStateAction<string>>;
+
+    selectedIndexQuestion: number;
+    setSelectedIndexQuestion: React.Dispatch<React.SetStateAction<number>>;
+
+    questionName: string;
+    setQuestionName: React.Dispatch<React.SetStateAction<string>>;
+
+    isManyAnswers: boolean;
+    isUniqueAnswer: boolean;
+    setIsManyAnswers: React.Dispatch<React.SetStateAction<boolean>>;
+
+    answerIndex: number;
+    setAnswerIndex: React.Dispatch<React.SetStateAction<number>>;
+
+    quiz: Quiz;
+
+    answers: Array<AnswerInterface>;
+
+    previousQuestions: React.MutableRefObject<AnswerInterface[]>;
+
+    handleSubmitQuestion: (e: React.FormEvent<HTMLFormElement>) => void;
+    handleSubmitQuiz: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+
+}
+
+const QuizEditor = (props: QuizEditorInterface): JSX.Element => {
+
+    // Si une question est séléctionnée, on met ses informations pour la modifier
+    useEffect(() => {
+        if (props.selectedIndexQuestion !== -1) {
+            const question: Question = props.quiz.questions[props.selectedIndexQuestion];
+            const questionAnswers: Answer[] = question.answers;
+
+            props.setIsManyAnswers(!question.isUniqueAnswer);
+            props.setQuestionName(question.name);
+
+            props.answers.forEach((answer, index) => {
+                if (index < questionAnswers.length) {
+                    answer.setName(questionAnswers[index].answer_text);
+                    if (answer.inputRef.current !== null) {
+                        answer.inputRef.current.value = questionAnswers[index].answer_text;
+                    }
+                    answer.setIsAnswer(questionAnswers[index].is_ok);
+                } else {
+                    answer.setName('');
+                    answer.setIsAnswer(false);
+                }
+            });
+        }
+
+    }, [props.selectedIndexQuestion]);
+
+    useEffect(() => {
+
+        const answerIndexTmp: number = Math.abs(props.answerIndex) - 1;
+
+        // Answer index vaut 0 si rien n'a été cliqué
+        if (props.answerIndex !== 0) {
+
+            if (props.isUniqueAnswer) {
+                props.previousQuestions.current.forEach((question, index) => {
+                    if (index !== answerIndexTmp) {
+                        question.setIsAnswer(false);
+                    } else {
+                        props.answers[answerIndexTmp].setIsAnswer(true);
+                    }
+                });
+                props.previousQuestions.current = props.answers;
+            }
+
+        }
+    }, [props.isUniqueAnswer]);
+
+    useEffect(() => {
+        const answerIndexTmp: number = Math.abs(props.answerIndex) - 1;
+
+        // Answer index vaut 0 si rien n'a été cliqué
+        if (props.answerIndex !== 0) {
+
+            if (props.isUniqueAnswer) {
+                props.answers.forEach((answer, index) => {
+                    if (index === answerIndexTmp) {
+                        answer.setIsAnswer(bool => !bool);
+                    } else {
+                        answer.setIsAnswer(false);
+                    }
+                })
+            } else if (props.isManyAnswers) {
+                props.answers[answerIndexTmp].setIsAnswer(bool => !bool);
+            }
+
+        }
+    }, [props.answerIndex]);
+
+    const disableAnswers = (index: number) => {
+        index--;
+
+        if (props.answers[index].name?.length === 0) {
+            props.answers[index].checkBoxRef.current?.setAttribute("disabled", "true");
+        } else if (props.answers[index].checkBoxRef.current?.hasAttribute("disabled")) {
+            props.answers[index].checkBoxRef.current?.removeAttribute("disabled");
+        }
+    }
+
+    // TODO: Trouver un regex correct
+    const initialRegex: RegExp = /(.*)/;
+
+    return (
+        <>
+            <Title text={ props.titleText } />
+            <MainContainerPage>
+            <>
+                <GreenContainer className="create-container theme-container flex-row align-center justify-start">
+                        <>
+                            <h1 className='no-bold'>Thème -</h1>
+                            <InputText id={ "theme" } pattern={ initialRegex } value= { props.theme } setValue={ props.setTheme } name={ 'quiz-theme' }/>
+                        </>
+                </GreenContainer>
+                <form style={{ width: '100%' }} onSubmit={ props.handleSubmitQuestion }>
+                        <GreenContainer className="create-container new-question-container flex-column flex-center">
+                        <>
+                                <div className="enter-question-container flex-row align-center justify-start">
+
+                                    <h1 className='no-bold'>{ props.selectedIndexQuestion === -1 ? 'Nouvelle Question' : 'Modifier Question' } -</h1>
+                                    <InputText pattern={ initialRegex } name={ 'question-name' } id={ "questionName" } value={ props.questionName } setValue={ props.setQuestionName } />
+
+                                </div>
+                                <div className='flex-row align-center justify-start' style={{ alignSelf: 'start', columnGap: '15px'}}>
+                                    <label htmlFor='multipleAnswersCheckbox' style={{ fontSize: '1.1em', 'fontWeight': 300, 'cursor': 'pointer' }}>• Plusieurs réponses possibles ?</label>
+                                    <InputCheckbox id={"multipleAnswersCheckbox"} onCheck={ props.setIsManyAnswers } checked={ props.isManyAnswers } name={'is-many-answers'} />
+                                </div>
+                                <div className="grid-answers">
+                                    { props.answers.map((answer, i) => {
+                                        i++;
+                                        return (
+                                            <div className="answer-container flex flex-center">
+
+                                                <p>{i} - </p>
+
+                                                <input ref={ answer.inputRef } 
+                                                    onInput={ (e) => {
+                                                        let iTmp: number = i - 1;
+                                                        if (e.currentTarget.value === '') {
+                                                            props.answers[iTmp].setIsAnswer(false);
+                                                        }
+                                                        props.answers[iTmp].setName(e.currentTarget.value);
+                                                        disableAnswers(i)
+                                                    } } type="text" placeholder={`Answer ${i}`} pattern={ initialRegex.toString().split('/')[1] } />
+
+                                                <InputCheckbox id={`checkbox${i}`} onCheck={ () => props.setAnswerIndex(index => {
+                                                    if (index === i) return -1 * index;
+                                                    return i;
+                                                } ) } checked={ answer.isAnswer } ref={ answer.checkBoxRef } disabled={ true } name={ `ans-${i}-is-answer` } title={    answer.name.length > 0 ? 
+                                                    'Séléctionner' :
+                                                    'Veuillez entrer une réponse'
+                                                } />
+
+                                            </div>
+                                        )
+                                    })}
+                                </div>
+                                <Button id="validateQuestion" onClick={ undefined } text="OK"/>
+                            </>
+                        </GreenContainer>
+                    </form>
+                    <GreenContainer className="create-container questions-container flex-column align-start justify-center">
+                        <>
+                            <h1 className='no-bold'>Questions du quizz :</h1>
+                            <QuestionsRecap selectedIndex={ props.selectedIndexQuestion } setSelectedIndex={ props.setSelectedIndexQuestion } questions={ props.quiz.questions }/>
+                        </>
+                    </GreenContainer>
+                    <div className="validate-button-container flex align-center justify-end">
+                        <NavLink to="/myquizzes" onClick={ props.handleSubmitQuiz }>
+                            <Button id="validate" onClick={ undefined } text="Valider"/>
+                        </NavLink>
+                    </div>
+            </>
+            </MainContainerPage>
+        </>
+    );
+}
+
+export default QuizEditor;

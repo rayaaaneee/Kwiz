@@ -52,7 +52,7 @@ const Login = (): JSX.Element => {
 
         e.currentTarget.reset();
 
-        fetch('http://localhost:7000/user/register', {
+        fetch(`${ process.env.REACT_APP_API_URL }/user/register`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -62,19 +62,17 @@ const Login = (): JSX.Element => {
                 password: registerPassword,
             }),
         }).then(res => res.json()).then(data => {
-            console.log(data);
             if (data.success === true) {
                 HandleUserIdCookie.set(data.id);
                 navigate('/', { state: { from: location.pathname } });
             }
         });
-
     }
 
     const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        
-        fetch('http://localhost:7000/user/login', {
+
+        fetch(`${ process.env.REACT_APP_API_URL }/user/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -84,7 +82,6 @@ const Login = (): JSX.Element => {
                 password: password,
             }),
         }).then(res => res.json()).then(data => {
-            console.log(data);
             if (data.success === true) {
                 HandleUserIdCookie.set(data.id);
                 navigate('/', { state: { from: location.pathname } });

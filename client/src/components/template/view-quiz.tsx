@@ -2,24 +2,25 @@ import { NavLink } from "react-router-dom";
 
 interface ViewQuizInterface { 
     quizName : string, 
-    quizQuestions : string , 
-    selected : string, 
-    selectQuiz : (name: string) => void,
+    selected : number, 
+    selectQuiz : React.Dispatch<React.SetStateAction<number>>,
+    nbQuestions : number, 
+    quizId: number,
 
     canModify? : boolean
 }
 
-export const ViewQuiz = ({ quizName, quizQuestions, selected, selectQuiz, canModify = false }: ViewQuizInterface): JSX.Element => {
+export const ViewQuiz = ({ quizName, nbQuestions, selected, selectQuiz, canModify = false, quizId }: ViewQuizInterface): JSX.Element => {
     return (
-        <div className={`view-quiz-container flex-row align-center justify-start ${ selected === quizName ? 'selected' : ''}`} onClick={() => selectQuiz(quizName)}>
-            <h1 className="view-quiz-title">{quizName} - {quizQuestions} questions</h1>
+        <div className={`view-quiz-container flex-row align-center justify-start ${ selected === quizId ? 'selected' : ''}`} onClick={() => selectQuiz(quizId)}>
+            <h1 className="view-quiz-title">{ quizName } - { nbQuestions.toString() } questions</h1>
             { canModify && (
                 <>
                     <div className="modify-quiz-container flex-column">
-                        <NavLink to="/new/1" className="modify-quiz">
+                        <NavLink to={`/edit/${ quizId }`} className="modify-quiz">
                             Modifier
                         </NavLink>
-                        <NavLink to="/result/1" className="modify-quiz">
+                        <NavLink to={`/result/${ quizId }`} className="modify-quiz">
                             Résultats
                         </NavLink>
                     </div>

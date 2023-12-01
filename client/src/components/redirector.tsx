@@ -14,7 +14,7 @@ const Redirector = (props: ChildrenInterface): JSX.Element => {
 
     const HandleUserIdCookie: CookieInterface = useContext(cookieContext).get('user_id');
 
-    const connected: boolean = useMemo(() => (HandleUserIdCookie.value !== undefined), [HandleUserIdCookie.value]);
+    const connected: boolean = useMemo(() => (HandleUserIdCookie.get() !== undefined), [HandleUserIdCookie.get()]);
 
     useEffect(() => {
 
@@ -27,7 +27,7 @@ const Redirector = (props: ChildrenInterface): JSX.Element => {
             navigate('/', { state: { from: location.pathname } });
         }
 
-    }, [connected, location.pathname, navigate]);
+    }, [location.pathname]);
 
     return (
         <>

@@ -9,6 +9,7 @@ import Historical from "../components/page/historical";
 import P404 from "../components/page/404";
 import Login from "../components/page/login";
 import Redirector from "../components/redirector";
+import Edit from "../components/page/edit";
 
 const Router = (): JSX.Element => {
   return (
@@ -20,7 +21,7 @@ const Router = (): JSX.Element => {
             <Route path={'/play/:id'} element={<Quiz />} />
             <Route path={'/result/:id'} element={<Result/>} />
             <Route path={'/new'} element={<Create/>} />
-            <Route path={'/new/:id'} element={<Create/>} />
+            <Route path={'/edit/:id'} element={<Edit/>} />
             <Route path={'/historical'} element={<Historical/>} />
             <Route path={'/login'} element={<Login/>} />
             <Route path={'*'} element={<P404/>} />

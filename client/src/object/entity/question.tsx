@@ -2,6 +2,7 @@ import { Answer } from "./answer";
 
 export class Question {
 
+    id: number | undefined;
     name: string;
     isUniqueAnswer: boolean;
     answers: Array<Answer> = [];
@@ -20,9 +21,12 @@ export class Question {
         return this.answers.length;
     }
 
-    static copy(source: Question): Question {
-        let question = new Question(source.name, source.isUniqueAnswer);
-        question.answers = source.answers.map(answer => { return { name: answer.name, isAnswer: answer.isAnswer } });
-        return question;
+    static copy(source: Question | any): Question {
+        if (source instanceof Question) {
+            let question = new Question(source.name, source.isUniqueAnswer);
+            question.answers = source.answers;
+            return question;
+        }
+        return new Question('', false);
     }
 }

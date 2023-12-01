@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import { Question } from "./question";
 
-import { Question as QuestionObject } from "../../../object/question";
+import { Question as QuestionObject } from "../../../object/entity/question";
 
 interface QuestionRecapInterface {
     questions: QuestionObject[];

@@ -21,13 +21,13 @@ const Menu = (props: ChildrenInterface): JSX.Element => {
         </div>
         <nav className="menu-container flex-column align-start">
           <ul className="menu-list flex-column align-start">
-            <MenuItem to={ '/' } title={ 'Jouer !' } />
-            <MenuItem to={ '/new' } title={ 'Créer un quiz' } />
-            <MenuItem to={ '/historical' } title={ 'Historique' } />
-            <MenuItem to={ '/myquizzes' } title={ 'Mes quiz' } />
-            <MenuItem to={ '/profile' } title={ 'Mon profil' } />
-            <MenuItem to={ '/friends' } title={ 'Mes amis' } />
-            <MenuItem to={ '/login' } onClick={ HandleUserIdCookie.delete } title={ 'Me déconnecter' } />
+            <MenuItem to={ '/profile' } title={ 'Profile' } />
+            <MenuItem to={ '/friends' } title={ 'Friends' } />
+            <MenuItem to={ '/' } title={ 'Play !' } />
+            <MenuItem to={ '/new' } title={ 'Create a quiz' } />
+            <MenuItem to={ '/myquizzes' } title={ 'My quizzes' } />
+            <MenuItem to={ '/historical' } title={ 'Historical' } />
+            <MenuItem to={ '/login' } onClick={ HandleUserIdCookie.delete } title={ 'Disconnect' } />
           </ul>
         </nav>
       </header>

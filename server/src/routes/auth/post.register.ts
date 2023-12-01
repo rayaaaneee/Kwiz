@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import * as bcrypt from 'bcrypt';
 import Database from "better-sqlite3";
 
-import { db } from "../main";
+import { db } from "../../main";
 
 
 const Register = (req: Request, res: Response) => {

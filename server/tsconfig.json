@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-      "target": "es5",
+      "target": "ES2022",
       "module": "commonjs",
       "lib": ["es6"],
       "allowJs": true,
@@ -13,6 +13,7 @@
     },
     "include": [
       "src/*.ts",
-      "src/routes/*.ts"
+      "src/routes/**/*.ts",
+      "src/model/*.ts"
     ]
 }

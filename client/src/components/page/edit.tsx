@@ -1,4 +1,4 @@
-import { SetStateAction, useContext, useMemo, useRef, useState } from 'react';
+import { SetStateAction, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import Menu from '../menu';
@@ -20,12 +20,31 @@ export interface AnswerInterface {
     inputRef: React.RefObject<HTMLInputElement>;
 }
 
-const Create = (): JSX.Element => {
+const Edit = (): JSX.Element => {
 
-    let titleText: string = "Nouveau quiz"
+    let titleText: string = "Modifier un quiz";
+    document.title = "Modifier un quiz - Kwiz";
 
     const {id} = useParams();
-    document.title = "Créer un quiz - Kwiz";
+
+    const [loaded, setLoaded] = useState<boolean>(false);
+
+    // On affecte le quiz
+    useEffect(() => {
+        fetch(`http://localhost:7000/quiz/${id}`, {
+            method: 'GET'
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+            if (data.success === true) {
+                setTheme(data.quiz.theme);
+                setQuiz(Quiz.copy(data.quiz));
+                setLoaded(true);
+            }
+        });
+    }, []);
+
 
     const HandleUserIdCookie = useContext(cookieContext).get('user_id');
 
@@ -116,7 +135,7 @@ const Create = (): JSX.Element => {
             && (questionName !== undefined && questionName.length > 0);
 
         if (canAdd) {
-            setQuiz((prevQuiz) => {
+            setQuiz((prevQuiz: any) => {
                 let newQuiz: Quiz = Quiz.copy(prevQuiz);
 
                 if (selectedIndexQuestion !== -1) {
@@ -178,27 +197,37 @@ const Create = (): JSX.Element => {
 
     return (
         <Menu>
-            <QuizEditor 
-                titleText={ titleText }
-                theme={ theme }
-                setTheme={ setTheme }
-                selectedIndexQuestion={ selectedIndexQuestion }
-                setSelectedIndexQuestion={ setSelectedIndexQuestion }
-                questionName={ questionName }
-                setQuestionName={ setQuestionName }
-                isManyAnswers={ isManyAnswers }
-                isUniqueAnswer={ isUniqueAnswer }
-                setIsManyAnswers={ setIsManyAnswers }
-                answerIndex={ answerIndex }
-                setAnswerIndex={ setAnswerIndex }
-                quiz={ quiz }
-                answers={ answers }
-                previousQuestions={ previousQuestions }
-                handleSubmitQuestion={ handleSubmitQuestion }
-                handleSubmitQuiz={ handleSubmitQuiz } 
-            />
+            { loaded ? 
+                <QuizEditor 
+                    titleText={ titleText }
+                    theme={ theme }
+                    setTheme={ setTheme }
+                    selectedIndexQuestion={ selectedIndexQuestion }
+                    setSelectedIndexQuestion={ setSelectedIndexQuestion }
+                    questionName={ questionName }
+                    setQuestionName={ setQuestionName }
+                    isManyAnswers={ isManyAnswers }
+                    isUniqueAnswer={ isUniqueAnswer }
+                    setIsManyAnswers={ setIsManyAnswers }
+                    answerIndex={ answerIndex }
+                    setAnswerIndex={ setAnswerIndex }
+                    quiz={ quiz }
+                    answers={ answers }
+                    previousQuestions={ previousQuestions }
+                    handleSubmitQuestion={ handleSubmitQuestion }
+                    handleSubmitQuiz={ handleSubmitQuiz } 
+                />
+                :
+                <div className="loading">
+                    <div className="loading__container">
+                        <div className="loading__container__circle"></div>
+                        <div className="loading__container__circle"></div>
+                        <div className="loading__container__circle"></div>
+                    </div>
+                </div>
+            }
         </Menu>
     );
 }
 
-export default Create;
+export default Edit;

@@ -5,7 +5,7 @@
   "main": "main.ts",
   "scripts": {
     "start": "node build/main.js",
-    "init-database": "npm run create-database && npm run fill-database",
+    "init-database": "rm -fv database.db && npm run create-database && npm run fill-database",
     "create-database": "ts-node src/database/create.ts",
     "fill-database": "ts-node src/database/fill.ts",
     "dev": "nodemon src/main.ts",

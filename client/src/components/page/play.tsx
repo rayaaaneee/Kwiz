@@ -14,13 +14,9 @@ import '../../asset/css/page/play.scss';
 
  const Play = (): JSX.Element => {
 
-    const [selected, setSelected] = useState<string>('');
+    const [selected, setSelected] = useState<number>(-1);
 
     document.title = "Jouer - Kwiz";
-
-    const selectQuiz = (name: string) => {
-        setSelected(name);
-    };
 
     return (
         <Menu>
@@ -30,9 +26,9 @@ import '../../asset/css/page/play.scss';
                     <>
                         <GreenContainer className="play-container flex-row flex-center">
                             <div className="quiz-container flex-column flex-center align-start">
-                                <ViewQuiz quizName='Quiz 1' quizQuestions='10' selected={selected} selectQuiz={selectQuiz} />
-                                <ViewQuiz quizName='Masterclass quiz' quizQuestions='24' selected={selected} selectQuiz={selectQuiz} />
-                                <ViewQuiz quizName='Quoicoubel' quizQuestions='8' selected={selected} selectQuiz={selectQuiz} />
+                                <ViewQuiz quizName='Quiz 1' nbQuestions={10} selected={selected} selectQuiz={setSelected} quizId={ 0 } />
+                                <ViewQuiz quizName='Masterclass quiz' nbQuestions={24} selected={selected} selectQuiz={setSelected} quizId={ 1 }/>
+                                <ViewQuiz quizName='Quoicoubel' nbQuestions={8} selected={selected} selectQuiz={setSelected} quizId={ 2 } />
                             </div>
                         </GreenContainer>
                         <div className="informations-to-play flex-row flex-center">

@@ -14,7 +14,7 @@ const Contexts = (props: ChildrenInterface): JSX.Element => {
 
     const userIdContextValue: CookieInterface = useMemo(
         () => ({
-            value: userId,
+            get: () => userId,
             set: setUserIdCookie,
             delete: deleteUserIdCookie
         }),
