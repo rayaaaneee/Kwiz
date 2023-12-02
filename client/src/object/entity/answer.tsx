@@ -9,10 +9,13 @@ export class Answer {
         this.is_ok = isAnswer;
     }
 
-    static copy(source: Answer | any): Answer {
-        if (source instanceof Answer) {
-            return new Answer(source.answer_text, source.is_ok);
+    static copy(source: Answer): Answer {
+        const answer = new Answer(source.answer_text, source.is_ok);
+
+        if (answer.id !== undefined) {
+            answer.id = source.id;
         }
-        return new Answer('', true);
+
+        return answer;
     }
 }

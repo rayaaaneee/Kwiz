@@ -3,14 +3,14 @@ import { Answer } from "./answer";
 export class Question {
 
     id: number | undefined;
-    name: string;
-    isUniqueAnswer: boolean;
+    question_text: string;
+    is_unique_answer: boolean;
     answers: Array<Answer> = [];
 
 
     constructor(name: string, isUniqueAnswer: boolean) {
-        this.name = name;
-        this.isUniqueAnswer = isUniqueAnswer;
+        this.question_text = name;
+        this.is_unique_answer = isUniqueAnswer;
     }
 
     addAnswer(name: string, isAnswer: boolean) {
@@ -21,12 +21,14 @@ export class Question {
         return this.answers.length;
     }
 
-    static copy(source: Question | any): Question {
-        if (source instanceof Question) {
-            let question = new Question(source.name, source.isUniqueAnswer);
-            question.answers = source.answers;
-            return question;
+    static copy(source: Question): Question {
+        let question = new Question(source.question_text, source.is_unique_answer);
+        question.answers = source.answers.map((answer: any) => Answer.copy(answer));
+
+        if (source.id !== undefined) {
+            question.id = source.id;
         }
-        return new Question('', false);
+
+        return question;
     }
 }

@@ -22,7 +22,7 @@ export const QuestionsRecap = (props: QuestionRecapInterface) => {
             (<p style={{ cursor: 'default' }}>Aucune question n'a été ajoutée</p>) 
         }
         {props.questions.map((question, index) =>
-            (<Question key={index} index={index} question={ question.name } selectedIndex={props.selectedIndex} onClick={handleClick} />)
+            (<Question key={index} index={index} question={ question.question_text } selectedIndex={props.selectedIndex} onClick={handleClick} />)
         )}
     </div>
     );

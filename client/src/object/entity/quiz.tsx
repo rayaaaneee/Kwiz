@@ -20,12 +20,17 @@ export class Quiz {
     }
 
     static copy(source: Quiz | any): Quiz {
-        if (source instanceof Quiz) {
-            let quiz = new Quiz();
-            quiz.theme = source.theme;
-            quiz.questions = source.questions.map(question => Question.copy(question));
-            return quiz;
+        let quiz = new Quiz();
+        quiz.theme = source.theme;
+        quiz.questions = source.questions.map((question: any) => Question.copy(question));
+
+        if (source.creator_id !== undefined) {
+            quiz.creator_id = source.creator_id;
         }
-        return new Quiz();
+        if (source.id !== undefined) {
+            quiz.id = source.id;
+        }
+
+        return quiz;
     }
 }

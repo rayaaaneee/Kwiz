@@ -51,14 +51,15 @@ const QuizEditor = (props: QuizEditorInterface): JSX.Element => {
             const question: Question = props.quiz.questions[props.selectedIndexQuestion];
             const questionAnswers: Answer[] = question.answers;
 
-            props.setIsManyAnswers(!question.isUniqueAnswer);
-            props.setQuestionName(question.name);
+            props.setIsManyAnswers(!question.is_unique_answer);
+            props.setQuestionName(question.question_text);
 
             props.answers.forEach((answer, index) => {
                 if (index < questionAnswers.length) {
                     answer.setName(questionAnswers[index].answer_text);
                     if (answer.inputRef.current !== null) {
                         answer.inputRef.current.value = questionAnswers[index].answer_text;
+                        answer.inputRef.current.disabled = false;
                     }
                     answer.setIsAnswer(questionAnswers[index].is_ok);
                 } else {
@@ -70,6 +71,7 @@ const QuizEditor = (props: QuizEditorInterface): JSX.Element => {
 
     }, [props.selectedIndexQuestion]);
 
+    // Gestion de la mise à jour des réponses en cas de changement de type de réponse (unique / multiple)
     useEffect(() => {
 
         const answerIndexTmp: number = Math.abs(props.answerIndex) - 1;
@@ -78,6 +80,7 @@ const QuizEditor = (props: QuizEditorInterface): JSX.Element => {
         if (props.answerIndex !== 0) {
 
             if (props.isUniqueAnswer) {
+                console.log(props.previousQuestions.current);
                 props.previousQuestions.current.forEach((question, index) => {
                     if (index !== answerIndexTmp) {
                         question.setIsAnswer(false);
@@ -91,6 +94,7 @@ const QuizEditor = (props: QuizEditorInterface): JSX.Element => {
         }
     }, [props.isUniqueAnswer]);
 
+    // Gestion du clic sur une réponse
     useEffect(() => {
         const answerIndexTmp: number = Math.abs(props.answerIndex) - 1;
 
@@ -112,6 +116,11 @@ const QuizEditor = (props: QuizEditorInterface): JSX.Element => {
         }
     }, [props.answerIndex]);
 
+    useEffect(() => {
+        console.log(props.isManyAnswers);
+    }, [props.isManyAnswers]);
+
+    // Une réponse ne peut pas être séléctionnée si elle n'a pas de texte
     const disableAnswers = (index: number) => {
         index--;
 
@@ -121,6 +130,8 @@ const QuizEditor = (props: QuizEditorInterface): JSX.Element => {
             props.answers[index].checkBoxRef.current?.removeAttribute("disabled");
         }
     }
+
+    // TODO: Bug à regler, lorsqu'on revient sur une question déjà créée, et qu'on modifie le 'isUniqueAnswer' de la question, les réponses ne sont pas mises à jour
 
     // TODO: Trouver un regex correct
     const initialRegex: RegExp = /(.*)/;

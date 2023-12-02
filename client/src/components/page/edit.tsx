@@ -36,10 +36,11 @@ const Edit = (): JSX.Element => {
         })
         .then(res => res.json())
         .then(data => {
-            console.log(data);
             if (data.success === true) {
-                setTheme(data.quiz.theme);
-                setQuiz(Quiz.copy(data.quiz));
+                setTheme(data.quiz);
+                console.log(data.quiz);
+                /* console.log(Quiz.copy(data.quiz)); */
+                /* setQuiz(Quiz.copy(data.quiz)); */
                 setLoaded(true);
             }
         });
@@ -66,6 +67,8 @@ const Edit = (): JSX.Element => {
     const [answerTwoName, setAnswerTwoName] = useState<string>('');
     const [answerThreeName, setAnswerThreeName] = useState<string>('');
     const [answerFourName, setAnswerFourName] = useState<string>('');
+
+    const [theme, setTheme] = useState<string>('');
 
     const answers: Array<AnswerInterface> = [
         {
@@ -164,8 +167,6 @@ const Edit = (): JSX.Element => {
         }
 
     }
-
-    const [theme, setTheme] = useState<string>('');
 
     const handleSubmitQuiz = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
 
