@@ -10,13 +10,31 @@ import { InputTextGreenBorder } from '../template/input-text-green-border';
 import { Button } from '../template/button';
 import { Title } from '../template/title';
 
+import { Quiz } from '../../object/entity/quiz';
+
 import '../../asset/css/page/play.scss';
 
  const Play = (): JSX.Element => {
 
     const [selected, setSelected] = useState<number>(-1);
+    const [quizzes, setQuizzes] = useState<Array<any>>([]);
+    const [loaded, setLoaded] = useState<boolean>(false);
 
     document.title = "Jouer - Kwiz";
+
+    useEffect(() => {
+        fetch(`${ process.env.REACT_APP_API_URL }/quiz/all`, {
+            method: 'GET'
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+            if (data.success === true) {
+                setQuizzes(data.quizzes);
+                setLoaded(true);
+            }
+        });
+    }, []);
 
     return (
         <Menu>
@@ -26,9 +44,21 @@ import '../../asset/css/page/play.scss';
                     <>
                         <GreenContainer className="play-container flex-row flex-center">
                             <div className="quiz-container flex-column flex-center align-start">
-                                <ViewQuiz quizName='Quiz 1' nbQuestions={10} selected={selected} selectQuiz={setSelected} quizId={ 0 } />
-                                <ViewQuiz quizName='Masterclass quiz' nbQuestions={24} selected={selected} selectQuiz={setSelected} quizId={ 1 }/>
-                                <ViewQuiz quizName='Quoicoubel' nbQuestions={8} selected={selected} selectQuiz={setSelected} quizId={ 2 } />
+                            { loaded ? (
+                                <>
+                                    { quizzes.map((quiz: any, i: number) => (
+                                        <ViewQuiz quizName={ quiz.theme } nbQuestions={ quiz.nbQuestions } selected={selected} selectQuiz={setSelected} quizId={ quiz.id } key={ i } />
+                                    )) }
+                                    { quizzes.length === 0 && (
+                                        <div className="no-quizzes flex-column flex-center">
+                                            <h1 className="main-green">Aucun quiz disponible</h1>
+                                            <p className="main-green">Créez-en un !</p>
+                                        </div>
+                                    ) }
+                                </>
+                            ) : (
+                                <h1 className="main-green">Chargement...</h1>
+                            ) }
                             </div>
                         </GreenContainer>
                         <div className="informations-to-play flex-row flex-center">

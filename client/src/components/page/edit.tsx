@@ -37,10 +37,13 @@ const Edit = (): JSX.Element => {
         .then(res => res.json())
         .then(data => {
             if (data.success === true) {
-                setTheme(data.quiz);
-                console.log(data.quiz);
-                /* console.log(Quiz.copy(data.quiz)); */
-                /* setQuiz(Quiz.copy(data.quiz)); */
+                setQuiz((_: Quiz) => {
+                    const newQuiz = Quiz.copy(data.quiz);
+                    if (newQuiz.theme !== undefined) {
+                        setTheme(newQuiz.theme);
+                    }
+                    return newQuiz;
+                });
                 setLoaded(true);
             }
         });
@@ -173,7 +176,7 @@ const Edit = (): JSX.Element => {
         const canSubmit: boolean = 
         (theme !== undefined && theme.length !== 0)
         && (quiz.questions.length > 0);
-        
+
         if (canSubmit) {
             quiz.theme = theme;
 

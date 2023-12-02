@@ -6,28 +6,13 @@ import { Question } from '../../model/question';
 import { Answer } from '../../model/answer';
 
 const GetQuiz = (req: Request, res: Response) => {
-/*     const quizId: number = parseInt(req.params.id);
-
-    const quiz: any = db.prepare(`SELECT * FROM Quiz WHERE id = ?`).get(quizId);
-
-    const questions: any = db.prepare(`SELECT * FROM Question WHERE quiz_id = ?`).all(quizId);
-
-    questions.forEach((question: any) => {
-        question.answers = db.prepare(`SELECT * FROM Answer WHERE question_id = ?`).all(question.id);
-    });
-
-    return res.status(200).send({
-        success: true,
-        quiz: quiz,
-        questions: questions,
-    }); */
-
     const quizId: number = parseInt(req.params.id);
 
     const query = `
         SELECT 
             Q.*,
             A.*,
+            A.id AS answer_id,
             K.*
         FROM Quiz K
         INNER JOIN Question Q ON K.id = Q.quiz_id
@@ -37,7 +22,6 @@ const GetQuiz = (req: Request, res: Response) => {
 
     const result: any[] = db.prepare(query).all(quizId);
 
-    console.log(result);
     // Organisez les données en une structure appropriée
     let quiz: Quiz | undefined = undefined;
 

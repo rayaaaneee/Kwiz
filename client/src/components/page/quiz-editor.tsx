@@ -190,7 +190,7 @@ const QuizEditor = (props: QuizEditorInterface): JSX.Element => {
                                         )
                                     })}
                                 </div>
-                                <Button id="validateQuestion" onClick={ undefined } text="OK"/>
+                                <Button id="validateQuestion" text="OK"/>
                             </>
                         </GreenContainer>
                     </form>
@@ -202,7 +202,7 @@ const QuizEditor = (props: QuizEditorInterface): JSX.Element => {
                     </GreenContainer>
                     <div className="validate-button-container flex align-center justify-end">
                         <NavLink to="/myquizzes" onClick={ props.handleSubmitQuiz }>
-                            <Button id="validate" onClick={ undefined } text="Valider"/>
+                            <Button id="validate" text="Valider"/>
                         </NavLink>
                     </div>
             </>
