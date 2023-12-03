@@ -25,7 +25,7 @@ const Menu = (props: ChildrenInterface): JSX.Element => {
             <MenuItem to={ '/friends' } title={ 'Friends' } />
             <MenuItem to={ '/' } title={ 'Play !' } />
             <MenuItem to={ '/new' } title={ 'Create a quiz' } />
-            <MenuItem to={ '/myquizzes' } title={ 'My quizzes' } />
+            <MenuItem to={ '/my-quizzes' } title={ 'My quizzes' } />
             <MenuItem to={ '/historical' } title={ 'Historical' } />
             <MenuItem to={ '/login' } onClick={ HandleUserIdCookie.delete } title={ 'Disconnect' } />
           </ul>

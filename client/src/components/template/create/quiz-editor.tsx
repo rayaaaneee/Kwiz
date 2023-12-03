@@ -1,4 +1,6 @@
+import { useContext } from "react";
 import { NavLink } from "react-router-dom";
+
 import { Button } from "../button";
 import { InputCheckbox } from "./input-checkbox";
 import { QuestionsRecap } from "./questions-recap";
@@ -11,6 +13,9 @@ import { Quiz } from "../../../object/entity/quiz";
 import { useEffect } from "react";
 import { Question } from "../../../object/entity/question";
 import { Answer } from "../../../object/entity/answer";
+
+import loadingContext from "../../../context/loading-context";
+import Loader, { LoaderColor } from "../../loader";
 
 interface QuizEditorInterface {
 
@@ -40,10 +45,11 @@ interface QuizEditorInterface {
 
     handleSubmitQuestion: (e: React.FormEvent<HTMLFormElement>) => void;
     handleSubmitQuiz: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
-
 }
 
 const QuizEditor = (props: QuizEditorInterface): JSX.Element => {
+
+    const { loaded, setLoaded } = useContext(loadingContext);
 
     // Si une question est séléctionnée, on met ses informations pour la modifier
     useEffect(() => {
@@ -57,14 +63,18 @@ const QuizEditor = (props: QuizEditorInterface): JSX.Element => {
             props.answers.forEach((answer, index) => {
                 if (index < questionAnswers.length) {
                     answer.setName(questionAnswers[index].answer_text);
+                    answer.setIsAnswer(questionAnswers[index].is_ok);
                     if (answer.inputRef.current !== null) {
                         answer.inputRef.current.value = questionAnswers[index].answer_text;
                         answer.inputRef.current.disabled = false;
                     }
-                    answer.setIsAnswer(questionAnswers[index].is_ok);
                 } else {
                     answer.setName('');
                     answer.setIsAnswer(false);
+                    if (answer.inputRef.current !== null) {
+                        answer.inputRef.current.value = '';
+                        answer.inputRef.current.disabled = false;
+                    }
                 }
             });
         }
@@ -116,10 +126,6 @@ const QuizEditor = (props: QuizEditorInterface): JSX.Element => {
         }
     }, [props.answerIndex]);
 
-    useEffect(() => {
-        console.log(props.isManyAnswers);
-    }, [props.isManyAnswers]);
-
     // Une réponse ne peut pas être séléctionnée si elle n'a pas de texte
     const disableAnswers = (index: number) => {
         index--;
@@ -140,72 +146,72 @@ const QuizEditor = (props: QuizEditorInterface): JSX.Element => {
         <>
             <Title text={ props.titleText } />
             <MainContainerPage>
-            <>
-                <GreenContainer className="create-container theme-container flex-row align-center justify-start">
-                        <>
-                            <h1 className='no-bold'>Thème -</h1>
-                            <InputText id={ "theme" } pattern={ initialRegex } value= { props.theme } setValue={ props.setTheme } name={ 'quiz-theme' }/>
-                        </>
-                </GreenContainer>
-                <form style={{ width: '100%' }} onSubmit={ props.handleSubmitQuestion }>
-                        <GreenContainer className="create-container new-question-container flex-column flex-center">
-                        <>
-                                <div className="enter-question-container flex-row align-center justify-start">
-
-                                    <h1 className='no-bold'>{ props.selectedIndexQuestion === -1 ? 'Nouvelle Question' : 'Modifier Question' } -</h1>
-                                    <InputText pattern={ initialRegex } name={ 'question-name' } id={ "questionName" } value={ props.questionName } setValue={ props.setQuestionName } />
-
-                                </div>
-                                <div className='flex-row align-center justify-start' style={{ alignSelf: 'start', columnGap: '15px'}}>
-                                    <label htmlFor='multipleAnswersCheckbox' style={{ fontSize: '1.1em', 'fontWeight': 300, 'cursor': 'pointer' }}>• Plusieurs réponses possibles ?</label>
-                                    <InputCheckbox id={"multipleAnswersCheckbox"} onCheck={ props.setIsManyAnswers } checked={ props.isManyAnswers } name={'is-many-answers'} />
-                                </div>
-                                <div className="grid-answers">
-                                    { props.answers.map((answer, i) => {
-                                        i++;
-                                        return (
-                                            <div className="answer-container flex flex-center">
-
-                                                <p>{i} - </p>
-
-                                                <input ref={ answer.inputRef } 
-                                                    onInput={ (e) => {
-                                                        let iTmp: number = i - 1;
-                                                        if (e.currentTarget.value === '') {
-                                                            props.answers[iTmp].setIsAnswer(false);
-                                                        }
-                                                        props.answers[iTmp].setName(e.currentTarget.value);
-                                                        disableAnswers(i)
-                                                    } } type="text" placeholder={`Answer ${i}`} pattern={ initialRegex.toString().split('/')[1] } />
-
-                                                <InputCheckbox id={`checkbox${i}`} onCheck={ () => props.setAnswerIndex(index => {
-                                                    if (index === i) return -1 * index;
-                                                    return i;
-                                                } ) } checked={ answer.isAnswer } ref={ answer.checkBoxRef } disabled={ true } name={ `ans-${i}-is-answer` } title={    answer.name.length > 0 ? 
-                                                    'Séléctionner' :
-                                                    'Veuillez entrer une réponse'
-                                                } />
-
-                                            </div>
-                                        )
-                                    })}
-                                </div>
-                                <Button id="validateQuestion" text="OK"/>
+                { (loaded === false) ? (
+                    <div className="flex flex-center" style={{ height: '70vh' }}>
+                        <Loader color={ LoaderColor.green } />
+                    </div>
+                ) : (
+                    <>
+                        <GreenContainer className="create-container theme-container flex-row align-center justify-start">
+                            <>
+                                <h1 className='no-bold'>Thème -</h1>
+                                <InputText id={ "theme" } pattern={ initialRegex } value= { props.theme } setValue={ props.setTheme } name={ 'quiz-theme' }/>
                             </>
                         </GreenContainer>
-                    </form>
-                    <GreenContainer className="create-container questions-container flex-column align-start justify-center">
-                        <>
-                            <h1 className='no-bold'>Questions du quizz :</h1>
-                            <QuestionsRecap selectedIndex={ props.selectedIndexQuestion } setSelectedIndex={ props.setSelectedIndexQuestion } questions={ props.quiz.questions }/>
-                        </>
-                    </GreenContainer>
-                    <div className="validate-button-container flex align-center justify-end">
-                        <NavLink to="/myquizzes" onClick={ props.handleSubmitQuiz }>
-                            <Button id="validate" text="Valider"/>
-                        </NavLink>
-                    </div>
-            </>
+                        <form style={{ width: '100%' }} onSubmit={ props.handleSubmitQuestion }>
+                            <GreenContainer className="create-container new-question-container flex-column flex-center">
+                                <>
+                                    <div className="enter-question-container flex-row align-center justify-start">
+                                        <h1 className='no-bold'>{ props.selectedIndexQuestion === -1 ? 'Nouvelle Question' : 'Modifier Question' } -</h1>
+                                        <InputText pattern={ initialRegex } name={ 'question-name' } id={ "questionName" } value={ props.questionName } setValue={ props.setQuestionName } />
+                                    </div>
+                                    <div className='flex-row align-center justify-start' style={{ alignSelf: 'start', columnGap: '15px'}}>
+                                        <label htmlFor='multipleAnswersCheckbox' style={{ fontSize: '1.1em', 'fontWeight': 300, 'cursor': 'pointer' }}>• Plusieurs réponses possibles ?</label>
+                                        <InputCheckbox id={"multipleAnswersCheckbox"} onCheck={ props.setIsManyAnswers } checked={ props.isManyAnswers } name={'is-many-answers'} />
+                                    </div>
+                                    <div className="grid-answers">
+                                        { props.answers.map((answer, i) => {
+                                            i++;
+                                            return (
+                                                <div className="answer-container flex flex-center">
+                                                    <p>{i} - </p>
+                                                    <input ref={ answer.inputRef } 
+                                                        onInput={ (e) => {
+                                                            let iTmp: number = i - 1;
+                                                            if (e.currentTarget.value === '') {
+                                                                props.answers[iTmp].setIsAnswer(false);
+                                                            }
+                                                            props.answers[iTmp].setName(e.currentTarget.value);
+                                                            disableAnswers(i)
+                                                        } } type="text" placeholder={`Answer ${i}`} pattern={ initialRegex.toString().split('/')[1] } />
+                                                    <InputCheckbox id={`checkbox${i}`} onCheck={ () => props.setAnswerIndex(index => {
+                                                        if (index === i) return -1 * index;
+                                                        return i;
+                                                    } ) } checked={ answer.isAnswer } ref={ answer.checkBoxRef } disabled={ true } name={ `ans-${i}-is-answer` } title={    answer.name.length > 0 ? 
+                                                        'Séléctionner' :
+                                                        'Veuillez entrer une réponse'
+                                                    } />
+                                                </div>
+                                            )
+                                        })}
+                                    </div>
+                                    <Button id="validateQuestion" text="OK"/>
+                                </>
+                            </GreenContainer>
+                            </form>
+                            <GreenContainer className="create-container questions-container flex-column align-start justify-center">
+                                <>
+                                    <h1 className='no-bold'>Questions du quizz :</h1>
+                                    <QuestionsRecap selectedIndex={ props.selectedIndexQuestion } setSelectedIndex={ props.setSelectedIndexQuestion } questions={ props.quiz.questions }/>
+                                </>
+                            </GreenContainer>
+                            <div className="validate-button-container flex align-center justify-end">
+                                <NavLink to="/my-quizzes" onClick={ props.handleSubmitQuiz }>
+                                    <Button id="validate" text="Valider"/>
+                                </NavLink>
+                            </div>
+                    </>
+                ) }
             </MainContainerPage>
         </>
     );

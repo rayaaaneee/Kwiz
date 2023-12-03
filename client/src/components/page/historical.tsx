@@ -5,11 +5,9 @@ import { MainContainerPage } from '../template/main-container-page';
 import { HistoricLine } from '../template/historical/historic-line';
 import { Title } from '../template/title';
 
-import { LoaderInterface } from '../../interface/loader-interface';
-
 import '../../asset/css/page/historical.scss';
 
- const Historical = (props: LoaderInterface): JSX.Element => {
+ const Historical = (): JSX.Element => {
     document.title = "Historique - Kwiz";
     return (
         <Menu>

@@ -3,6 +3,7 @@ import * as bcrypt from 'bcrypt';
 import { db } from "../../main";
 
 const Login = (req: Request, res: Response) => {
+
     const username: string = req.body.username.toLowerCase();
     const password: string = req.body.password;
 

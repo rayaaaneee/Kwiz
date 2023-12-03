@@ -5,7 +5,7 @@ import { ChildrenInterface } from '../../interface/children-interface';
 interface GreenContainerInterface extends ChildrenInterface {
     className?: string,
     style?: React.CSSProperties, 
-    isBlue?: boolean
+    isBlue?: boolean,
 }
 
 export const GreenContainer = (props: GreenContainerInterface): JSX.Element => {

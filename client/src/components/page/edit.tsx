@@ -1,5 +1,5 @@
 import { SetStateAction, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { NavigateFunction, useNavigate, useParams } from 'react-router-dom';
 
 import Menu from '../menu';
 import QuizEditor from '../template/create/quiz-editor';
@@ -8,11 +8,10 @@ import { Question } from '../../object/entity/question';
 import { Quiz } from '../../object/entity/quiz';
 
 import cookieContext from '../../context/cookie-context';
+import loadingContext from '../../context/loading-context';
 
 import { createQuiz } from '../../function/api/create-quiz';
 import { getQuizById } from '../../function/api/quiz-by-id';
-
-import { LoaderInterface } from '../../interface/loader-interface';
 
 import '../../asset/css/page/create.scss';
 
@@ -25,14 +24,16 @@ export interface AnswerInterface {
     inputRef: React.RefObject<HTMLInputElement>;
 }
 
-const Edit = (props: LoaderInterface): JSX.Element => {
+const Edit = (): JSX.Element => {
 
     let titleText: string = "Modifier un quiz";
     document.title = "Modifier un quiz - Kwiz";
 
     const id: number = parseInt(useParams().id ?? '-1');
 
-    const [loaded, setLoaded] = useState<boolean>(false);
+    const { loaded, setLoaded } = useContext(loadingContext);
+
+    const navigate: NavigateFunction = useNavigate();
 
     // On affecte le quiz
     useEffect(() => {
@@ -182,6 +183,9 @@ const Edit = (props: LoaderInterface): JSX.Element => {
         && (quiz.questions.length > 0);
 
         if (canSubmit) {
+            e.preventDefault();
+            setLoaded(false);
+
             quiz.theme = theme;
 
             createQuiz(
@@ -190,7 +194,8 @@ const Edit = (props: LoaderInterface): JSX.Element => {
                     creator_id: HandleUserIdCookie.get(),
                 }, 
                 (res: any) => {
-                    console.log(res);
+                    setLoaded(true);
+                    navigate('/my-quizzes');
                     if (res.success === true) {
                     }
                 }
@@ -203,35 +208,25 @@ const Edit = (props: LoaderInterface): JSX.Element => {
 
     return (
         <Menu>
-            { loaded ? 
-                <QuizEditor 
-                    titleText={ titleText }
-                    theme={ theme }
-                    setTheme={ setTheme }
-                    selectedIndexQuestion={ selectedIndexQuestion }
-                    setSelectedIndexQuestion={ setSelectedIndexQuestion }
-                    questionName={ questionName }
-                    setQuestionName={ setQuestionName }
-                    isManyAnswers={ isManyAnswers }
-                    isUniqueAnswer={ isUniqueAnswer }
-                    setIsManyAnswers={ setIsManyAnswers }
-                    answerIndex={ answerIndex }
-                    setAnswerIndex={ setAnswerIndex }
-                    quiz={ quiz }
-                    answers={ answers }
-                    previousQuestions={ previousQuestions }
-                    handleSubmitQuestion={ handleSubmitQuestion }
-                    handleSubmitQuiz={ handleSubmitQuiz } 
-                />
-                :
-                <div className="loading">
-                    <div className="loading__container">
-                        <div className="loading__container__circle"></div>
-                        <div className="loading__container__circle"></div>
-                        <div className="loading__container__circle"></div>
-                    </div>
-                </div>
-            }
+            <QuizEditor 
+                titleText={ titleText }
+                theme={ theme }
+                setTheme={ setTheme }
+                selectedIndexQuestion={ selectedIndexQuestion }
+                setSelectedIndexQuestion={ setSelectedIndexQuestion }
+                questionName={ questionName }
+                setQuestionName={ setQuestionName }
+                isManyAnswers={ isManyAnswers }
+                isUniqueAnswer={ isUniqueAnswer }
+                setIsManyAnswers={ setIsManyAnswers }
+                answerIndex={ answerIndex }
+                setAnswerIndex={ setAnswerIndex }
+                quiz={ quiz }
+                answers={ answers }
+                previousQuestions={ previousQuestions }
+                handleSubmitQuestion={ handleSubmitQuestion }
+                handleSubmitQuiz={ handleSubmitQuiz } 
+            />
         </Menu>
     );
 }

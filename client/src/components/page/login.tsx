@@ -1,5 +1,7 @@
-import { forwardRef, useState, useContext } from "react";
+import { forwardRef, useState, useContext, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+
+import Loader, { LoaderColor } from "../loader";
 
 import { GreenContainer } from "../template/green-container";
 import { InputText } from "../template/input-text";
@@ -7,11 +9,10 @@ import { Button } from "../template/button";
 import { Title } from "../template/title";
 
 import cookieContext from "../../context/cookie-context";
+import loadingContext from "../../context/loading-context";
 
 import { login } from "../../function/api/login";
 import { register } from "../../function/api/register";
-
-import { LoaderInterface } from "../../interface/loader-interface";
 
 interface FlexColumnDivTemplateInterface {
     field: string,
@@ -35,7 +36,7 @@ const FlexColumnDivTemplate = (props: FlexColumnDivTemplateInterface): JSX.Eleme
     )
 };
 
-const Login = (props: LoaderInterface): JSX.Element => {
+const Login = (): JSX.Element => {
 
     document.title = "Kwiz - Let's quiz !";
 
@@ -49,10 +50,18 @@ const Login = (props: LoaderInterface): JSX.Element => {
     const [registerPassword, setRegisterPassword] = useState<string>('');
 
     const HandleUserIdCookie = useContext(cookieContext).get('user_id');
+    const { loaded, setLoaded } = useContext(loadingContext);
+
+    useEffect(() => {
+        setTimeout(() => {
+            setLoaded(true);
+        }, 0);
+    }, []);
 
     const handleRegistration = (e: React.FormEvent<HTMLFormElement>) => {
 
         e.preventDefault();
+        setLoaded(false);
 
         e.currentTarget.reset();
 
@@ -72,6 +81,7 @@ const Login = (props: LoaderInterface): JSX.Element => {
 
     const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setLoaded(false);
 
         login(
             {
@@ -95,13 +105,19 @@ const Login = (props: LoaderInterface): JSX.Element => {
                 <></>
             </GreenContainer>
             <div className="flex flex-column align-center justify-center h-full" style={{ rowGap: '40px' }}>
-                <Title text="Start with Kwiz !" style={{ width: '1000px', padding: '10px 0' }} alignCenter={ true }/>
-                <GreenContainer className="w-fit grid" style={{ gridTemplateColumns: '1fr 1fr', width: '1000px', padding: '30px 0' }}>
+                { loaded ? (
                     <>
-                        <FlexColumnDivTemplate username={ username } setUsername={ setUsername } password={ password } setPassword={ setPassword } field="Login" onSubmit={ handleLogin } />
-                        <FlexColumnDivTemplate username={ registerUsername } setUsername={ setRegisterUsername } password={ registerPassword } setPassword={ setRegisterPassword } field="Register" onSubmit={ handleRegistration } />
+                        <Title text="Start with Kwiz !" style={{ width: '1000px', padding: '10px 0' }} alignCenter={ true }/>
+                        <GreenContainer className="w-fit grid" style={{ gridTemplateColumns: '1fr 1fr', width: '1000px', padding: '30px 0' }}>
+                            <>
+                                <FlexColumnDivTemplate username={ username } setUsername={ setUsername } password={ password } setPassword={ setPassword } field="Login" onSubmit={ handleLogin } />
+                                <FlexColumnDivTemplate username={ registerUsername } setUsername={ setRegisterUsername } password={ registerPassword } setPassword={ setRegisterPassword } field="Register" onSubmit={ handleRegistration } />
+                            </>
+                        </GreenContainer>
                     </>
-                </GreenContainer>
+                ) : (
+                    <Loader color={ LoaderColor.green }/>
+                ) }
             </div>
             <GreenContainer isBlue={ false } className="no-border-radius" style={{ height: '70px', position:"absolute", bottom: 0 }}>
                 <></>

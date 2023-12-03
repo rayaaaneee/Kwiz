@@ -1,5 +1,5 @@
-import { SetStateAction, useContext, useMemo, useRef, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { SetStateAction, useContext, useMemo, useRef, useState, useEffect } from 'react';
+import { NavigateFunction, useNavigate } from 'react-router-dom';
 
 import Menu from '../menu';
 
@@ -11,7 +11,7 @@ import QuizEditor from '../template/create/quiz-editor';
 
 import { createQuiz } from '../../function/api/create-quiz';
 
-import { LoaderInterface } from '../../interface/loader-interface';
+import loadingContext from '../../context/loading-context';
 
 import '../../asset/css/page/create.scss';
 
@@ -24,12 +24,21 @@ export interface AnswerInterface {
     inputRef: React.RefObject<HTMLInputElement>;
 }
 
-const Create = (props: LoaderInterface): JSX.Element => {
+const Create = (): JSX.Element => {
 
     let titleText: string = "Nouveau quiz"
 
-    const {id} = useParams();
     document.title = "Créer un quiz - Kwiz";
+
+    const { setLoaded } = useContext(loadingContext);
+
+    useEffect(() => {
+        setTimeout(() => {
+            setLoaded(true);
+        }, 0);
+    }, []);
+
+    const navigate: NavigateFunction = useNavigate();
 
     const HandleUserIdCookie = useContext(cookieContext).get('user_id');
 
@@ -161,6 +170,10 @@ const Create = (props: LoaderInterface): JSX.Element => {
         console.log(quiz);
 
         if (canSubmit) {
+
+            e.preventDefault();
+            setLoaded(false);
+            
             quiz.theme = theme;
 
             createQuiz(
@@ -169,7 +182,10 @@ const Create = (props: LoaderInterface): JSX.Element => {
                     creator_id: HandleUserIdCookie.get(),
                 },
                 (data) => {
-                    console.log(data);
+
+                    setLoaded(true);
+                    navigate('/my-quizzes');
+
                     if (data.success === true) {
                     }
                 }

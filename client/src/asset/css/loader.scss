@@ -1,3 +1,58 @@
+@import 'colors.scss';
+
 #loader.container {
-    background-color: antiquewhite;
+    width: 100%;
+    height: 100%;
+
+    .square-container {
+        $square-width: 50px;
+        width: $square-width;
+        height: $square-width;
+        border-radius: 15px;
+        position: relative;
+
+        .square {
+            border-radius: 12px;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+
+            background-color: $main-green-color;
+            &.green {
+                background-color: $main-green-color;
+            }
+
+            &.blue {
+                background-color: $main-blue-color;
+            }
+
+            &.white {
+                background-color: white;
+            }
+
+            animation: spin 1.5s infinite linear;
+
+            @keyframes spin {
+                from {
+                    scale: 1.2;
+                    rotate: 0deg;
+                }
+
+                25% {
+                    scale: 1;
+                }
+                
+                50% {
+                    scale: 1.2;
+                }
+                75% {
+                    scale: 1;
+                }
+                to {
+                    scale: 1.2;
+                    rotate: 360deg;
+                }
+            }
+        }
+    }
 }
