@@ -1,16 +1,16 @@
 import { NavLink } from "react-router-dom";
-import { Button } from "../template/button";
-import { InputCheckbox } from "../template/create/input-checkbox";
-import { QuestionsRecap } from "../template/create/questions-recap";
-import { GreenContainer } from "../template/green-container";
-import { InputText } from "../template/input-text";
-import { MainContainerPage } from "../template/main-container-page";
-import { Title } from "../template/title";
-import { AnswerInterface } from "./create";
-import { Quiz } from "../../object/entity/quiz";
+import { Button } from "../button";
+import { InputCheckbox } from "./input-checkbox";
+import { QuestionsRecap } from "./questions-recap";
+import { GreenContainer } from "../green-container";
+import { InputText } from "../input-text";
+import { MainContainerPage } from "../main-container-page";
+import { Title } from "../title";
+import { AnswerInterface } from "../../page/create";
+import { Quiz } from "../../../object/entity/quiz";
 import { useEffect } from "react";
-import { Question } from "../../object/entity/question";
-import { Answer } from "../../object/entity/answer";
+import { Question } from "../../../object/entity/question";
+import { Answer } from "../../../object/entity/answer";
 
 interface QuizEditorInterface {
 

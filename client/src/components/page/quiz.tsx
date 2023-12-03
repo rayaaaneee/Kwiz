@@ -8,6 +8,8 @@ const Quiz = (): JSX.Element => {
 
     document.title = "Quiz : Pokemon";
 
+    
+
     return (
         <Menu>
             <>

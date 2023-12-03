@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-
 import Menu from '../menu';
 
 import { GreenContainer } from '../template/green-container';
@@ -7,9 +5,11 @@ import { MainContainerPage } from '../template/main-container-page';
 import { HistoricLine } from '../template/historical/historic-line';
 import { Title } from '../template/title';
 
+import { LoaderInterface } from '../../interface/loader-interface';
+
 import '../../asset/css/page/historical.scss';
 
- const Historical = (): JSX.Element => {
+ const Historical = (props: LoaderInterface): JSX.Element => {
     document.title = "Historique - Kwiz";
     return (
         <Menu>

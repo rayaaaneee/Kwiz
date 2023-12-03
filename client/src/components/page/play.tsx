@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { NavLink, NavigateFunction, useLocation, useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import Menu from '../menu';
 
@@ -10,30 +10,31 @@ import { InputTextGreenBorder } from '../template/input-text-green-border';
 import { Button } from '../template/button';
 import { Title } from '../template/title';
 
-import { Quiz } from '../../object/entity/quiz';
+import { getAllQuizzes } from '../../function/api/get-all-quizzes';
+
+import { LoaderInterface } from '../../interface/loader-interface';
 
 import '../../asset/css/page/play.scss';
 
- const Play = (): JSX.Element => {
+
+
+const Play = (props: LoaderInterface): JSX.Element => {
 
     const [selected, setSelected] = useState<number>(-1);
     const [quizzes, setQuizzes] = useState<Array<any>>([]);
-    const [loaded, setLoaded] = useState<boolean>(false);
 
     document.title = "Jouer - Kwiz";
 
     useEffect(() => {
-        fetch(`${ process.env.REACT_APP_API_URL }/quiz/all`, {
-            method: 'GET'
-        })
-        .then(res => res.json())
-        .then(data => {
-            console.log(data);
-            if (data.success === true) {
-                setQuizzes(data.quizzes);
-                setLoaded(true);
+        getAllQuizzes(
+            data => {
+                console.log(data);
+                /* if (data.success === true) {
+                    setQuizzes(data.quizzes);
+                    setLoaded(true);
+                } */
             }
-        });
+        )
     }, []);
 
     return (
@@ -44,7 +45,7 @@ import '../../asset/css/page/play.scss';
                     <>
                         <GreenContainer className="play-container flex-row flex-center">
                             <div className="quiz-container flex-column flex-center align-start">
-                            { loaded ? (
+                            { props.loaded ? (
                                 <>
                                     { quizzes.map((quiz: any, i: number) => (
                                         <ViewQuiz quizName={ quiz.theme } nbQuestions={ quiz.nbQuestions } selected={selected} selectQuiz={setSelected} quizId={ quiz.id } key={ i } />
@@ -64,7 +65,7 @@ import '../../asset/css/page/play.scss';
                         <div className="informations-to-play flex-row flex-center">
                             <h1 className='main-green'>Mon nom :</h1>
                             <InputTextGreenBorder/>
-                            <NavLink to="/play/1" id="linkToPlay">
+                            <NavLink to={ `/play/${ selected }`} id="linkToPlay">
                                 <Button id="play" text="Jouer !"/>
                             </NavLink>
                         </div>

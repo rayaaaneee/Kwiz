@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 
 import Create from "../components/page/create";
 import Play from "../components/page/play";
@@ -10,20 +10,33 @@ import P404 from "../components/page/404";
 import Login from "../components/page/login";
 import Redirector from "../components/redirector";
 import Edit from "../components/page/edit";
+import { useEffect, useState } from "react";
 
 const Router = (): JSX.Element => {
+
+  const [loaded, setLoaded] = useState<boolean>(false);
+
+  const location = useLocation();
+
+  useEffect(() => setLoaded(false), [loaded]);
+
+  const pageProperties = {
+    loaded: loaded,
+    setLoaded: setLoaded
+  }
+
   return (
     <BrowserRouter>
         <Redirector>
           <Routes>
-            <Route path={'/'} element={<Play/>} />
-            <Route path={'/myquizzes'} element={<MyQuizzes />} />
+            <Route path={'/'} element={<Play  {...pageProperties} />} />
+            <Route path={'/myquizzes'} element={<MyQuizzes {...pageProperties} />} />
             <Route path={'/play/:id'} element={<Quiz />} />
             <Route path={'/result/:id'} element={<Result/>} />
-            <Route path={'/new'} element={<Create/>} />
-            <Route path={'/edit/:id'} element={<Edit/>} />
-            <Route path={'/historical'} element={<Historical/>} />
-            <Route path={'/login'} element={<Login/>} />
+            <Route path={'/new'} element={<Create {...pageProperties}/>} />
+            <Route path={'/edit/:id'} element={<Edit {...pageProperties}/>} />
+            <Route path={'/historical'} element={<Historical {...pageProperties}/>} />
+            <Route path={'/login'} element={<Login {...pageProperties}/>} />
             <Route path={'*'} element={<P404/>} />
           </Routes>
         </Redirector>

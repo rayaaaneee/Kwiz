@@ -7,11 +7,15 @@ import { MainContainerPage } from '../template/main-container-page';
 import { Title } from '../template/title';
 import { ViewQuiz } from '../template/view-quiz';
 
+import { getUserQuizzes } from '../../function/api/get-user-quizzes';
+
+import { LoaderInterface } from '../../interface/loader-interface';
+
 import cookieContext from '../../context/cookie-context';
 
 import '../../asset/css/page/play.scss';
 
-const MyQuizzes = (): JSX.Element => {
+const MyQuizzes = (props: LoaderInterface): JSX.Element => {
 
     const [selected, setSelected] = useState<number>(-1);
 
@@ -22,26 +26,19 @@ const MyQuizzes = (): JSX.Element => {
     const [quizzes, setQuizzes] = useState<Array<any>>([]);
     const [loaded, setLoaded] = useState<boolean>(false);
 
-    useEffect(() => {
-        fetch(`${ process.env.REACT_APP_API_URL }/quiz/user/${ HandleUserIdCookie.get() }`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        })
-        .then(res => res.json())
-        .then(data => {
-            setLoaded(true);
-            if (data.success) {
-                setQuizzes(data.quizzes);
-            } else {
-                // Toast erreur
-            }
-        }).catch(err => {
-            // Toast erreur
-            console.log(err);
-        });
-    }, []);
+    useEffect(
+        () => getUserQuizzes(
+            HandleUserIdCookie.get(), 
+            (data) => {
+                setLoaded(true);
+                if (data.success) {
+                    setQuizzes(data.quizzes);
+                } else {
+                    // Toast erreur
+                }
+            },
+        )
+    );
 
     return (
         <Menu>

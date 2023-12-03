@@ -2,12 +2,17 @@ import { SetStateAction, useContext, useEffect, useMemo, useRef, useState } from
 import { useParams } from 'react-router-dom';
 
 import Menu from '../menu';
+import QuizEditor from '../template/create/quiz-editor';
 
 import { Question } from '../../object/entity/question';
 import { Quiz } from '../../object/entity/quiz';
 
 import cookieContext from '../../context/cookie-context';
-import QuizEditor from './quiz-editor';
+
+import { createQuiz } from '../../function/api/create-quiz';
+import { getQuizById } from '../../function/api/quiz-by-id';
+
+import { LoaderInterface } from '../../interface/loader-interface';
 
 import '../../asset/css/page/create.scss';
 
@@ -20,33 +25,32 @@ export interface AnswerInterface {
     inputRef: React.RefObject<HTMLInputElement>;
 }
 
-const Edit = (): JSX.Element => {
+const Edit = (props: LoaderInterface): JSX.Element => {
 
     let titleText: string = "Modifier un quiz";
     document.title = "Modifier un quiz - Kwiz";
 
-    const {id} = useParams();
+    const id: number = parseInt(useParams().id ?? '-1');
 
     const [loaded, setLoaded] = useState<boolean>(false);
 
     // On affecte le quiz
     useEffect(() => {
-        fetch(`http://localhost:7000/quiz/${id}`, {
-            method: 'GET'
-        })
-        .then(res => res.json())
-        .then(data => {
-            if (data.success === true) {
-                setQuiz((_: Quiz) => {
-                    const newQuiz = Quiz.copy(data.quiz);
-                    if (newQuiz.theme !== undefined) {
-                        setTheme(newQuiz.theme);
-                    }
-                    return newQuiz;
-                });
-                setLoaded(true);
+        getQuizById(
+            id, 
+            (data) => {
+                if (data.success === true) {
+                    setQuiz((_: Quiz) => {
+                        const newQuiz = Quiz.copy(data.quiz);
+                        if (newQuiz.theme !== undefined) {
+                            setTheme(newQuiz.theme);
+                        }
+                        return newQuiz;
+                    });
+                    setLoaded(true);
+                }
             }
-        });
+        );
     }, []);
 
 
@@ -180,20 +184,18 @@ const Edit = (): JSX.Element => {
         if (canSubmit) {
             quiz.theme = theme;
 
-            fetch('http://localhost:7000/quiz/create', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
+            createQuiz(
+                {
                     quiz: quiz,
                     creator_id: HandleUserIdCookie.get(),
-                }),
-            }).then(res => res.json()).then(data => {
-                console.log(data);
-                if (data.success === true) {
+                }, 
+                (res: any) => {
+                    console.log(res);
+                    if (res.success === true) {
+                    }
                 }
-            });
+            );
+
         } else {
             e.preventDefault();
         }

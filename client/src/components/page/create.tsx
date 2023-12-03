@@ -7,7 +7,11 @@ import { Question } from '../../object/entity/question';
 import { Quiz } from '../../object/entity/quiz';
 
 import cookieContext from '../../context/cookie-context';
-import QuizEditor from './quiz-editor';
+import QuizEditor from '../template/create/quiz-editor';
+
+import { createQuiz } from '../../function/api/create-quiz';
+
+import { LoaderInterface } from '../../interface/loader-interface';
 
 import '../../asset/css/page/create.scss';
 
@@ -20,7 +24,7 @@ export interface AnswerInterface {
     inputRef: React.RefObject<HTMLInputElement>;
 }
 
-const Create = (): JSX.Element => {
+const Create = (props: LoaderInterface): JSX.Element => {
 
     let titleText: string = "Nouveau quiz"
 
@@ -153,24 +157,23 @@ const Create = (): JSX.Element => {
         const canSubmit: boolean = 
         (theme !== undefined && theme.length !== 0)
         && (quiz.questions.length > 0);
-        
+
+        console.log(quiz);
+
         if (canSubmit) {
             quiz.theme = theme;
 
-            fetch('http://localhost:7000/quiz/create', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
+            createQuiz(
+                {
                     quiz: quiz,
                     creator_id: HandleUserIdCookie.get(),
-                }),
-            }).then(res => res.json()).then(data => {
-                console.log(data);
-                if (data.success === true) {
+                },
+                (data) => {
+                    console.log(data);
+                    if (data.success === true) {
+                    }
                 }
-            });
+            );
         } else {
             e.preventDefault();
         }

@@ -1,13 +1,17 @@
 import { forwardRef, useState, useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-
-
 import { GreenContainer } from "../template/green-container";
 import { InputText } from "../template/input-text";
 import { Button } from "../template/button";
 import { Title } from "../template/title";
+
 import cookieContext from "../../context/cookie-context";
+
+import { login } from "../../function/api/login";
+import { register } from "../../function/api/register";
+
+import { LoaderInterface } from "../../interface/loader-interface";
 
 interface FlexColumnDivTemplateInterface {
     field: string,
@@ -31,7 +35,7 @@ const FlexColumnDivTemplate = (props: FlexColumnDivTemplateInterface): JSX.Eleme
     )
 };
 
-const Login = (): JSX.Element => {
+const Login = (props: LoaderInterface): JSX.Element => {
 
     document.title = "Kwiz - Let's quiz !";
 
@@ -52,41 +56,35 @@ const Login = (): JSX.Element => {
 
         e.currentTarget.reset();
 
-        fetch(`${ process.env.REACT_APP_API_URL }/user/register`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
+        register(
+            {
                 username: registerUsername,
                 password: registerPassword,
-            }),
-        }).then(res => res.json()).then(data => {
-            if (data.success === true) {
-                HandleUserIdCookie.set(data.id);
-                navigate('/', { state: { from: location.pathname } });
+            },
+            data => {
+                if (data.success === true) {
+                    HandleUserIdCookie.set(data.id);
+                    navigate('/', { state: { from: location.pathname } });
+                }
             }
-        });
+        );
     }
 
     const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        fetch(`${ process.env.REACT_APP_API_URL }/user/login`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
+        login(
+            {
                 username: username,
                 password: password,
-            }),
-        }).then(res => res.json()).then(data => {
-            if (data.success === true) {
-                HandleUserIdCookie.set(data.id);
-                navigate('/', { state: { from: location.pathname } });
+            },
+            (data) => {
+                if (data.success === true) {
+                    HandleUserIdCookie.set(data.id);
+                    navigate('/', { state: { from: location.pathname } });
+                }
             }
-        });
+        );
 
         navigate('/', { state: { from: location.pathname } });
     }

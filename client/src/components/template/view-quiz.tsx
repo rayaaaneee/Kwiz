@@ -13,7 +13,7 @@ interface ViewQuizInterface {
 export const ViewQuiz = ({ quizName, nbQuestions, selected, selectQuiz, canModify = false, quizId }: ViewQuizInterface): JSX.Element => {
     return (
         <div className={`view-quiz-container flex-row align-center justify-start ${ selected === quizId ? 'selected' : ''}`} onClick={() => selectQuiz(quizId)}>
-            <h1 className="view-quiz-title">{ quizName } - { nbQuestions.toString() } questions</h1>
+            <h1 className="view-quiz-title">{ quizName } - { nbQuestions.toString() } question{ nbQuestions > 1 && 's'}</h1>
             { canModify && (
                 <>
                     <div className="modify-quiz-container flex-column">

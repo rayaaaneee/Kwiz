@@ -38,7 +38,7 @@ const CreateQuiz = (req: Request, res: Response) => {
 
             const isUniqueAnswer: boolean = Boolean(question.isUniqueAnswer);
 
-            const questionResult: Database.RunResult = db.prepare(`INSERT INTO Question (quiz_id, question_text, is_unique_answer) VALUES (?, ?, ?)`).run(quizId, question.name, isUniqueAnswer ? 1 : 0);
+            const questionResult: Database.RunResult = db.prepare(`INSERT INTO Question (quiz_id, question_text, is_unique_answer) VALUES (?, ?, ?)`).run(quizId, question.question_text, isUniqueAnswer ? 1 : 0);
 
             if (questionResult.changes === 0) {
 
@@ -58,7 +58,7 @@ const CreateQuiz = (req: Request, res: Response) => {
 
                         const is_ok: boolean = Boolean(answer.is_ok);
 
-                        const answerResult: Database.RunResult = db.prepare(`INSERT INTO Answer (question_id, answer_text, is_ok) VALUES (?, ?, ?)`).run(questionId, answer.name ,is_ok ? 1 : 0);
+                        const answerResult: Database.RunResult = db.prepare(`INSERT INTO Answer (question_id, answer_text, is_ok) VALUES (?, ?, ?)`).run(questionId, answer.answer_text ,is_ok ? 1 : 0);
 
                         if (answerResult.changes === 0) {
 
