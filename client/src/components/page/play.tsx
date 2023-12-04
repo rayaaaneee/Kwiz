@@ -13,33 +13,28 @@ import { Title } from '../template/title';
 
 import { getAllQuizzes } from '../../function/api/get-all-quizzes';
 
-import loadingContext from '../../context/loading-context';
-
 
 
 import '../../asset/css/page/play.scss';
-
-
+import { verify } from 'crypto';
 
 const Play = (): JSX.Element => {
 
     const [selected, setSelected] = useState<number>(-1);
     const [quizzes, setQuizzes] = useState<Array<any>>([]);
 
-    const { loaded, setLoaded } = useContext(loadingContext);
-
+    const [loaded, setLoaded] = useState<boolean>(false);
     document.title = "Jouer - Kwiz";
 
     useEffect(() => {
         getAllQuizzes(
             data => {
-                console.log(data);
                 if (data.success === true) {
                     setQuizzes(data.quizzes);
                     setLoaded(true);
                 }
             }
-        )
+        );
     }, []);
 
     const containerHeight: React.CSSProperties | undefined = (!loaded && quizzes.length === 0) ? { height: '300px' } : undefined;

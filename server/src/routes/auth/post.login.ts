@@ -9,7 +9,7 @@ const Login = (req: Request, res: Response) => {
 
     if (!username || !password) {
         return res.status(200).send({
-            message: 'Username or password missing !',
+            message: 'Username or password missing.',
             success: false
         });
     }
@@ -18,14 +18,14 @@ const Login = (req: Request, res: Response) => {
 
     if (!user) {
         return res.status(200).send({
-            message: 'User not found !',
+            message: 'User not found.',
             success: false
         });
     } else {
         bcrypt.compare(password, user.password, (err: Error | undefined, result: boolean) => {
             if (err) {
                 return res.status(200).send({
-                    message: 'Error while comparing passwords !',
+                    message: 'Error while comparing passwords.',
                     success: false
                 });
             } else if (result) {
@@ -36,7 +36,7 @@ const Login = (req: Request, res: Response) => {
                 });
             } else {
                 return res.status(200).send({
-                    message: 'Wrong password !',
+                    message: 'Wrong password.',
                     success: false
                 });
             }

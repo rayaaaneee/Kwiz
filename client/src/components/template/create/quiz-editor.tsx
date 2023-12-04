@@ -14,7 +14,6 @@ import { useEffect } from "react";
 import { Question } from "../../../object/entity/question";
 import { Answer } from "../../../object/entity/answer";
 
-import loadingContext from "../../../context/loading-context";
 import Loader, { LoaderColor } from "../../loader";
 
 interface QuizEditorInterface {
@@ -45,11 +44,11 @@ interface QuizEditorInterface {
 
     handleSubmitQuestion: (e: React.FormEvent<HTMLFormElement>) => void;
     handleSubmitQuiz: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+
+    loaded?: boolean;
 }
 
 const QuizEditor = (props: QuizEditorInterface): JSX.Element => {
-
-    const { loaded, setLoaded } = useContext(loadingContext);
 
     // Si une question est séléctionnée, on met ses informations pour la modifier
     useEffect(() => {
@@ -146,7 +145,7 @@ const QuizEditor = (props: QuizEditorInterface): JSX.Element => {
         <>
             <Title text={ props.titleText } />
             <MainContainerPage>
-                { (loaded === false) ? (
+                { ((props.loaded !== undefined) && (props.loaded === false)) ? (
                     <div className="flex flex-center" style={{ height: '70vh' }}>
                         <Loader color={ LoaderColor.green } />
                     </div>

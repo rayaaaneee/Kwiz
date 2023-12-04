@@ -9,10 +9,15 @@ import { Button } from "../template/button";
 import { Title } from "../template/title";
 
 import cookieContext from "../../context/cookie-context";
-import loadingContext from "../../context/loading-context";
+import toastContext from "../../context/toast-context";
+
+import { CookieInterface } from "../../interface/cookie-interface";
+import { ToastType } from "../toast";
 
 import { login } from "../../function/api/login";
 import { register } from "../../function/api/register";
+import { ToastContextManager } from "../../object/toast-context-manager";
+
 
 interface FlexColumnDivTemplateInterface {
     field: string,
@@ -49,14 +54,10 @@ const Login = (): JSX.Element => {
     const [registerUsername, setRegisterUsername] = useState<string>('');
     const [registerPassword, setRegisterPassword] = useState<string>('');
 
-    const HandleUserIdCookie = useContext(cookieContext).get('user_id');
-    const { loaded, setLoaded } = useContext(loadingContext);
+    const HandleUserIdCookie: CookieInterface = useContext(cookieContext).get('user_id');
+    const HandleToasts: ToastContextManager = useContext(toastContext);
 
-    useEffect(() => {
-        setTimeout(() => {
-            setLoaded(true);
-        }, 0);
-    }, []);
+    const [loaded, setLoaded] = useState(true);
 
     const handleRegistration = (e: React.FormEvent<HTMLFormElement>) => {
 
@@ -72,8 +73,18 @@ const Login = (): JSX.Element => {
             },
             data => {
                 if (data.success === true) {
+                    HandleToasts.push({
+                        message: 'You have been registered !',
+                        type: ToastType.success,
+                    });
                     HandleUserIdCookie.set(data.id);
                     navigate('/', { state: { from: location.pathname } });
+                } else {
+                    HandleToasts.push({
+                        message: data.message,
+                        type: ToastType.error,
+                    });
+                    setLoaded(true);
                 }
             }
         );
@@ -90,8 +101,18 @@ const Login = (): JSX.Element => {
             },
             (data) => {
                 if (data.success === true) {
+                    HandleToasts.push({
+                        message: 'You have been logged in !',
+                        type: ToastType.info,
+                    });
                     HandleUserIdCookie.set(data.id);
                     navigate('/', { state: { from: location.pathname } });
+                } else {
+                    HandleToasts.push({
+                        message: data.message,
+                        type: ToastType.error,
+                    });
+                    setLoaded(true);
                 }
             }
         );

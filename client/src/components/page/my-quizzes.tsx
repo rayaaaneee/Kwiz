@@ -11,9 +11,11 @@ import { ViewQuiz } from '../template/view-quiz';
 import { getUserQuizzes } from '../../function/api/get-user-quizzes';
 
 import cookieContext from '../../context/cookie-context';
-import loadingContext from '../../context/loading-context';
+import toastContext from '../../context/toast-context';
+import { ToastContextManager } from '../../object/toast-context-manager';
 
 import '../../asset/css/page/play.scss';
+import { ToastType } from '../toast';
 
 const MyQuizzes = (): JSX.Element => {
 
@@ -22,10 +24,11 @@ const MyQuizzes = (): JSX.Element => {
     document.title = "Mes quiz";
 
     const HandleUserIdCookie = useContext(cookieContext).get('user_id');
+    const HandleToasts: ToastContextManager = useContext(toastContext);
 
     const [quizzes, setQuizzes] = useState<Array<any>>([]);
-    
-    const { loaded, setLoaded } = useContext(loadingContext);
+
+    const [loaded, setLoaded] = useState<boolean>(false);
 
     useEffect(
         () => getUserQuizzes(
@@ -35,7 +38,10 @@ const MyQuizzes = (): JSX.Element => {
                 if (data.success) {
                     setQuizzes(data.quizzes);
                 } else {
-                    // Toast erreur
+                    HandleToasts.push({
+                        message: data.message,
+                        type: ToastType.error
+                    });
                 }
             },
         )

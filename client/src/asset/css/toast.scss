@@ -1,46 +1,70 @@
 @import './colors.scss';
 
-.toast-container {
+#toasts-container {
+
+    $color-success: rgb(165, 221, 167);
+    $color-error: rgb(240, 192, 189);
+    $color-warning: rgb(242, 207, 154);
+    $color-info: rgb(141, 193, 234);
+
     position: fixed;
     top: 20px;
     right: 20px;
     width: 350px;
-    height: 100px;
-    opacity: 0;
-    z-index: -1;
+    height: fit-content;
+    z-index: 1;
     border-radius: 20px;
     box-sizing: border-box;
-    padding: 20px;
-    background-color: $main-blue-color;
+    row-gap: 10px;
 
-    transition: opacity 0.3s ease-in-out;
-
-    &.active {
-        opacity: 1;
-        z-index: 9999;
-    }
-
-    p {
-        color: rgb(255, 255, 255);
-        font-size: 16px;
-        font-weight: 500;
+    .toast {
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.5s ease-in-out;
         text-align: center;
-    }
 
-    .toast-cross {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        width: 20px;
-        height: 20px;
-        cursor: pointer;
-        background-color: #fff;
-        border-radius: 50%;
+        &.show {
+            opacity: 1;
+        }
 
-        transition: background-color 0.3s ease-in-out;
+        &.show.hide {
+            .cross {
+                pointer-events: none;
+            }
+            opacity: 0;
+        }
+        padding: 30px;
+        border-radius: 20px;
+        width: 250px;
+        position: relative;
+        &.success {
+            background-color: $color-success;
+        }
+        &.error {
+            background-color: $color-error;
+        }
+        &.warning {
+            background-color: $color-warning;
+        }
+        &.info {
+            background-color: $color-info;
+        }
 
-        &:hover {
-            background-color: $main-green-color;
+        .cross {
+            pointer-events: all;
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: aliceblue;
+            transition: background-color 0.2s ease-in-out;
+            top: 8px;
+            right: 8px;
+            cursor: pointer;
+
+            &:hover {
+                background-color: rgba(243, 243, 243, 0.8);
+            }
         }
     }
 }

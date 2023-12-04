@@ -44,7 +44,7 @@ const CreateQuiz = (req: Request, res: Response) => {
 
                 return res.status(200).json({ 
                     success: false,
-                    message: "Error while creating quiz" 
+                    message: "An error has occurred while creating the quiz."
                 });
 
             } else {
@@ -64,7 +64,7 @@ const CreateQuiz = (req: Request, res: Response) => {
 
                             return res.status(200).json({ 
                                 success: false,
-                                message: "Error while creating quiz" 
+                                message: "An error has occurred while creating the quiz."
                             });
 
                         }
@@ -75,12 +75,12 @@ const CreateQuiz = (req: Request, res: Response) => {
 
         return res.status(200).json({ 
             success: true,
-            message: "Successfully created quiz" 
+            message: "Quiz successfully created!"
         });
     } else {
         return res.status(200).json({ 
             success: false,
-            message: "Error while creating quiz" 
+            message: "An error has occurred while creating the quiz."
         });
     }
 }

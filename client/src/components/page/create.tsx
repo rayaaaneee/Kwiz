@@ -11,9 +11,13 @@ import QuizEditor from '../template/create/quiz-editor';
 
 import { createQuiz } from '../../function/api/create-quiz';
 
-import loadingContext from '../../context/loading-context';
+import { ToastContextManager } from '../../object/toast-context-manager';
+import { CookieInterface } from '../../interface/cookie-interface';
+
+import toastContext from '../../context/toast-context';
 
 import '../../asset/css/page/create.scss';
+import { ToastType } from '../toast';
 
 export interface AnswerInterface {
     name: string;
@@ -30,17 +34,12 @@ const Create = (): JSX.Element => {
 
     document.title = "Créer un quiz - Kwiz";
 
-    const { setLoaded } = useContext(loadingContext);
-
-    useEffect(() => {
-        setTimeout(() => {
-            setLoaded(true);
-        }, 0);
-    }, []);
+    const [loaded, setLoaded] = useState<boolean>(true);
 
     const navigate: NavigateFunction = useNavigate();
 
-    const HandleUserIdCookie = useContext(cookieContext).get('user_id');
+    const HandleUserIdCookie: CookieInterface = useContext(cookieContext).get('user_id');
+    const HandleToasts: ToastContextManager = useContext(toastContext);
 
     const [quiz, setQuiz] = useState<Quiz>(new Quiz());
 
@@ -121,77 +120,129 @@ const Create = (): JSX.Element => {
         // Vérifier si la question a des réposnes correctes
         let correctAnswers: number = answers.filter(answer => answer.isAnswer === true).length;
 
-        let canAdd: boolean = 
-            (correctAnswers > 0) && 
-            ((isUniqueAnswer && (correctAnswers === 1)) 
-                || 
-            (isManyAnswers && (correctAnswers > 1))) 
-            && (questionName !== undefined && questionName.length > 0);
+        if (correctAnswers > 0) {
 
-        if (canAdd) {
-            setQuiz((prevQuiz) => {
-                let newQuiz: Quiz = Quiz.copy(prevQuiz);
+            if ((isUniqueAnswer && (correctAnswers === 1)) || (isManyAnswers && (correctAnswers > 1))) {
 
-                if (selectedIndexQuestion !== -1) {
-                    newQuiz.replaceQuestion(selectedIndexQuestion, question);
+                if ((questionName !== undefined && questionName.length > 0)) {
+
+                    setQuiz((prevQuiz) => {
+                        let newQuiz: Quiz = Quiz.copy(prevQuiz);
+
+                        if (selectedIndexQuestion !== -1) {
+                            newQuiz.replaceQuestion(selectedIndexQuestion, question);
+                        } else {
+                            newQuiz.addQuestion(question);
+                        }
+
+                        return newQuiz;
+                    });
+
+                    // On désélectionne la question à modifier si il y en a une
+                    setSelectedIndexQuestion(-1);
+
+                    // On remet la valeur par défaut
+                    setAnswerIndex(0);
+                    setIsManyAnswers(false);
+
+                    e.currentTarget.reset();
+
+                    // Remettre tout à 0
+                    answers.forEach(answer => {
+                        answer.setIsAnswer(false);
+                        answer.setName('');
+                    });
+
+                    HandleToasts.push({
+                        message: 'Question added !',
+                        type: ToastType.success,
+                    });
+
                 } else {
-                    newQuiz.addQuestion(question);
+
+                    HandleToasts.push({
+                        message: 'You have to set a question !',
+                        type: ToastType.error,
+                    });
+
                 }
+            } else {
 
-                return newQuiz;
+                (isManyAnswers && (correctAnswers <= 1)) && HandleToasts.push({
+                    message: 'You have to set one correct answer !',
+                    type: ToastType.error,
+                });
+
+                (isUniqueAnswer && (correctAnswers > 1)) && HandleToasts.push({
+                    message: 'You have to set only one correct answer !',
+                    type: ToastType.error,
+                });
+
+            }
+
+        } else {
+
+            isManyAnswers && HandleToasts.push({
+                message: 'You have to set at least one correct answer !',
+                type: ToastType.error,
             });
 
-            // On désélectionne la question à modifier si il y en a une
-            setSelectedIndexQuestion(-1);
-
-            // On remet la valeur par défaut
-            setAnswerIndex(0);
-            setIsManyAnswers(false);
-
-            e.currentTarget.reset();
-
-            // Remettre tout à 0
-            answers.forEach(answer => {
-                answer.setIsAnswer(false);
-                answer.setName('');
+            !isManyAnswers && HandleToasts.push({
+                message: 'You have to set one correct answer !',
+                type: ToastType.error,
             });
+
         }
-
     }
 
     const [theme, setTheme] = useState<string>('');
 
     const handleSubmitQuiz = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+        if ((theme !== undefined && theme.length !== 0)) {
 
-        const canSubmit: boolean = 
-        (theme !== undefined && theme.length !== 0)
-        && (quiz.questions.length > 0);
+            if (quiz.questions.length > 0) {
 
-        console.log(quiz);
+                e.preventDefault();
+                setLoaded(false);
 
-        if (canSubmit) {
+                quiz.theme = theme;
 
-            e.preventDefault();
-            setLoaded(false);
-            
-            quiz.theme = theme;
-
-            createQuiz(
-                {
-                    quiz: quiz,
-                    creator_id: HandleUserIdCookie.get(),
-                },
-                (data) => {
-
-                    setLoaded(true);
-                    navigate('/my-quizzes');
-
-                    if (data.success === true) {
+                createQuiz(
+                    {
+                        quiz: quiz,
+                        creator_id: HandleUserIdCookie.get(),
+                    },
+                    (data) => {
+                        setLoaded(true);
+                        if (data.success === true) {
+                            HandleToasts.push({
+                                message: 'Quiz successfully created !',
+                                type: ToastType.success,
+                            });
+                            navigate('/my-quizzes');
+                        } else {
+                            HandleToasts.push({
+                                message: data.message,
+                                type: ToastType.error,
+                            });
+                        }
                     }
-                }
-            );
+                );
+            } else {
+                e.preventDefault();
+
+                HandleToasts.push({
+                    message: 'Please add at least one question !',
+                    type: ToastType.error,
+                });
+            }
         } else {
             e.preventDefault();
+
+            HandleToasts.push({
+                message: 'You have to set a theme !',
+                type: ToastType.error,
+            });
         }
     }
 

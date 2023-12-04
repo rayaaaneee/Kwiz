@@ -4,7 +4,7 @@ import Login from './routes/auth/post.login';
 import Register from './routes/auth/post.register';
 import CreateQuiz from './routes/quiz/post.create';
 import UserQuizzes from './routes/quiz/get.user';
-import GetQuiz from './routes/quiz/get';
+import GetQuiz from './routes/quiz/get.one';
 import GetAllQuizzes from './routes/quiz/get.all';
 
 // Authentication
