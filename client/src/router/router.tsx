@@ -10,6 +10,7 @@ import P404 from "../components/page/404";
 import Login from "../components/page/login";
 import Redirector from "../components/redirector";
 import Edit from "../components/page/edit";
+import Profile from "../components/page/profile";
 
 const Router = (): JSX.Element => {
 
@@ -22,6 +23,7 @@ const Router = (): JSX.Element => {
             <Route path={'/play/:id'} element={<Quiz />} />
             <Route path={'/result/:id'} element={<Result/>} />
             <Route path={'/new'} element={<Create/>} />
+            <Route path={'/profile'} element={<Profile/>} />
             <Route path={'/edit/:id'} element={<Edit/>} />
             <Route path={'/historical'} element={<Historical/>} />
             <Route path={'/login'} element={<Login/>} />
