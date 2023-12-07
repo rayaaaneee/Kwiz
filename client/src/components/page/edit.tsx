@@ -15,7 +15,7 @@ import toastContext from '../../context/toast-context';
 import { ToastType } from '../toast';
 
 import { createQuiz } from '../../function/api/create-quiz';
-import { getQuizById } from '../../function/api/quiz-by-id';
+import { getQuizById } from '../../function/api/get-quiz-by-id';
 import verifyQuestion from '../../function/create/verifyQuestion';
 import verifyQuiz from '../../function/create/verifyQuiz';
 
@@ -64,6 +64,13 @@ const Edit = (): JSX.Element => {
                         type: ToastType.error,
                     })
                 }
+            },
+            _ => {
+                console.log('error');
+                HandleToasts.push({
+                    message: 'Cannot get quiz, please try again later.',
+                    type: ToastType.error,
+                })
             }
         );
     }, []);

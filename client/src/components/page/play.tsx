@@ -13,10 +13,11 @@ import { Title } from '../template/title';
 
 import { getAllQuizzes } from '../../function/api/get-all-quizzes';
 
-
+import { ToastContextManager } from '../../object/toast-context-manager';
+import toastContext from '../../context/toast-context';
 
 import '../../asset/css/page/play.scss';
-import { verify } from 'crypto';
+import { ToastType } from '../toast';
 
 const Play = (): JSX.Element => {
 
@@ -26,6 +27,8 @@ const Play = (): JSX.Element => {
     const [loaded, setLoaded] = useState<boolean>(false);
     document.title = "Jouer - Kwiz";
 
+    const HandleToasts: ToastContextManager = useContext(toastContext);
+
     useEffect(() => {
         getAllQuizzes(
             data => {
@@ -33,6 +36,12 @@ const Play = (): JSX.Element => {
                     setQuizzes(data.quizzes);
                     setLoaded(true);
                 }
+            },
+            err => {
+                HandleToasts.push({
+                    message: 'Cannot get quizzes, please try again later.',
+                    type: ToastType.error
+                })
             }
         );
     }, []);

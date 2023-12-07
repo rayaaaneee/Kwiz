@@ -1,4 +1,7 @@
-export const register = (jsonBody: any, callback: (res: any) => void) => {
+export const register = (
+    jsonBody: any, 
+    callback: (res: any) => void,
+    errcallback: (res: any) => void = (_) => {}) => {
     fetch(`${ process.env.REACT_APP_API_URL }/user/register`, {
         method: 'POST',
         headers: {
@@ -8,8 +11,5 @@ export const register = (jsonBody: any, callback: (res: any) => void) => {
     })
     .then(res => res.json())
     .then(data => callback(data))
-    .catch(err => {
-        // Toast erreur
-        console.log(err)
-    });
+    .catch(err => errcallback(err));
 }

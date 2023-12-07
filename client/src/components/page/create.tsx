@@ -191,6 +191,13 @@ const Create = (): JSX.Element => {
                             type: ToastType.error,
                         });
                     }
+                },
+                (err) => {
+                    setLoaded(true);
+                    HandleToasts.push({
+                        message: 'An error occured, please try again later.',
+                        type: ToastType.error,
+                    });
                 }
             );
         } else {
@@ -218,6 +225,7 @@ const Create = (): JSX.Element => {
                 previousQuestions={ previousQuestions }
                 handleSubmitQuestion={ handleSubmitQuestion }
                 handleSubmitQuiz={ handleSubmitQuiz } 
+                loaded={ loaded }
             />
         </Menu>
     );

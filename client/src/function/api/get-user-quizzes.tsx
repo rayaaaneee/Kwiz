@@ -1,4 +1,8 @@
-export const getUserQuizzes = (userId: number, then: (data: any) => void): void => {
+export const getUserQuizzes = (
+    userId: number, 
+    callback: (data: any) => void,
+    errcallback: (err: any) => void = (err: any) => {}): void => 
+{
     fetch(`${ process.env.REACT_APP_API_URL }/quiz/user/${ userId }`, {
         method: 'GET',
         headers: {
@@ -6,9 +10,6 @@ export const getUserQuizzes = (userId: number, then: (data: any) => void): void 
         }
     })
     .then(res => res.json())
-    .then(data => then(data))
-    .catch(err => {
-        // Toast erreur
-        console.log(err);
-    });
+    .then(data => callback(data))
+    .catch(err => errcallback(err));
 }

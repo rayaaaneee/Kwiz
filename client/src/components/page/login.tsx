@@ -86,6 +86,13 @@ const Login = (): JSX.Element => {
                     });
                     setLoaded(true);
                 }
+            },
+            err => {
+                HandleToasts.push({
+                    message: 'An error occured, please try again later.',
+                    type: ToastType.error,
+                });
+                setLoaded(true);
             }
         );
     }
@@ -114,10 +121,15 @@ const Login = (): JSX.Element => {
                     });
                     setLoaded(true);
                 }
+            },
+            (_) => {
+                HandleToasts.push({
+                    message: 'An error occured, please try again later.',
+                    type: ToastType.error,
+                });
+                setLoaded(true);
             }
         );
-
-        navigate('/', { state: { from: location.pathname } });
     }
 
     return (

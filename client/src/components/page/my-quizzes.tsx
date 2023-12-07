@@ -44,11 +44,16 @@ const MyQuizzes = (): JSX.Element => {
                     });
                 }
             },
+            (err) => {
+                HandleToasts.push({
+                    message: 'Cannot get quizzes, please try again later.',
+                    type: ToastType.error
+                });
+            }
         )
     );
 
     const loadedStyleGreenContainer: {} = { height: '400px'};
-
 
     return (
         <Menu>
