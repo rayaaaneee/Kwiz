@@ -3,39 +3,31 @@ import * as bcrypt from 'bcrypt';
 import Database from "better-sqlite3";
 
 import { db } from "../../main";
+import { verifyPassword } from "./functions/verify-password";
+import { verifyUsername } from "./functions/verify-username";
+import Table from "../../tables";
 
 
 const Register = (req: Request, res: Response) => {
     const username: string = req.body.username.toLowerCase();
     const password: string = req.body.password;
 
-    const MAX_PASSWORD_LENGTH: number = process.env.MAX_PASSWORD_LENGTH ? parseInt(process.env.MAX_PASSWORD_LENGTH) : 100;
-    const MIN_PASSWORD_LENGTH: number = process.env.MIN_PASSWORD_LENGTH ? parseInt(process.env.MIN_PASSWORD_LENGTH) : 100;
+    const passwordResponse: {
+        message: string,
+        success: boolean
+    } = verifyPassword(password);
 
-    const MAX_USERNAME_LENGTH: number = process.env.MAX_USERNAME_LENGTH ? parseInt(process.env.MAX_USERNAME_LENGTH) : 100;
-
-    if (!username || !password) {
-        return res.status(500).send({
-            message: 'Username or password missing !',
-            success: false
-        });
+    if (passwordResponse.success === false) {
+        return res.status(500).send(passwordResponse);
     }
 
-    if (username.length > MAX_USERNAME_LENGTH) {
-        return res.status(500).send({
-            message: 'Username too long !',
-            success: false
-        });
-    } else if (password.length < MIN_PASSWORD_LENGTH) {
-        return res.status(500).send({
-            message: 'Password too short !',
-            success: false
-        });
-    } else if (password.length > MAX_PASSWORD_LENGTH) {
-        return res.status(500).send({
-            message: 'Password too long !',
-            success: false
-        });
+    const usernameResponse: {
+        message: string,
+        success: boolean
+    } = verifyUsername(password);
+
+    if (usernameResponse.success === false) {
+        return res.status(500).send(usernameResponse);
     }
 
     bcrypt.hash(password, 10, (err: Error | undefined, hashedPassword: string) => {
@@ -46,7 +38,8 @@ const Register = (req: Request, res: Response) => {
             });
         } else {
             try {
-                let result: Database.RunResult = db.prepare('INSERT INTO USER (username, password) VALUES (?, ?)').run(username, hashedPassword);
+                const table: string = Table.User;
+                let result: Database.RunResult = db.prepare(`INSERT INTO ${table} (username, password) VALUES (?, ?)`).run(username, hashedPassword);
                 return res.status(200).send({
                     message: 'You successfully registered !',
                     success: true,

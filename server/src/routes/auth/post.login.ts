@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import * as bcrypt from 'bcrypt';
 import { db } from "../../main";
+import Table from "../../tables";
 
 const Login = (req: Request, res: Response) => {
 
@@ -14,6 +15,7 @@ const Login = (req: Request, res: Response) => {
         });
     }
 
+    const table: string = Table.User;
     const user: any = db.prepare('SELECT * FROM USER WHERE username = ? LIMIT 1').get(username);
 
     if (!user) {

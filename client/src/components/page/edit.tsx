@@ -1,4 +1,4 @@
-import { SetStateAction, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { FormEvent, SetStateAction, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { NavigateFunction, useNavigate, useParams } from 'react-router-dom';
 
 import Menu from '../menu';
@@ -20,6 +20,7 @@ import verifyQuestion from '../../function/create/verifyQuestion';
 import verifyQuiz from '../../function/create/verifyQuiz';
 
 import '../../asset/css/page/create.scss';
+import { deleteQuiz } from '../../function/api/delete-quiz';
 
 export interface AnswerInterface {
     name: string;
@@ -231,6 +232,40 @@ const Edit = (): JSX.Element => {
         }
     }
 
+    const handleDeleteQuiz = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setLoaded(false);
+
+        deleteQuiz(
+            {
+                quiz_id: quiz.id,
+                creator_id: HandleUserIdCookie.get(),
+            },
+            (data) => {
+                setLoaded(true);
+                if (data.success === true) {
+                    HandleToasts.push({
+                        message: 'Quiz successfully deleted !',
+                        type: ToastType.success,
+                    });
+                    navigate('/my-quizzes');
+                } else {
+                    HandleToasts.push({
+                        message: data.message,
+                        type: ToastType.error,
+                    });
+                }
+            }, 
+            (err) => {
+                setLoaded(true);
+                HandleToasts.push({
+                    message: 'Cannot delete quiz, please try again later.',
+                    type: ToastType.error,
+                });
+            }
+        );
+    }
+
 
     return (
         <Menu>
@@ -252,6 +287,7 @@ const Edit = (): JSX.Element => {
                 previousQuestions={ previousQuestions }
                 handleSubmitQuestion={ handleSubmitQuestion }
                 handleSubmitQuiz={ handleSubmitQuiz } 
+                handleDeleteQuiz={ handleDeleteQuiz }
                 loaded={ loaded }
             />
         </Menu>

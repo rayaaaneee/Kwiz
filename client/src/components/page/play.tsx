@@ -14,10 +14,13 @@ import { Title } from '../template/title';
 import { getAllQuizzes } from '../../function/api/get-all-quizzes';
 
 import { ToastContextManager } from '../../object/toast-context-manager';
+import { ToastType } from '../toast';
+
 import toastContext from '../../context/toast-context';
+import cookieContext from '../../context/cookie-context';
+import { CookieInterface } from '../../interface/cookie-interface';
 
 import '../../asset/css/page/play.scss';
-import { ToastType } from '../toast';
 
 const Play = (): JSX.Element => {
 
@@ -27,10 +30,12 @@ const Play = (): JSX.Element => {
     const [loaded, setLoaded] = useState<boolean>(false);
     document.title = "Jouer - Kwiz";
 
+    const HandleCookieUserId: CookieInterface = useContext(cookieContext).get('user_id');
     const HandleToasts: ToastContextManager = useContext(toastContext);
 
     useEffect(() => {
         getAllQuizzes(
+            HandleCookieUserId.get(),
             data => {
                 if (data.success === true) {
                     setQuizzes(data.quizzes);
@@ -63,8 +68,7 @@ const Play = (): JSX.Element => {
                                     )) }
                                     { quizzes.length === 0 && (
                                         <div className="no-quizzes flex-column flex-center">
-                                            <h1>Aucun quiz disponible</h1>
-                                            <p>Créez-en un !</p>
+                                            <h2>Aucun quiz disponible</h2>
                                         </div>
                                     ) }
                                 </>

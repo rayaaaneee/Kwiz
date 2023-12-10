@@ -4,9 +4,15 @@ import { db } from '../../main';
 import { Quiz } from '../../model/quiz';
 import { Question } from '../../model/question';
 import { Answer } from '../../model/answer';
+import Table from '../../tables';
 
 const GetQuiz = (req: Request, res: Response) => {
     const quizId: number = parseInt(req.params.id);
+
+
+    const table_quiz: string = Table.Quiz;
+    const table_question: string = Table.Question;
+    const table_answer: string = Table.Answer;
 
     const query = `
         SELECT 
@@ -14,9 +20,9 @@ const GetQuiz = (req: Request, res: Response) => {
             A.*,
             A.id AS answer_id,
             K.*
-        FROM Quiz K
-        INNER JOIN Question Q ON K.id = Q.quiz_id
-        INNER JOIN Answer A ON Q.id = A.question_id
+        FROM ${table_quiz} K
+        INNER JOIN ${table_question} Q ON K.id = Q.quiz_id
+        INNER JOIN ${table_answer} A ON Q.id = A.question_id
         WHERE K.id = ?
     `;
 

@@ -45,6 +45,9 @@ interface QuizEditorInterface {
     handleSubmitQuestion: (e: React.FormEvent<HTMLFormElement>) => void;
     handleSubmitQuiz: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
 
+    handleDeleteQuestion?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+    handleDeleteQuiz?: (e: React.FormEvent<HTMLFormElement>) => void;
+
     loaded?: boolean;
 }
 
@@ -197,18 +200,27 @@ const QuizEditor = (props: QuizEditorInterface): JSX.Element => {
                                     <Button id="validateQuestion" text="OK"/>
                                 </>
                             </GreenContainer>
-                            </form>
-                            <GreenContainer className="create-container questions-container flex-column align-start justify-center">
-                                <>
-                                    <h1 className='no-bold'>Questions du quizz :</h1>
-                                    <QuestionsRecap selectedIndex={ props.selectedIndexQuestion } setSelectedIndex={ props.setSelectedIndexQuestion } questions={ props.quiz.questions }/>
-                                </>
-                            </GreenContainer>
-                            <div className="validate-button-container flex align-center justify-end">
-                                <NavLink to="/my-quizzes" onClick={ props.handleSubmitQuiz }>
-                                    <Button id="validate" text="Valider"/>
-                                </NavLink>
-                            </div>
+                        </form>
+                        <GreenContainer className="create-container questions-container flex-column align-start justify-center">
+                            <>
+                                <h1 className='no-bold'>Questions du quizz :</h1>
+                                <QuestionsRecap selectedIndex={ props.selectedIndexQuestion } setSelectedIndex={ props.setSelectedIndexQuestion } questions={ props.quiz.questions }/>
+                            </>
+                        </GreenContainer>
+
+                        <div className="validate-button-container flex align-center justify-end" style={{ columnGap: '20px' }}>
+                            { props.handleDeleteQuiz !== undefined && (
+                                <form onSubmit={ props.handleDeleteQuiz }>
+                                    <button type="submit">
+                                        <img src={""} alt="delete" />
+                                    </button>
+                                </form>
+                            )}
+                            <NavLink to="/my-quizzes" onClick={ props.handleSubmitQuiz }>
+                                <Button id="validate" text="Valider"/>
+                            </NavLink>
+                        </div>
+
                     </>
                 ) }
             </MainContainerPage>
