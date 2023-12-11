@@ -5,7 +5,10 @@
         background-color: $main-blue-color;
     }
     &.red-button {
-        background-color: $main-red-color;
+        background-color: $red-color;
+    }
+    &.green-button {
+        background-color: $main-green-color;
     }
 
     &:hover {

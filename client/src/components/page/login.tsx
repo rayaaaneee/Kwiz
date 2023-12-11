@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import Loader, { LoaderColor } from "../loader";
 
-import { GreenContainer } from "../template/green-container";
+import { Container } from "../template/container";
 import { InputText } from "../template/input-text";
 import { Button } from "../template/button";
 import { Title } from "../template/title";
@@ -134,27 +134,27 @@ const Login = (): JSX.Element => {
 
     return (
         <article className="w-full h-full flex flex-column">
-            <GreenContainer isBlue={ false } className="no-border-radius" style={{ height: '70px', position: "absolute", top: 0 }}>
+            <Container className="no-border-radius" style={{ height: '70px', position: "absolute", top: 0 }}>
                 <></>
-            </GreenContainer>
+            </Container>
             <div className="flex flex-column align-center justify-center h-full" style={{ rowGap: '40px' }}>
                 { loaded ? (
                     <>
                         <Title text="Start with Kwiz !" style={{ width: '1000px', padding: '10px 0' }} alignCenter={ true }/>
-                        <GreenContainer className="w-fit grid" style={{ gridTemplateColumns: '1fr 1fr', width: '1000px', padding: '30px 0' }}>
+                        <Container className="w-fit grid" style={{ gridTemplateColumns: '1fr 1fr', width: '1000px', padding: '30px 0' }}>
                             <>
                                 <FlexColumnDivTemplate username={ username } setUsername={ setUsername } password={ password } setPassword={ setPassword } field="Login" onSubmit={ handleLogin } />
                                 <FlexColumnDivTemplate username={ registerUsername } setUsername={ setRegisterUsername } password={ registerPassword } setPassword={ setRegisterPassword } field="Register" onSubmit={ handleRegistration } />
                             </>
-                        </GreenContainer>
+                        </Container>
                     </>
                 ) : (
                     <Loader color={ LoaderColor.green }/>
                 ) }
             </div>
-            <GreenContainer isBlue={ false } className="no-border-radius" style={{ height: '70px', position:"absolute", bottom: 0 }}>
+            <Container className="no-border-radius" style={{ height: '70px', position:"absolute", bottom: 0 }}>
                 <></>
-            </GreenContainer>
+            </Container>
         </article>
     )
 }

@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { NavigateFunction, useLocation, useNavigate } from 'react-router-dom';
 
 import { ChildrenInterface } from '../interface/children-interface';
@@ -12,17 +12,22 @@ import { ToastContextManager } from '../object/toast-context-manager';
 import { ToastType } from './toast';
 
 import '../asset/css/menu.scss';
+import Confirm from './confirm';
+import { InputText } from './template/input-text';
 
 const Menu = (props: ChildrenInterface): JSX.Element => {
 
   const HandleUserIdCookie: CookieInterface = useContext(cookieContext).get('user_id');
   const HandleToasts: ToastContextManager = useContext(toastContext);
 
+  const [confirmIsOpen, setConfirmIsOpen] = useState<boolean>(false);
+
   const navigate: NavigateFunction = useNavigate();
   const location = useLocation();
 
-  const HandleLogout = () => {
+  const confirmAction = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     HandleUserIdCookie.delete();
+
     navigate('/', { state: { from: location.pathname } });
     HandleToasts.push({
       message: 'You have been disconnected',
@@ -30,8 +35,18 @@ const Menu = (props: ChildrenInterface): JSX.Element => {
     });
   }
 
+  const HandleLogin = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    e.preventDefault();
+    setConfirmIsOpen(true);
+  }
+
   return (
     <>
+      { confirmIsOpen && (
+        <Confirm message={ 'Are you sure to disconnect ?' } onConfirm={ confirmAction } onCancel={ (e) => setConfirmIsOpen(false) }>
+           <></>
+        </Confirm>
+      ) }
       <header className="menu flex-column align-start">
         <div className="menu-title-container flex flex-center">
           <h1 className="menu-title">KWIZ</h1>
@@ -40,11 +55,11 @@ const Menu = (props: ChildrenInterface): JSX.Element => {
           <ul className="menu-list flex-column align-start">
             <MenuItem to={ '/profile' } title={ 'Profile' } />
             <MenuItem to={ '/friends' } title={ 'Friends' } />
-            <MenuItem to={ '/' } title={ 'Play !' } />
+            <MenuItem to={ '/play' } title={ 'Play !' } />
             <MenuItem to={ '/new' } title={ 'Create a quiz' } />
             <MenuItem to={ '/my-quizzes' } title={ 'My quizzes' } />
             <MenuItem to={ '/historical' } title={ 'Historical' } />
-            <MenuItem to={ '/login' } onClick={ HandleLogout } title={ 'Disconnect' } />
+            <MenuItem to={ '/' } onClick={ HandleLogin } title={ 'Disconnect' } />
           </ul>
         </nav>
       </header>

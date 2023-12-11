@@ -10,6 +10,7 @@ interface InputTextInterface {
     placeholder?: string
     pattern?: RegExp
     type?: string
+    style?: React.CSSProperties
 }
 
 export const InputText = forwardRef((props: InputTextInterface, ref?: React.ForwardedRef<HTMLInputElement>): JSX.Element =>
@@ -36,6 +37,6 @@ export const InputText = forwardRef((props: InputTextInterface, ref?: React.Forw
     });
 
     return (
-        <input name={ props.name } id={ props.id !== undefined ? props.id : undefined } className="input-text" placeholder={props.placeholder} pattern={ props.pattern?.toString().split('/')[1] } type={ props.type !== undefined ? props.type : 'text' } value={props.value} onChange={handleInput} required ref={ inputRef }/>
+        <input style={ props.style } name={ props.name } id={ props.id !== undefined ? props.id : undefined } className="input-text" placeholder={props.placeholder} pattern={ props.pattern?.toString().split('/')[1] } type={ props.type !== undefined ? props.type : 'text' } value={props.value} onChange={handleInput} required ref={ inputRef }/>
     );
 });

@@ -21,6 +21,7 @@ import verifyQuiz from '../../function/create/verifyQuiz';
 
 import '../../asset/css/page/create.scss';
 import { deleteQuiz } from '../../function/api/delete-quiz';
+import Confirm from '../confirm';
 
 export interface AnswerInterface {
     name: string;
@@ -67,7 +68,6 @@ const Edit = (): JSX.Element => {
                 }
             },
             _ => {
-                console.log('error');
                 HandleToasts.push({
                     message: 'Cannot get quiz, please try again later.',
                     type: ToastType.error,
@@ -95,6 +95,8 @@ const Edit = (): JSX.Element => {
     const [answerTwoName, setAnswerTwoName] = useState<string>('');
     const [answerThreeName, setAnswerThreeName] = useState<string>('');
     const [answerFourName, setAnswerFourName] = useState<string>('');
+
+    const [confirmIsOpen, setConfirmIsOpen] = useState<boolean>(false);
 
     const [theme, setTheme] = useState<string>('');
 
@@ -232,8 +234,7 @@ const Edit = (): JSX.Element => {
         }
     }
 
-    const handleDeleteQuiz = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    const handleDeleteQuiz = (e: React.MouseEvent<HTMLButtonElement>) => {
         setLoaded(false);
 
         deleteQuiz(
@@ -269,27 +270,37 @@ const Edit = (): JSX.Element => {
 
     return (
         <Menu>
-            <QuizEditor 
-                titleText={ titleText }
-                theme={ theme }
-                setTheme={ setTheme }
-                selectedIndexQuestion={ selectedIndexQuestion }
-                setSelectedIndexQuestion={ setSelectedIndexQuestion }
-                questionName={ questionName }
-                setQuestionName={ setQuestionName }
-                isManyAnswers={ isManyAnswers }
-                isUniqueAnswer={ isUniqueAnswer }
-                setIsManyAnswers={ setIsManyAnswers }
-                answerIndex={ answerIndex }
-                setAnswerIndex={ setAnswerIndex }
-                quiz={ quiz }
-                answers={ answers }
-                previousQuestions={ previousQuestions }
-                handleSubmitQuestion={ handleSubmitQuestion }
-                handleSubmitQuiz={ handleSubmitQuiz } 
-                handleDeleteQuiz={ handleDeleteQuiz }
-                loaded={ loaded }
-            />
+            <>
+                { confirmIsOpen && (
+                    <Confirm message='Are you sure you want to delete this quiz ?' onConfirm={ handleDeleteQuiz } onCancel={ () => setConfirmIsOpen(false) }>
+                        <></>
+                    </Confirm>
+                ) }
+                <QuizEditor 
+                    titleText={ titleText }
+                    theme={ theme }
+                    setTheme={ setTheme }
+                    selectedIndexQuestion={ selectedIndexQuestion }
+                    setSelectedIndexQuestion={ setSelectedIndexQuestion }
+                    questionName={ questionName }
+                    setQuestionName={ setQuestionName }
+                    isManyAnswers={ isManyAnswers }
+                    isUniqueAnswer={ isUniqueAnswer }
+                    setIsManyAnswers={ setIsManyAnswers }
+                    answerIndex={ answerIndex }
+                    setAnswerIndex={ setAnswerIndex }
+                    quiz={ quiz }
+                    answers={ answers }
+                    previousQuestions={ previousQuestions }
+                    handleSubmitQuestion={ handleSubmitQuestion }
+                    handleSubmitQuiz={ handleSubmitQuiz } 
+                    handleDeleteQuiz={ (e) => {
+                        e.preventDefault();
+                        setConfirmIsOpen(true)
+                    } }
+                    loaded={ loaded }
+                />
+            </>
         </Menu>
     );
 }

@@ -25,10 +25,17 @@ const SetUsername = (req: Request, res: Response) => {
             success: true,
         });
     } catch (e: any) {
-        return res.status(200).send({
-            message: 'Error while changing your username !',
-            success: false
-        });
+        if (e.code === 'SQLITE_CONSTRAINT_UNIQUE') {
+            return res.status(200).send({
+                message: 'This username is already taken !',
+                success: false
+            });
+        } else {
+            return res.status(200).send({
+                message: 'Error while changing your username !',
+                success: false
+            });
+        }
     }
 }
 

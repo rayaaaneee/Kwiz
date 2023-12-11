@@ -1,0 +1,36 @@
+@import '../colors.scss';
+
+.container {
+    height: fit-content;
+    width: 100%;
+    border-radius: 20px;
+
+    background-color: $main-green-color;
+    &.green {
+        background-color: $main-green-color;
+    }
+    &.blue {
+        background-color: $main-blue-color;
+    }
+    &.white {
+        background-color: white;
+        *:not(button) {
+            color: black;
+        }
+    }
+    &.red {
+        background-color: $red-color;
+    }
+    &.yellow {
+        background-color: $yellow-color;
+    }
+
+    & > * {
+        overflow-y: auto;
+        padding: 20px 40px;
+    }
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}

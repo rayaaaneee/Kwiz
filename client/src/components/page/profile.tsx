@@ -1,9 +1,10 @@
 import { FormEvent, useContext, useEffect, useState } from "react";
-import { Navigate, NavigateFunction, useLocation, useNavigate } from "react-router-dom";
+import { NavigateFunction, useLocation, useNavigate } from "react-router-dom";
 
 import Menu from "../menu";
+import Confirm from "../confirm";
 
-import { GreenContainer } from "../template/green-container";
+import { Container } from "../template/container";
 import { InputText } from "../template/input-text";
 import { MainContainerPage } from "../template/main-container-page";
 import { Title } from "../template/title";
@@ -40,6 +41,17 @@ const Profile = () => {
     const [password, setPassword] = useState<string>('');
     const [confirmed, setConfirmedPassword] = useState<string>('');
 
+    const [currentPassword, setCurrentPassword] = useState<string>('');
+
+    interface ConfirmStateInterface {
+        isOpen: boolean;
+        message?: string;
+        onConfirm?: React.MouseEventHandler<HTMLButtonElement>;
+    }
+    const [confirmState, setConfirmState] = useState<ConfirmStateInterface>({
+        isOpen: false,
+    });
+
     const [loaded, setLoaded] = useState<boolean>(false);
 
     useEffect(() => {
@@ -67,87 +79,120 @@ const Profile = () => {
 
     const HandleSubmitUsername = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        fetchSetUsername(
-            username, HandleUserIdCookie.get(), 
-            (data) => {
-                HandleToasts.push({
-                    message: data.message,
-                    type: data.success ? ToastType.success : ToastType.error,
-                });
-            }, 
-            (_) => {
-                HandleToasts.push({
-                    message: 'Cannot update username, please try again later',
-                    type: ToastType.error,
-                });
-            }
-        );
+
+        setConfirmState({
+            isOpen: true,
+            message: 'Enter your password to confirm username change',
+            onConfirm: 
+                (e) => {
+                    fetchSetUsername(
+                        username, HandleUserIdCookie.get(), 
+                        (data) => {
+                            HandleToasts.push({
+                                message: data.message,
+                                type: data.success ? ToastType.success : ToastType.error,
+                            });
+                        }, 
+                        (_) => {
+                            HandleToasts.push({
+                                message: 'Cannot update username, please try again later',
+                                type: ToastType.error,
+                            });
+                        }
+                    )
+                }
+        });
     }
 
     const HandleSubmitPassword = (e: FormEvent<HTMLFormElement>) => {
-        setPassword('');
-        e.currentTarget.reset();
         e.preventDefault();
-
         if (password !== confirmed) {
-            return HandleToasts.push({
-                message: 'Passwords are not the same',
+            e.currentTarget.reset();
+            setPassword('');
+            HandleToasts.push({
+                message: 'Passwords do not match',
                 type: ToastType.error,
             });
+            return;
         }
 
-        fetchSetPassword(
-            password, HandleUserIdCookie.get(), 
-            (data) => {
-                HandleToasts.push({
-                    message: data.message,
-                    type: data.success ? ToastType.success : ToastType.error,
-                });
-            }, 
-            (_) => {
-                HandleToasts.push({
-                    message: 'Cannot update password, please try again later',
-                    type: ToastType.error,
-                });
+        setConfirmState({
+            isOpen: true,
+            message: 'Enter your password to confirm account deletion',
+            onConfirm: () => {
+                fetchSetPassword(
+                    password, HandleUserIdCookie.get(), 
+                    (data) => {
+                        HandleToasts.push({
+                            message: data.message,
+                            type: data.success ? ToastType.success : ToastType.error,
+                        });
+                        setConfirmState({ isOpen: false });
+                    }, 
+                    (_) => {
+                        HandleToasts.push({
+                            message: 'Cannot update password, please try again later',
+                            type: ToastType.error,
+                        });
+                        setConfirmState({ isOpen: false });
+                    }
+                );
             }
-        );
+        });
     }
 
     const HandleDeleteAccount = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
-
-        deleteUser(
-            HandleUserIdCookie.get(),
-            (data) => {
-                if (data.success) {
-                    HandleToasts.push({
-                        message: 'Your account has been deleted',
-                        type: ToastType.info,
-                    });
-                    HandleUserIdCookie.delete();
-                    navigate('/login', { state: { from: location.pathname } });
-                } else {
-                    HandleToasts.push({
-                        message: data.message,
-                        type: ToastType.error,
-                    });
-                }
-            },
-            (_) => {
-                HandleToasts.push({
-                    message: 'Cannot delete account, please try again later',
-                    type: ToastType.error,
-                });
+        setConfirmState({ 
+            isOpen: true, 
+            message: 'Enter your current password to delete your account',
+            onConfirm: () => {
+                deleteUser(
+                    HandleUserIdCookie.get(),
+                    (data) => {
+                        if (data.success) {
+                            HandleToasts.push({
+                                message: 'Your account has been deleted',
+                                type: ToastType.info,
+                            });
+                            HandleUserIdCookie.delete();
+                            navigate('/', { state: { from: location.pathname } });
+                        } else {
+                            HandleToasts.push({
+                                message: data.message,
+                                type: ToastType.error,
+                            });
+                        }
+                    },
+                    (_) => {
+                        HandleToasts.push({
+                            message: 'Cannot delete account, please try again later',
+                            type: ToastType.error,
+                        });
+                    }
+                );
             }
-        );
+        });
     }
 
     return (
         <Menu>
             <MainContainerPage>
                 <>
+                    { confirmState.isOpen && (
+                        <Confirm message={ confirmState.message } onConfirm={ (e) => { 
+                            confirmState.onConfirm && confirmState.onConfirm(e);
+                            setConfirmState({ isOpen: false });
+                            setCurrentPassword('');
+                        } } onCancel={ (e) => {
+                            setConfirmState({ isOpen: false });
+                            setCurrentPassword('');
+                        } }>
+                            <InputText style={{ textAlign: 'center' }} value={ currentPassword } setValue={ setCurrentPassword } type="password" placeholder="enter password" />
+                        </Confirm>
+                    ) }
                     <Title text="My profile"/>
-                    <GreenContainer className="flex flex-column flex-center" style={{ height: '330px', padding: '20px 0' }}>
+                    <Container className="flex flex-column flex-center" style={{ height: '330px', padding: '20px 0' }}>
                         <>
                         { loaded ? (
                             <>
@@ -171,7 +216,7 @@ const Profile = () => {
                             <Loader color={ LoaderColor.white }/>
                         ) }
                         </>
-                    </GreenContainer>
+                    </Container>
                 </>
             </MainContainerPage>
         </Menu>

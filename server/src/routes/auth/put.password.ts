@@ -8,8 +8,6 @@ const SetPassword = (req: Request, res: Response) => {
     const password: string = req.body.password.toLowerCase();
     const id: number = parseInt(req.params.id);
 
-    console.log(password);
-
     const passwordResponse: {
         message: string,
         success: boolean

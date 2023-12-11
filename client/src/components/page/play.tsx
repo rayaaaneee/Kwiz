@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import Menu from '../menu';
 import Loader, { LoaderColor } from '../loader';
 
-import { GreenContainer } from '../template/green-container';
+import { Container } from '../template/container';
 import { MainContainerPage } from '../template/main-container-page';
 import { ViewQuiz } from '../template/view-quiz';
 import { InputTextGreenBorder } from '../template/input-text-green-border';
@@ -59,7 +59,7 @@ const Play = (): JSX.Element => {
                 <Title text={ 'Choix du quiz' } />
                 <MainContainerPage>
                     <>
-                        <GreenContainer style={ containerHeight } className="play-container flex-row">
+                        <Container style={ containerHeight } className="play-container flex-row">
                             <div className="quiz-container flex-column align-start">
                             { loaded ? (
                                 <>
@@ -76,7 +76,7 @@ const Play = (): JSX.Element => {
                                 <Loader color={ LoaderColor.white } />
                             ) }
                             </div>
-                        </GreenContainer>
+                        </Container>
                         { loaded && (
                             <>
                                 { quizzes.length !== 0 && (

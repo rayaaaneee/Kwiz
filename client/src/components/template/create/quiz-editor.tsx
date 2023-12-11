@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 import { Button, ButtonColor } from "../button";
 import { InputCheckbox } from "./input-checkbox";
 import { QuestionsRecap } from "./questions-recap";
-import { GreenContainer } from "../green-container";
+import { Container } from "../container";
 import { InputText } from "../input-text";
 import { MainContainerPage } from "../main-container-page";
 import { Title } from "../title";
@@ -92,7 +92,6 @@ const QuizEditor = (props: QuizEditorInterface): JSX.Element => {
         if (props.answerIndex !== 0) {
 
             if (props.isUniqueAnswer) {
-                console.log(props.previousQuestions.current);
                 props.previousQuestions.current.forEach((question, index) => {
                     if (index !== answerIndexTmp) {
                         question.setIsAnswer(false);
@@ -154,14 +153,14 @@ const QuizEditor = (props: QuizEditorInterface): JSX.Element => {
                     </div>
                 ) : (
                     <>
-                        <GreenContainer className="create-container theme-container flex-row align-center justify-start">
+                        <Container className="create-container theme-container flex-row align-center justify-start">
                             <>
                                 <h1 className='no-bold'>Thème -</h1>
                                 <InputText id={ "theme" } pattern={ initialRegex } value= { props.theme } setValue={ props.setTheme } name={ 'quiz-theme' }/>
                             </>
-                        </GreenContainer>
+                        </Container>
                         <form style={{ width: '100%' }} onSubmit={ props.handleSubmitQuestion }>
-                            <GreenContainer className="create-container new-question-container flex-column flex-center">
+                            <Container className="create-container new-question-container flex-column flex-center">
                                 <>
                                     <div className="enter-question-container flex-row align-center justify-start">
                                         <h1 className='no-bold'>{ props.selectedIndexQuestion === -1 ? 'Nouvelle Question' : 'Modifier Question' } -</h1>
@@ -199,14 +198,14 @@ const QuizEditor = (props: QuizEditorInterface): JSX.Element => {
                                     </div>
                                     <Button id="validateQuestion" text="OK"/>
                                 </>
-                            </GreenContainer>
+                            </Container>
                         </form>
-                        <GreenContainer className="create-container questions-container flex-column align-start justify-center">
+                        <Container className="create-container questions-container flex-column align-start justify-center">
                             <>
                                 <h1 className='no-bold'>Questions du quizz :</h1>
                                 <QuestionsRecap selectedIndex={ props.selectedIndexQuestion } setSelectedIndex={ props.setSelectedIndexQuestion } questions={ props.quiz.questions }/>
                             </>
-                        </GreenContainer>
+                        </Container>
 
                         <div className="validate-button-container flex align-center justify-end" style={{ columnGap: '20px' }}>
                             { props.handleDeleteQuiz !== undefined && (

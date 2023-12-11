@@ -1,4 +1,4 @@
-import { GreenContainer } from "./green-container";
+import { Container, ContainerColor } from "./container";
 
 
 interface TitleInterface {
@@ -6,10 +6,10 @@ interface TitleInterface {
     alignCenter?: boolean;
 
     style?: React.CSSProperties;
-    isBlue?: boolean;
+    color?: ContainerColor;
 }
 
 export const Title = (props: TitleInterface) => 
-    (<GreenContainer isBlue={ props.isBlue !== undefined ? props.isBlue : false } className="play-container" style={ props.style }>
+    (<Container color={ props.color }className="play-container" style={ props.style }>
         <h1 style={{ textAlign: (props.alignCenter === true ? 'center' : 'start')}}>{ props.text }</h1>
-    </GreenContainer>)
+    </Container>)

@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from 'react';
 import Menu from '../menu';
 import Loader, { LoaderColor } from '../loader';
 
-import { GreenContainer } from '../template/green-container';
+import { Container } from '../template/container';
 import { MainContainerPage } from '../template/main-container-page';
 import { Title } from '../template/title';
 import { ViewQuiz } from '../template/view-quiz';
@@ -60,7 +60,7 @@ const MyQuizzes = (): JSX.Element => {
             <>
                 <Title text='Mes quiz' />
                 <MainContainerPage>
-                    <GreenContainer className="play-container flex-row flex-center" style={ loaded ? {} : loadedStyleGreenContainer}>
+                    <Container className="play-container flex-row flex-center" style={ loaded ? {} : loadedStyleGreenContainer}>
                     { loaded ? (
                         <div className="quiz-container flex-column flex-center align-start">
                             { quizzes.map((quiz) => (
@@ -71,7 +71,7 @@ const MyQuizzes = (): JSX.Element => {
                         ) : (   
                         <Loader color={ LoaderColor.white } />
                     ) }
-                    </GreenContainer>
+                    </Container>
                 </MainContainerPage>
             </>
         </Menu>

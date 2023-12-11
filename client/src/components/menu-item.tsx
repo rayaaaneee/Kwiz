@@ -1,17 +1,17 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, To } from "react-router-dom";
 
 interface MenuItemInterface {
-    to: string,
     title: string,
-
-    onClick?: React.MouseEventHandler<HTMLDivElement>
+    
+    to: To,
+    onClick?: React.MouseEventHandler<HTMLAnchorElement>
 }
 
 const MenuItem = (props: MenuItemInterface): JSX.Element => {
     return (
         <li className="menu-item flex-row flex-center">
-            <NavLink to={props.to} className="flex flex-center">
-                <div className="menu-title-part-container" onClick={ props.onClick }>
+            <NavLink to={props.to} className="flex flex-center" onClick={ props.onClick }>
+                <div className="menu-title-part-container">
                   <h1 className='flex'> { props.title } </h1>
                 </div>
             </NavLink>

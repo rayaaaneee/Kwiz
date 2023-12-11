@@ -31,9 +31,9 @@ const Toast = (props: ToastInterface) => {
         }, 500);
     }
 
-    /* setTimeout(() => {
+    setTimeout(() => {
         handleClick();
-    }, props.time || 3000); */
+    }, props.time || 3000);
 
     useEffect(() => {
         setTimeout(() => {

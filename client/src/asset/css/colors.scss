@@ -1,6 +1,12 @@
 $main-green-color: #45c4b0;
 $main-blue-color: #13678a;
-$main-red-color: #e63946;
+$red-color: #e63946;
+$yellow-color: #ffba08;
+
+$toast-color-success: rgb(165, 221, 167);
+$toast-color-error: rgb(240, 192, 189);
+$toast-color-warning: rgb(242, 207, 154);
+$toast-color-info: rgb(141, 193, 234);
 
 .main-blue {
     color: $main-blue-color;

@@ -12,7 +12,7 @@ interface LoaderInterface {
 
 const Loader = (props: LoaderInterface) => {
     return (
-        <div id="loader" className={`container flex flex-column flex-center
+        <div id="loader" className={`loader-container flex flex-column flex-center
             ${ props.color !== undefined && props.color}
         `}>
             <div className="square-container">

@@ -1,6 +1,6 @@
 import Menu from "../menu";
 
-import { GreenContainer } from "../template/green-container";
+import { Container } from "../template/container";
 import { MainContainerPage } from "../template/main-container-page";
 import { ResultLine } from "../template/result/result-line";
 import { ResultLinesContainer } from "../template/result/result-lines-container";
@@ -19,7 +19,7 @@ const result = (): JSX.Element => {
             <>
                 <Title text="Résultats : Pokémon" />
                 <MainContainerPage>
-                        <GreenContainer className="result-container flex align-center">
+                        <Container className="result-container flex align-center">
                                 <div className="result-container flex-column align-start">
                                     <ResultLine pseudo="Pseudo" score={10} maxScore={100} range={1}/>
                                     <ResultLine pseudo="Viggo" score={10} maxScore={14} range={2}/>
@@ -37,7 +37,7 @@ const result = (): JSX.Element => {
                                         </>
                                     </ResultLinesContainer>
                                 </div>
-                        </GreenContainer>
+                        </Container>
                 </MainContainerPage>
             </>
         </Menu>

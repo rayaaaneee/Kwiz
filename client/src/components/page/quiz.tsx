@@ -1,6 +1,6 @@
 import Menu from "../menu";
 
-import { GreenContainer } from "../template/green-container";
+import { Container } from "../template/container";
 import { MainContainerPage } from "../template/main-container-page";
 import { Title } from "../template/title";
 
@@ -14,12 +14,12 @@ const Quiz = (): JSX.Element => {
                 <Title text={ document.title } />
                 <MainContainerPage>
                     <>
-                        <GreenContainer className="question-container">
+                        <Container className="question-container">
                             <h2>Question 1 : </h2>
-                        </GreenContainer>
-                        <GreenContainer className="answer-container">
+                        </Container>
+                        <Container className="answer-container">
                             <h1>Réponse 1</h1>
-                        </GreenContainer>
+                        </Container>
                     </>
                 </MainContainerPage>
             </>
