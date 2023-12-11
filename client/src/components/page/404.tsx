@@ -4,7 +4,11 @@ import { GreenContainer } from "../template/green-container";
 import { MainContainerPage } from "../template/main-container-page";
 import { Title } from "../template/title";
 
-const P404 = () => (
+const P404 = () => {
+
+    document.title = "Page not found - Kwiz";
+
+    return (
     <Menu>
         <MainContainerPage>
             <>
@@ -17,6 +21,6 @@ const P404 = () => (
             </>
         </MainContainerPage>
     </Menu>
-);
+)};
 
 export default P404;

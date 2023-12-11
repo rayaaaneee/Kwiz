@@ -9,7 +9,8 @@ import GetAllQuizzes from './routes/quiz/get.all';
 import GetById from './routes/user/get';
 import SetPassword from './routes/auth/put.password';
 import SetUsername from './routes/auth/put.username';
-import DeleteQuiz from './routes/quiz/delete.quiz';
+import DeleteQuiz from './routes/quiz/delete';
+import DeleteUser from './routes/user/delete';
 
 // Authentication
 app.post('/user/login', Login);
@@ -26,3 +27,4 @@ app.delete('/quiz/delete', DeleteQuiz);
 app.get('/user/:id', GetById);
 app.put('/user/password/:id', SetPassword);
 app.put('/user/username/:id', SetUsername);
+app.delete('/user/delete/:id', DeleteUser);

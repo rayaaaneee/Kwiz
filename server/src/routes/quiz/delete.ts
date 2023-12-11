@@ -11,7 +11,7 @@ const DeleteQuiz = (req: Request, res: Response) => {
     const table_question: string = Table.Question;
     const table_answer: string = Table.Answer;
 
-    const canDelete: boolean = db.prepare(`SELECT * FROM ${table_quiz} WHERE creator_id = ? AND id = ?`).get(creator_id, quiz_id) !== undefined;
+    const canDelete: boolean = db.prepare(`SELECT * FROM ${table_quiz} WHERE creator_id = ? AND id = ?`).run(creator_id, quiz_id) !== undefined;
 
     if (canDelete) {
         try {

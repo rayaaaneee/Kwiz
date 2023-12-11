@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 
-import { Button } from "../button";
+import { Button, ButtonColor } from "../button";
 import { InputCheckbox } from "./input-checkbox";
 import { QuestionsRecap } from "./questions-recap";
 import { GreenContainer } from "../green-container";
@@ -211,12 +211,10 @@ const QuizEditor = (props: QuizEditorInterface): JSX.Element => {
                         <div className="validate-button-container flex align-center justify-end" style={{ columnGap: '20px' }}>
                             { props.handleDeleteQuiz !== undefined && (
                                 <form onSubmit={ props.handleDeleteQuiz }>
-                                    <button type="submit">
-                                        <img src={""} alt="delete" />
-                                    </button>
+                                    <Button color={ ButtonColor.red} id="delete" text="Supprimer"/>
                                 </form>
                             )}
-                            <NavLink to="/my-quizzes" onClick={ props.handleSubmitQuiz }>
+                            <NavLink style={{ textDecoration: 'none' }} to="/my-quizzes" onClick={ props.handleSubmitQuiz }>
                                 <Button id="validate" text="Valider"/>
                             </NavLink>
                         </div>

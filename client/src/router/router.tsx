@@ -18,7 +18,7 @@ const Router = (): JSX.Element => {
     <BrowserRouter>
         <Redirector>
           <Routes>
-            <Route path={'/'} element={<Play/>} />
+            <Route path={'/play'} element={<Play/>} />
             <Route path={'/my-quizzes'} element={<MyQuizzes/>} />
             <Route path={'/play/:id'} element={<Quiz />} />
             <Route path={'/result/:id'} element={<Result/>} />
@@ -26,7 +26,7 @@ const Router = (): JSX.Element => {
             <Route path={'/profile'} element={<Profile/>} />
             <Route path={'/edit/:id'} element={<Edit/>} />
             <Route path={'/historical'} element={<Historical/>} />
-            <Route path={'/login'} element={<Login/>} />
+            <Route path={'/'} element={<Login/>} />
             <Route path={'*'} element={<P404/>} />
           </Routes>
         </Redirector>

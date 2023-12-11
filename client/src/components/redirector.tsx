@@ -19,12 +19,12 @@ const Redirector = (props: ChildrenInterface): JSX.Element => {
     useEffect(() => {
 
         // Rediriger à la page de connection si non connecté
-        if (!connected && location.pathname !== '/login') {
-            navigate('/login', { state: { from: location.pathname } });
+        if (!connected && location.pathname !== '/') {
+            navigate('/', { state: { from: location.pathname } });
 
         // Rediriger à la page d'accueil si connecté
-        } else if (connected && location.pathname === '/login') {
-            navigate('/', { state: { from: location.pathname } });
+        } else if (connected && location.pathname === '/') {
+            navigate('/play', { state: { from: location.pathname } });
         }
 
     }, [location.pathname]);

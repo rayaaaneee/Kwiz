@@ -31,9 +31,9 @@ const Toast = (props: ToastInterface) => {
         }, 500);
     }
 
-    setTimeout(() => {
+    /* setTimeout(() => {
         handleClick();
-    }, props.time || 3000);
+    }, props.time || 3000); */
 
     useEffect(() => {
         setTimeout(() => {
@@ -44,6 +44,9 @@ const Toast = (props: ToastInterface) => {
     return (
         <div ref={ toastRef } className={`toast flex flex-center ${ props.type }`}>
             <div onClick={handleClick} className="cross" title="Fermer"></div>
+            <div className="icon-container flex flex-center">
+                <div className="icon flex flex-center"></div>
+            </div>
             <p>{ props.message }</p>
         </div>
     )

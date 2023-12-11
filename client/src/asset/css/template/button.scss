@@ -1,10 +1,30 @@
 @import '../colors.scss';
 
-.green-button {
-    background-color: $main-blue-color;
+.button {
+    &.blue-button {
+        background-color: $main-blue-color;
+    }
+    &.red-button {
+        background-color: $main-red-color;
+    }
+
+    &:hover {
+        opacity: 0.9;
+    }
+
+    width: fit-content;
+    height: fit-content;
     padding: 9px 20px !important;
     font-size: 1.3rem;
     border: none;
     border-radius: 10px;
+    overflow: hidden !important;
     cursor: pointer;
+    text-decoration: none !important;
+    font-
+
+    &::-webkit-scrollbar {
+        width: 0px;
+        background: transparent;
+    }
 }

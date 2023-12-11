@@ -35,7 +35,7 @@ const FlexColumnDivTemplate = (props: FlexColumnDivTemplateInterface): JSX.Eleme
                 <h1 style={{ textAlign: 'center' }}>{ props.field }</h1>
                 <InputText value={ props.username } setValue={ props.setUsername } placeholder="Username"></InputText>
                 <InputText value={ props.password } setValue={ props.setPassword } placeholder="Password" type="password"></InputText>
-                <Button text="Ok"/>
+                <Button text="Ok" style={{ margin: 'auto' }}/>
             </div>
         </form>
     )
@@ -78,7 +78,7 @@ const Login = (): JSX.Element => {
                         type: ToastType.success,
                     });
                     HandleUserIdCookie.set(data.id);
-                    navigate('/', { state: { from: location.pathname } });
+                    navigate('/play', { state: { from: location.pathname } });
                 } else {
                     HandleToasts.push({
                         message: data.message,
@@ -113,7 +113,7 @@ const Login = (): JSX.Element => {
                         type: ToastType.info,
                     });
                     HandleUserIdCookie.set(data.id);
-                    navigate('/', { state: { from: location.pathname } });
+                    navigate('/play', { state: { from: location.pathname } });
                 } else {
                     HandleToasts.push({
                         message: data.message,

@@ -1,4 +1,5 @@
 import { useContext } from 'react';
+import { NavigateFunction, useLocation, useNavigate } from 'react-router-dom';
 
 import { ChildrenInterface } from '../interface/children-interface';
 import { CookieInterface } from '../interface/cookie-interface';
@@ -8,22 +9,25 @@ import MenuItem from './menu-item';
 import cookieContext from '../context/cookie-context';
 import toastContext from '../context/toast-context';
 import { ToastContextManager } from '../object/toast-context-manager';
-
+import { ToastType } from './toast';
 
 import '../asset/css/menu.scss';
-import { ToastType } from './toast';
 
 const Menu = (props: ChildrenInterface): JSX.Element => {
 
   const HandleUserIdCookie: CookieInterface = useContext(cookieContext).get('user_id');
   const HandleToasts: ToastContextManager = useContext(toastContext);
 
+  const navigate: NavigateFunction = useNavigate();
+  const location = useLocation();
+
   const HandleLogout = () => {
     HandleUserIdCookie.delete();
+    navigate('/', { state: { from: location.pathname } });
     HandleToasts.push({
       message: 'You have been disconnected',
       type: ToastType.info
-    })
+    });
   }
 
   return (
