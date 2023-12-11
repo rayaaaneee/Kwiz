@@ -3,12 +3,13 @@ import * as bcrypt from 'bcrypt';
 import Database from "better-sqlite3";
 
 import { db } from "../../main";
-import { verifyPassword } from "./functions/verify-password";
-import { verifyUsername } from "./functions/verify-username";
+import { verifyPassword } from "../functions/verify-password";
+import { verifyUsername } from "../functions/verify-username";
 import Table from "../../tables";
 
 
 const Register = (req: Request, res: Response) => {
+
     const username: string = req.body.username.toLowerCase();
     const password: string = req.body.password;
 
@@ -18,7 +19,8 @@ const Register = (req: Request, res: Response) => {
     } = verifyPassword(password);
 
     if (passwordResponse.success === false) {
-        return res.status(500).send(passwordResponse);
+        res.status(500).send(passwordResponse);
+        return;
     }
 
     const usernameResponse: {
@@ -27,35 +29,40 @@ const Register = (req: Request, res: Response) => {
     } = verifyUsername(password);
 
     if (usernameResponse.success === false) {
-        return res.status(500).send(usernameResponse);
+        res.status(500).send(usernameResponse);
+        return;
     }
 
     bcrypt.hash(password, 10, (err: Error | undefined, hashedPassword: string) => {
         if (err) {
-            return res.status(500).send({
+            res.status(500).send({
                 message: 'Error while hashing password',
                 success: false
             });
+            return;
         } else {
             try {
                 const table: string = Table.User;
                 let result: Database.RunResult = db.prepare(`INSERT INTO ${table} (username, password) VALUES (?, ?)`).run(username, hashedPassword);
-                return res.status(200).send({
+                res.status(200).send({
                     message: 'You successfully registered !',
                     success: true,
                     id: result.lastInsertRowid
                 });
+                return;
             } catch (e: any) {
                 if (e.code === 'SQLITE_CONSTRAINT_UNIQUE') {
-                    return res.status(200).send({
+                    res.status(200).send({
                         message: 'Username already taken !',
                         success: false
                     });
+                    return;
                 } else {
-                    return res.status(200).send({
+                    res.status(200).send({
                         message: 'Error while registering',
                         success: false
                     });
+                    return;
                 }
             }
         }

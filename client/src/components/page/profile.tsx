@@ -1,4 +1,4 @@
-import { FormEvent, useContext, useEffect, useState } from "react";
+import { FormEvent, useContext, useEffect, useRef, useState } from "react";
 import { NavigateFunction, useLocation, useNavigate } from "react-router-dom";
 
 import Menu from "../menu";
@@ -40,8 +40,7 @@ const Profile = () => {
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [confirmed, setConfirmedPassword] = useState<string>('');
-
-    const [currentPassword, setCurrentPassword] = useState<string>('');
+    const currentPasswordInput = useRef<HTMLInputElement>(null);
 
     interface ConfirmStateInterface {
         isOpen: boolean;
@@ -86,7 +85,9 @@ const Profile = () => {
             onConfirm: 
                 (e) => {
                     fetchSetUsername(
-                        username, HandleUserIdCookie.get(), 
+                        username, 
+                        currentPasswordInput.current!.value, 
+                        HandleUserIdCookie.get(),
                         (data) => {
                             HandleToasts.push({
                                 message: data.message,
@@ -121,20 +122,20 @@ const Profile = () => {
             message: 'Enter your password to confirm account deletion',
             onConfirm: () => {
                 fetchSetPassword(
-                    password, HandleUserIdCookie.get(), 
+                    password, 
+                    currentPasswordInput.current!.value, 
+                    HandleUserIdCookie.get(), 
                     (data) => {
                         HandleToasts.push({
                             message: data.message,
                             type: data.success ? ToastType.success : ToastType.error,
                         });
-                        setConfirmState({ isOpen: false });
                     }, 
                     (_) => {
                         HandleToasts.push({
                             message: 'Cannot update password, please try again later',
                             type: ToastType.error,
                         });
-                        setConfirmState({ isOpen: false });
                     }
                 );
             }
@@ -149,6 +150,7 @@ const Profile = () => {
             onConfirm: () => {
                 deleteUser(
                     HandleUserIdCookie.get(),
+                    currentPasswordInput.current!.value,
                     (data) => {
                         if (data.success) {
                             HandleToasts.push({
@@ -180,15 +182,15 @@ const Profile = () => {
             <MainContainerPage>
                 <>
                     { confirmState.isOpen && (
-                        <Confirm message={ confirmState.message } onConfirm={ (e) => { 
+                        <Confirm message={ confirmState.message } onConfirm={ (e) => {
                             confirmState.onConfirm && confirmState.onConfirm(e);
                             setConfirmState({ isOpen: false });
-                            setCurrentPassword('');
+                            currentPasswordInput.current!.value = '';
                         } } onCancel={ (e) => {
                             setConfirmState({ isOpen: false });
-                            setCurrentPassword('');
+                            currentPasswordInput.current!.value = '';
                         } }>
-                            <InputText style={{ textAlign: 'center' }} value={ currentPassword } setValue={ setCurrentPassword } type="password" placeholder="enter password" />
+                            <InputText style={{ textAlign: 'center' }} ref={ currentPasswordInput } type="password" placeholder="enter password" />
                         </Confirm>
                     ) }
                     <Title text="My profile"/>

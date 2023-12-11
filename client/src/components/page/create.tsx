@@ -181,7 +181,7 @@ const Create = (): JSX.Element => {
                     setLoaded(true);
                     if (data.success === true) {
                         HandleToasts.push({
-                            message: 'Quiz successfully modified !',
+                            message: 'Quiz successfully created !',
                             type: ToastType.success,
                         });
                         navigate('/my-quizzes');

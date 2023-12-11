@@ -7,8 +7,8 @@ import UserQuizzes from './routes/quiz/get.user';
 import GetQuiz from './routes/quiz/get.one';
 import GetAllQuizzes from './routes/quiz/get.all';
 import GetById from './routes/user/get';
-import SetPassword from './routes/auth/put.password';
-import SetUsername from './routes/auth/put.username';
+import SetPassword from './routes/user/put.password';
+import SetUsername from './routes/user/put.username';
 import DeleteQuiz from './routes/quiz/delete';
 import DeleteUser from './routes/user/delete';
 

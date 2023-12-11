@@ -12,7 +12,7 @@ interface ConfirmInterface extends ChildrenInterface {
 
 const Confirm = (props: ConfirmInterface) => {
     return createPortal(
-        <div className="w-full h-full flex flex-center" style={{ position: 'fixed', top: 0, backgroundColor: 'rgba(0, 0, 0, 0.4)', zIndex: '1000' }}>
+        <form className="w-full h-full flex flex-center" style={{ position: 'fixed', top: 0, backgroundColor: 'rgba(0, 0, 0, 0.4)', zIndex: '1000' }}>
             <Container color={ ContainerColor.white } className="flex-column flex-center" style={{ width: '500px' }}>
                 <>
                     { props.message && (
@@ -20,12 +20,12 @@ const Confirm = (props: ConfirmInterface) => {
                     ) }
                     { props.children }
                     <div className="flex flex-row" style={{ columnGap: '20px'}}>
-                        <Button onClick={ props.onCancel } color={ ButtonColor.red } text="Cancel" />
+                        <Button type="button" onClick={ props.onCancel } color={ ButtonColor.red } text="Cancel" />
                         <Button onClick={ props.onConfirm } color={ ButtonColor.green } text="Confirm" />
                     </div>
                 </>
             </Container>
-        </div>
+        </form>
     , document.body);
 };
 

@@ -10,6 +10,7 @@ export enum ButtonColor {
 interface ButtonInterface {
     text: string,
     onClick?: React.MouseEventHandler<HTMLButtonElement>,
+    type?: 'submit' | 'button' | 'reset',
 
     color?: ButtonColor,
     id?: string,
@@ -20,7 +21,7 @@ interface ButtonInterface {
 export const Button = (props: ButtonInterface): JSX.Element => 
 {
     return (
-        <button style={ props.style } type='submit' id={ props.id !== undefined ? `${props.id}Button` : undefined } className={`${props.className} flex flex-center button ${props.color ? props.color : ButtonColor.blue }`} onClick={props.onClick}>
+        <button style={ props.style } type={ props.type || 'submit' } id={ props.id !== undefined ? `${props.id}Button` : undefined } className={`${props.className} flex flex-center button ${props.color ? props.color : ButtonColor.blue }`} onClick={props.onClick}>
             {props.text}
         </button>
     );

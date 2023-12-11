@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import * as bcrypt from 'bcrypt';
 import { db } from "../../main";
 import Table from "../../tables";
+import { verifyUserPassword } from "../functions/verify-user-password";
 
 const Login = (req: Request, res: Response) => {
 
@@ -9,40 +10,38 @@ const Login = (req: Request, res: Response) => {
     const password: string = req.body.password;
 
     if (!username || !password) {
-        return res.status(200).send({
+        res.status(200).send({
             message: 'Username or password missing.',
             success: false
         });
+        return;
     }
 
     const table: string = Table.User;
-    const user: any = db.prepare('SELECT * FROM USER WHERE username = ? LIMIT 1').get(username);
+    const user: any = db.prepare(`SELECT * FROM ${ table } WHERE username = ? LIMIT 1`).get(username);
 
     if (!user) {
-        return res.status(200).send({
+        res.status(200).send({
             message: 'User not found.',
             success: false
         });
+        return;
     } else {
-        bcrypt.compare(password, user.password, (err: Error | undefined, result: boolean) => {
-            if (err) {
-                return res.status(200).send({
-                    message: 'Error while comparing passwords.',
-                    success: false
-                });
-            } else if (result) {
-                return res.status(200).send({
-                    message: 'You successfully logged in !',
-                    success: true,
-                    id: user.id
-                });
-            } else {
-                return res.status(200).send({
-                    message: 'Wrong password.',
-                    success: false
-                });
-            }
-        });
+        const passwordMatch: boolean = verifyUserPassword(password, user.password);
+
+        if (passwordMatch) {
+            res.status(200).send({
+                message: 'You successfully logged in !',
+                success: true,
+                id: user.id
+            });
+            return;
+        } else {
+            res.status(200).send({
+                message: 'Wrong password .',
+                success: false
+            });
+        }
     }
 }
 
