@@ -3,8 +3,8 @@ import * as bcrypt from 'bcrypt';
 import Database from "better-sqlite3";
 
 import { db } from "../../main";
-import { verifyPassword } from "../functions/verify-password";
-import { verifyUsername } from "../functions/verify-username";
+import { verifyPassword } from "../../functions/verify-password";
+import { verifyUsername } from "../../functions/verify-username";
 import Table from "../../tables";
 
 

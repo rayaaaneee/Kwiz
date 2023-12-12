@@ -2,7 +2,8 @@ interface ResultBoxInterface {
     pseudo: string,
     score: number,
     maxScore: number,
-    range: number
+    range: number,
+    className?: string,
 }
 
 export const ResultBox = (props: ResultBoxInterface): JSX.Element => {

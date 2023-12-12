@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 import * as bcrypt from 'bcrypt';
 import { db } from "../../main";
-import { verifyPassword } from "../functions/verify-password";
+import { verifyPassword } from "../../functions/verify-password";
 import Table from "../../tables";
-import { verifyUserPassword } from "../functions/verify-user-password";
+import { verifyUserPassword } from "../../functions/verify-user-password";
 
 const SetPassword = (req: Request, res: Response) => {
     const currentPassword: string = req.body.currentPassword;

@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import { db } from "../../main";
-import { verifyUsername } from "../functions/verify-username";
+import { verifyUsername } from "../../functions/verify-username";
 import Table from "../../tables";
-import { verifyUserPassword } from "../functions/verify-user-password";
+import { verifyUserPassword } from "../../functions/verify-user-password";
 
 const SetUsername = (req: Request, res: Response) => {
 

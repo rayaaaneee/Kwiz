@@ -80,9 +80,9 @@ const Play = (): JSX.Element => {
                         { loaded && (
                             <>
                                 { quizzes.length !== 0 && (
-                                    <div className="informations-to-play flex-row flex-center">
-                                        <h1 className='main-green'>Mon nom :</h1>
-                                        <InputTextGreenBorder/>
+                                    <div className="informations-to-play flex-row flex-center" style={{ marginTop: '40px'}}>
+                                        {/* <h1 className='main-green'>Mon nom :</h1>
+                                        <InputTextGreenBorder/> */}
                                         <NavLink style={{ textDecoration: 'none' }} to={ `/play/${ selected }`} id="linkToPlay">
                                             <Button id="play" text="Jouer !"/>
                                         </NavLink>

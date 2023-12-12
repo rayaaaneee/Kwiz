@@ -13,7 +13,6 @@ import { ToastType } from './toast';
 
 import '../asset/css/menu.scss';
 import Confirm from './confirm';
-import { InputText } from './template/input-text';
 
 const Menu = (props: ChildrenInterface): JSX.Element => {
 
@@ -59,6 +58,7 @@ const Menu = (props: ChildrenInterface): JSX.Element => {
             <MenuItem to={ '/new' } title={ 'Create a quiz' } />
             <MenuItem to={ '/my-quizzes' } title={ 'My quizzes' } />
             <MenuItem to={ '/historical' } title={ 'Historical' } />
+            <MenuItem to={ '/my-historical' } title={ 'My historical' } />
             <MenuItem to={ '/' } onClick={ HandleLogin } title={ 'Disconnect' } />
           </ul>
         </nav>

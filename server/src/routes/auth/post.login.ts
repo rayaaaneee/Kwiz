@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import * as bcrypt from 'bcrypt';
 import { db } from "../../main";
 import Table from "../../tables";
-import { verifyUserPassword } from "../functions/verify-user-password";
+import { verifyUserPassword } from "../../functions/verify-user-password";
 
 const Login = (req: Request, res: Response) => {
 

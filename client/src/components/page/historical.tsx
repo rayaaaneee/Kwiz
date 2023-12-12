@@ -5,8 +5,6 @@ import { MainContainerPage } from '../template/main-container-page';
 import { HistoricLine } from '../template/historical/historic-line';
 import { Title } from '../template/title';
 
-import '../../asset/css/page/historical.scss';
-
  const Historical = (): JSX.Element => {
     document.title = "Historique - Kwiz";
     return (

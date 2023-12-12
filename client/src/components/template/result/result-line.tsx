@@ -4,7 +4,7 @@ interface ResultLineInterface {
     pseudo: string, 
     score: number, 
     maxScore: number, 
-    range: number
+    range: number,
 }
 
 export const ResultLine = (props: ResultLineInterface): JSX.Element => {

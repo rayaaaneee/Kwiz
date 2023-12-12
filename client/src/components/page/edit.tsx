@@ -35,6 +35,7 @@ export interface AnswerInterface {
 const Edit = (): JSX.Element => {
 
     let titleText: string = "Modifier un quiz";
+
     document.title = "Modifier un quiz - Kwiz";
 
     const id: number = parseInt(useParams().id ?? '-1');

@@ -3,9 +3,7 @@ enum Table {
     Question = 'Question',
     Answer = 'Answer',
     User = 'User',
-    Friend = 'Friend',
-    Historical = 'Historical',
-    
+    Hist = 'Historical',
 }
 
 export default Table;

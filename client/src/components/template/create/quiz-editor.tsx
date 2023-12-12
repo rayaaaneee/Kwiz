@@ -168,7 +168,7 @@ const QuizEditor = (props: QuizEditorInterface): JSX.Element => {
                                     </div>
                                     <div className='flex-row align-center justify-start' style={{ alignSelf: 'start', columnGap: '15px'}}>
                                         <label htmlFor='multipleAnswersCheckbox' style={{ fontSize: '1.1em', 'fontWeight': 300, 'cursor': 'pointer' }}>• Plusieurs réponses possibles ?</label>
-                                        <InputCheckbox id={"multipleAnswersCheckbox"} onCheck={ props.setIsManyAnswers } checked={ props.isManyAnswers } name={'is-many-answers'} />
+                                        <InputCheckbox id={"multipleAnswersCheckbox"} onCheckDispatch={ props.setIsManyAnswers } checked={ props.isManyAnswers } name={'is-many-answers'} />
                                     </div>
                                     <div className="grid-answers">
                                         { props.answers.map((answer, i) => {

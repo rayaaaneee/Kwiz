@@ -1,19 +1,23 @@
 import React, { forwardRef } from "react";
 
 interface InputCheckboxProps {
-    id: string;
-    onCheck: React.Dispatch<boolean> | Function;
+    id?: string;
+    onCheck?: React.ChangeEventHandler<HTMLInputElement>;
+    onCheckDispatch?: React.Dispatch<boolean>;
+    onClick?: React.MouseEventHandler<HTMLLabelElement>;
     checked?: boolean;
     disabled?: boolean;
     title?: string;
     name?: string;
 }
 
-export const InputCheckbox = forwardRef(({ id, onCheck, checked = false, disabled = false, title, name }: InputCheckboxProps, ref?: React.ForwardedRef<HTMLInputElement>): JSX.Element => {
+export const InputCheckbox = forwardRef(({ id, onCheck, onCheckDispatch, onClick, checked, disabled = false, title, name }: InputCheckboxProps, ref?: React.ForwardedRef<HTMLInputElement>): JSX.Element => {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (onCheck instanceof Function) {
-            onCheck(e.currentTarget.checked);
+        if (onCheck !== undefined) {
+            onCheck(e);
+        } else if (onCheckDispatch !== undefined) {
+            onCheckDispatch(e.currentTarget.checked);
         }
     }
 
@@ -28,7 +32,7 @@ export const InputCheckbox = forwardRef(({ id, onCheck, checked = false, disable
                 ref={ref || undefined}
                 name={name}
             />
-            <label htmlFor={id} title={ title }></label>
+            <label onClick={ onClick } htmlFor={id} title={ title }></label>
         </>
     );
 });

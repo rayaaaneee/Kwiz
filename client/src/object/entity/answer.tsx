@@ -10,7 +10,7 @@ export class Answer {
     }
 
     static copy(source: Answer): Answer {
-        const answer = new Answer(source.answer_text, source.is_ok);
+        const answer = new Answer(source.answer_text, Boolean(source.is_ok));
 
 
         if (source.id !== undefined) {

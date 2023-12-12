@@ -14,18 +14,16 @@ export const ViewQuiz = ({ quizName, nbQuestions, selected, selectQuiz, canModif
     return (
         <div className={`view-quiz-container flex-row align-center justify-start ${ selected === quizId ? 'selected' : ''}`} onClick={() => selectQuiz(quizId)}>
             <h1 className="view-quiz-title">{ quizName } - { nbQuestions.toString() } question{ nbQuestions > 1 && 's'}</h1>
-            { canModify && (
-                <>
-                    <div className="modify-quiz-container flex-column">
+                <div className="modify-quiz-container flex-column">
+                    { canModify && (
                         <NavLink to={`/edit/${ quizId }`} className="modify-quiz">
-                            Modifier
+                            Modify
                         </NavLink>
-                        <NavLink to={`/result/${ quizId }`} className="modify-quiz">
-                            Résultats
-                        </NavLink>
-                    </div>
-                </>
-            ) }
+                    ) }
+                    <NavLink to={`/ranking/${ quizId }`} className="modify-quiz">
+                        Ranking
+                    </NavLink>
+                </div>
         </div>
     );
 };

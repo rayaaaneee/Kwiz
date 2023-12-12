@@ -22,7 +22,7 @@ export class Question {
     }
 
     static copy(source: Question): Question {
-        let question = new Question(source.question_text, source.is_unique_answer);
+        let question = new Question(source.question_text, Boolean(source.is_unique_answer));
         question.answers = source.answers.map((answer: any) => Answer.copy(answer));
 
         if (source.id !== undefined) {

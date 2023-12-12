@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { db } from '../../main';
 import Table from '../../tables';
-import { verifyUserPassword } from '../functions/verify-user-password';
+import { verifyUserPassword } from '../../functions/verify-user-password';
 
 const DeleteUser = (req: Request, res: Response) => {
     const userId: number = parseInt(req.params.id);

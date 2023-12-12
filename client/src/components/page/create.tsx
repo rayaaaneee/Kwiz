@@ -125,7 +125,7 @@ const Create = (): JSX.Element => {
             isUniqueAnswer.valueOf(),
             HandleToasts,
         );
-        
+
         if (isOk) {
             setQuiz((prevQuiz) => {
                 let newQuiz: Quiz = Quiz.copy(prevQuiz);

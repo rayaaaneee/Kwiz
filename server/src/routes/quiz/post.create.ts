@@ -39,7 +39,7 @@ const CreateQuiz = (req: Request, res: Response) => {
 
         questions.forEach((question: any) => {
 
-            const isUniqueAnswer: boolean = Boolean(question.isUniqueAnswer);
+            const isUniqueAnswer: boolean = Boolean(question.is_unique_answer);
 
             const questionResult: Database.RunResult = db.prepare(`INSERT INTO ${ table_question } (quiz_id, question_text, is_unique_answer) VALUES (?, ?, ?)`).run(quizId, question.question_text, isUniqueAnswer ? 1 : 0);
 

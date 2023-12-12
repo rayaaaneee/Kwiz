@@ -35,3 +35,15 @@ CREATE TABLE IF NOT EXISTS Answer (
 );
 --
 DELETE FROM Answer;
+--
+CREATE TABLE IF NOT EXISTS Historical (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id INTEGER NOT NULL,
+  quiz_id INTEGER NOT NULL,
+  score INTEGER NOT NULL,
+  UNIQUE (user_id, quiz_id),
+  FOREIGN KEY (quiz_id) REFERENCES Quiz(id),
+  FOREIGN KEY (user_id) REFERENCES User(id)
+);
+--
+DELETE FROM Historical;
