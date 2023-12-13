@@ -1,24 +1,31 @@
 import { Request, Response } from "express";
 import { db } from "../../main";
+import Table from "../../tables";
 
 const SearchQuiz = async (req: Request, res: Response) => {
     const theme: string = req.params.theme;
 
     try {
-        const rows: any = db.prepare(`SELECT * FROM quiz WHERE theme LIKE '%?%'`).all(theme);
+        const rows: any = db.prepare(`
+            SELECT K.*, COUNT(Q.id) as nbQuestions FROM ${ Table.Quiz } K
+            INNER JOIN ${ Table.Question } Q ON K.id = Q.quiz_id
+            WHERE lower(theme) LIKE ?
+            GROUP BY K.id
+        `).all(`%${theme.toLowerCase()}%`);
 
-        if (rows.length === 0) {
-            res.status(200).send({
-                success: true,
-                message: 'Successfully searched for the quizes !',
-                quiz: rows
-            });
-        }
+        res.status(200).send({
+            message: 'Successfully searched for the quizes !',
+            success: true,
+            quizzes: rows
+        });
+        return;
     } catch (err) {
-        res.sendStatus(200).send({
+        console.log(err);
+        res.status(200).send({
             success: false,
             message: 'An error occurred while searching for the quiz. Please try again later.'
         });
+        return;
     }
 }
 

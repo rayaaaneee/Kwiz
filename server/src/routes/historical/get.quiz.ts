@@ -14,8 +14,9 @@ const GetQuizHistorical = async (req: Request, res: Response) => {
             SELECT H.score, U.username, COUNT(Q.id) as maxScore
             FROM ${Table.Hist} H
             INNER JOIN ${Table.User} U ON H.user_id = U.id
-            LEFT JOIN ${Table.Quiz} Q ON H.quiz_id = Q.id AND Q.id = ?
+            LEFT JOIN ${Table.Quiz} Q ON H.quiz_id = Q.id
             LEFT JOIN ${Table.Question} Ques ON Q.id = Ques.quiz_id
+            WHERE H.quiz_id = ?
             GROUP BY H.score, U.username, Q.theme
             ORDER BY score DESC;
         `).all(quiz_id);

@@ -22,6 +22,7 @@ import { CookieInterface } from '../../interface/cookie-interface';
 
 import '../../asset/css/page/play.scss';
 import { InputText } from '../template/input-text';
+import { fetchSearchQuizzes } from '../../function/api/search-quizzes';
 
 const Play = (): JSX.Element => {
 
@@ -34,7 +35,8 @@ const Play = (): JSX.Element => {
     const HandleCookieUserId: CookieInterface = useContext(cookieContext).get('user_id');
     const HandleToasts: ToastContextManager = useContext(toastContext);
 
-    useEffect(() => {
+
+    const getQuizzes = () => {
         getAllQuizzes(
             HandleCookieUserId.get(),
             data => {
@@ -43,22 +45,43 @@ const Play = (): JSX.Element => {
                     setLoaded(true);
                 }
             },
-            err => {
+            _ => {
                 HandleToasts.push({
                     message: 'Cannot get quizzes, please try again later.',
                     type: ToastType.error
                 })
             }
         );
+    }
+    useEffect(() => {
+        getQuizzes();
     }, []);
 
     const onSearch = (e: React.FormEvent<HTMLInputElement>) => {
-        if (e.currentTarget.value.length > 0) {
-            console.log(e.currentTarget.value);
+        setLoaded(false);
+        if (e.currentTarget.value.length === 0) {
+            getQuizzes();
+        } else {
+            fetchSearchQuizzes(
+                e.currentTarget.value,
+                data => {
+                    if (data.success === true) {
+                        setQuizzes(data.quizzes);
+                        setLoaded(true);
+                    }
+                },
+                err => {
+                    HandleToasts.push({
+                        message: 'Cannot search quizzes, please try again later.',
+                        type: ToastType.error
+                    })
+                }
+            );
         }
     }
 
-    const containerHeight: React.CSSProperties | undefined = (!loaded && quizzes.length === 0) ? { height: '300px' } : undefined;
+    const containerHeight: React.CSSProperties | undefined = (loaded 
+        && quizzes.length !== 0) ? { height: '400px' } : undefined;
 
     return (
         <Menu>
@@ -68,9 +91,9 @@ const Play = (): JSX.Element => {
                     <>
                         <Container className='flex flex-start' style={{ padding: '20px 0', alignItems: 'center' }} >
                             <label style={{ fontSize: '25px'}} htmlFor='search-input'>Rechercher :</label>
-                            <InputText onInput={ onSearch } placeholder='Quiz name' id='search-input' />
+                            <InputText onInput={ onSearch } placeholder='theme' id='search-input' />
                         </Container>
-                        <Container style={ containerHeight } className="play-container flex-row">
+                        <Container style={{ ...containerHeight, minHeight: '200px' }} className="play-container flex-row">
                             <div className="quiz-container flex-column align-start">
                             { loaded ? (
                                 <>

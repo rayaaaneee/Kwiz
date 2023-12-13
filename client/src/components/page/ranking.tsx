@@ -15,6 +15,8 @@ import Loader, { LoaderColor } from "../loader";
 
 import "../../asset/css/page/result.scss";
 
+import emptyImg from '../../asset/img/nothing.png';
+
 const Ranking = (): JSX.Element => {
 
     const quiz_id: number = parseInt(useParams().id || '-1');
@@ -59,9 +61,12 @@ const Ranking = (): JSX.Element => {
                 <MainContainerPage>
                     <Container className="result-container flex align-center">
                     { loaded ? (
-                        <div className="result-container flex-column align-start">
+                        <div className={`result-container flex-column align-start ${ ranks.length === 0 && 'flex-center' }`}>
                             { ranks.length === 0 ? (
-                                <div className="result-empty">No one has played this quiz yet.</div>
+                                <>
+                                    <h2 style={{ margin: '0 auto'}}>No one has played this quiz yet.</h2>
+                                    <img style={{ margin: '20px auto',}} width="160px" height="160px" src={ emptyImg } alt="empty" />
+                                </>
                             ) : (
                                 <>
                                     { ranks.slice(0, 3).map((rank, index) => {
