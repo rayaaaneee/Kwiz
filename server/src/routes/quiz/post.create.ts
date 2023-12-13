@@ -3,7 +3,7 @@ import { db } from "../../main";
 import Database from "better-sqlite3";
 import Table from "../../tables";
 
-const CreateQuiz = (req: Request, res: Response) => {
+const CreateQuiz = async (req: Request, res: Response) => {
     const quiz: any = req.body.quiz;
     const creator_id: number = parseInt(req.body.creator_id);
 

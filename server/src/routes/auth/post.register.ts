@@ -8,7 +8,7 @@ import { verifyUsername } from "../../functions/verify-username";
 import Table from "../../tables";
 
 
-const Register = (req: Request, res: Response) => {
+const Register = async (req: Request, res: Response) => {
 
     const username: string = req.body.username.toLowerCase();
     const password: string = req.body.password;

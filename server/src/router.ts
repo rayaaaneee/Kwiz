@@ -13,6 +13,7 @@ import DeleteQuiz from './routes/quiz/delete';
 import DeleteUser from './routes/user/delete';
 import GetQuizHistorical from './routes/historical/get.quiz';
 import CreateHistorical from './routes/historical/post.quiz';
+import SearchQuiz from './routes/quiz/get.search';
 
 // Authentication
 app.post('/user/login', Login);
@@ -22,6 +23,7 @@ app.post('/user/register', Register);
 app.get('/quiz/all/:not', GetAllQuizzes);
 app.get('/quiz/user/:id', UserQuizzes);
 app.get('/quiz/:id', GetQuiz);
+app.get('/quiz/theme/:theme', SearchQuiz);
 app.post('/quiz/create', CreateQuiz);
 app.delete('/quiz/delete', DeleteQuiz);
 

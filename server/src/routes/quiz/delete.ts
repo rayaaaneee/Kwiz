@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { db } from '../../main';
 import Table from '../../tables';
 
-const DeleteQuiz = (req: Request, res: Response) => {
+const DeleteQuiz = async (req: Request, res: Response) => {
 
     const creator_id: number = parseInt(req.body.creator_id);
     const quiz_id: number = parseInt(req.body.quiz_id);

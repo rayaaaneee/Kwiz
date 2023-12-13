@@ -4,7 +4,7 @@ import { db } from "../../main";
 import Table from "../../tables";
 import { verifyUserPassword } from "../../functions/verify-user-password";
 
-const Login = (req: Request, res: Response) => {
+const Login = async (req: Request, res: Response) => {
 
     const username: string = req.body.username.toLowerCase();
     const password: string = req.body.password;

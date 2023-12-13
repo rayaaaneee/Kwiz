@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState, useContext, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import Menu from '../menu';
@@ -21,6 +21,7 @@ import cookieContext from '../../context/cookie-context';
 import { CookieInterface } from '../../interface/cookie-interface';
 
 import '../../asset/css/page/play.scss';
+import { InputText } from '../template/input-text';
 
 const Play = (): JSX.Element => {
 
@@ -51,6 +52,12 @@ const Play = (): JSX.Element => {
         );
     }, []);
 
+    const onSearch = (e: React.FormEvent<HTMLInputElement>) => {
+        if (e.currentTarget.value.length > 0) {
+            console.log(e.currentTarget.value);
+        }
+    }
+
     const containerHeight: React.CSSProperties | undefined = (!loaded && quizzes.length === 0) ? { height: '300px' } : undefined;
 
     return (
@@ -59,6 +66,10 @@ const Play = (): JSX.Element => {
                 <Title text={ 'Choix du quiz' } />
                 <MainContainerPage>
                     <>
+                        <Container className='flex flex-start' style={{ padding: '20px 0', alignItems: 'center' }} >
+                            <label style={{ fontSize: '25px'}} htmlFor='search-input'>Rechercher :</label>
+                            <InputText onInput={ onSearch } placeholder='Quiz name' id='search-input' />
+                        </Container>
                         <Container style={ containerHeight } className="play-container flex-row">
                             <div className="quiz-container flex-column align-start">
                             { loaded ? (

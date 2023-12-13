@@ -3,7 +3,7 @@ import { db } from '../../main';
 import Table from '../../tables';
 import { verifyUserPassword } from '../../functions/verify-user-password';
 
-const DeleteUser = (req: Request, res: Response) => {
+const DeleteUser = async (req: Request, res: Response) => {
     const userId: number = parseInt(req.params.id);
     const currentPassword: string = req.body.currentPassword;
 

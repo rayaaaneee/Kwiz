@@ -5,7 +5,7 @@ import { verifyPassword } from "../../functions/verify-password";
 import Table from "../../tables";
 import { verifyUserPassword } from "../../functions/verify-user-password";
 
-const SetPassword = (req: Request, res: Response) => {
+const SetPassword = async (req: Request, res: Response) => {
     const currentPassword: string = req.body.currentPassword;
     const password: string = req.body.password;
     const id: number = parseInt(req.params.id);

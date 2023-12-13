@@ -4,7 +4,7 @@ import { verifyUsername } from "../../functions/verify-username";
 import Table from "../../tables";
 import { verifyUserPassword } from "../../functions/verify-user-password";
 
-const SetUsername = (req: Request, res: Response) => {
+const SetUsername = async (req: Request, res: Response) => {
 
     const username: string = req.body.username.toLowerCase();
     const currentPassword: string = req.body.currentPassword;

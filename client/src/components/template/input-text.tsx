@@ -2,8 +2,9 @@ import { ChangeEvent, forwardRef, useEffect, useRef, useState } from 'react';
 import '../../asset/css/template/input-text.scss';
 
 interface InputTextInterface {
-    value?: string
-    setValue?: React.Dispatch<React.SetStateAction<string>>
+    value?: string,
+    setValue?: React.Dispatch<React.SetStateAction<string>>,
+    onInput?: React.FormEventHandler<HTMLInputElement>,
 
     name?: string,
     id?: string,
@@ -37,6 +38,6 @@ export const InputText = forwardRef((props: InputTextInterface, ref?: React.Forw
     });
 
     return (
-        <input style={ props.style } name={ props.name } id={ props.id !== undefined ? props.id : undefined } className="input-text" placeholder={props.placeholder} pattern={ props.pattern?.toString().split('/')[1] } type={ props.type !== undefined ? props.type : 'text' } value={props.value } onChange={handleInput} required ref={ inputRef }/>
+        <input style={ props.style } name={ props.name } id={ props.id !== undefined ? props.id : undefined } className="input-text" placeholder={props.placeholder} pattern={ props.pattern?.toString().split('/')[1] } type={ props.type !== undefined ? props.type : 'text' } value={props.value } onChange={handleInput} onInput={ props.onInput } required ref={ inputRef }/>
     );
 });

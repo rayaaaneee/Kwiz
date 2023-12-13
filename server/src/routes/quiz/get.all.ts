@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { db } from '../../main';
 import Table from '../../tables';
 
-const GetAllQuizzes = (req: Request, res: Response) => {
+const GetAllQuizzes = async (req: Request, res: Response) => {
 
     const id: number = parseInt(req.params.not);
 

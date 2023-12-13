@@ -6,7 +6,7 @@ import { Question } from '../../model/question';
 import { Answer } from '../../model/answer';
 import Table from '../../tables';
 
-const GetQuiz = (req: Request, res: Response) => {
+const GetQuiz = async (req: Request, res: Response) => {
     const quizId: number = parseInt(req.params.id);
 
 
