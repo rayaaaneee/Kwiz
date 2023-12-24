@@ -64,6 +64,7 @@ const Play = (): JSX.Element => {
         } else {
             fetchSearchQuizzes(
                 e.currentTarget.value,
+                HandleCookieUserId.get(),
                 data => {
                     if (data.success === true) {
                         setQuizzes(data.quizzes);

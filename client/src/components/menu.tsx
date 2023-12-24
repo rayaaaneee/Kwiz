@@ -24,7 +24,7 @@ const Menu = (props: ChildrenInterface): JSX.Element => {
   const navigate: NavigateFunction = useNavigate();
   const location = useLocation();
 
-  const confirmAction = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const confirmAction = (e: React.FormEvent<HTMLFormElement>) => {
     HandleUserIdCookie.delete();
 
     navigate('/', { state: { from: location.pathname } });

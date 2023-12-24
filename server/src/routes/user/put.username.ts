@@ -17,16 +17,18 @@ const SetUsername = async (req: Request, res: Response) => {
     } = verifyUsername(username);
 
     if (usernameResponse.success === false) {
-        return res.status(500).send(usernameResponse);
+        res.status(500).send(usernameResponse);
+        return;
     }
 
     const user: any = db.prepare(`SELECT * FROM ${Table.User} WHERE id = ? LIMIT 1`).get(id);
 
     if (!user) {
-        return res.status(200).send({
+        res.status(200).send({
             message: 'User not found',
             success: false
         });
+        return;
     }
 
     if (verifyUserPassword(currentPassword, user.password)) {
@@ -34,21 +36,24 @@ const SetUsername = async (req: Request, res: Response) => {
             const table: string = Table.User;
             db.prepare(`UPDATE ${table} SET username = ? WHERE id = ?`).run(username, id);
 
-            return res.status(200).send({
+            res.status(200).send({
                 message: 'You successfully changed your username !',
                 success: true,
             });
+            return;
         } catch (e: any) {
             if (e.code === 'SQLITE_CONSTRAINT_UNIQUE') {
-                return res.status(200).send({
+                res.status(200).send({
                     message: 'This username is already taken !',
                     success: false
                 });
+                return;
             } else {
-                return res.status(200).send({
+                res.status(200).send({
                     message: 'Error while changing your username !',
                     success: false
                 });
+                return;
             }
         }
     } else {

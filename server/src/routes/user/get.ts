@@ -10,16 +10,18 @@ const GetById = async (req: Request, res: Response) => {
     .get(userId);
 
     if (!row) {
-        return res.status(404).send({
+        res.status(404).send({
             success: false,
             message: 'User not found',
         });
+        return;
     }
 
-    return res.status(200).send({
+    res.status(200).send({
         success: true,
         user: row,
     });
+    return;
 }
 
 export default GetById;

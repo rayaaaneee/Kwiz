@@ -1,5 +1,7 @@
+import { Quiz } from "../../object/entity/quiz";
+
 export const createQuiz = (
-    jsonBody: {}, 
+    quiz: Quiz,
     callback: (res: any) => void, 
     errcallback: (err: any) => void = (err: void) => {}) => 
 {
@@ -8,7 +10,7 @@ export const createQuiz = (
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(jsonBody),
+        body: JSON.stringify({ quiz: quiz.toJSON()}),
     }).then(res => res.json())
     .then(data => callback(data))
     .catch(err => errcallback(err));

@@ -21,7 +21,7 @@ const GetAllQuizzes = async (req: Request, res: Response) => {
         success: true,
         quizzes: rows
     });
-
+    return;
 }
 
 export default GetAllQuizzes;

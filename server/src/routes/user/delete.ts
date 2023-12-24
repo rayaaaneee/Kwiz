@@ -11,15 +11,18 @@ const DeleteUser = async (req: Request, res: Response) => {
 
     try {
         db.prepare(`
-            DELETE FROM ${Table.Answer} WHERE question_id in 
-            (SELECT id FROM ${Table.Question} WHERE quiz_id IN 
-            (SELECT id FROM ${Table.Quiz} WHERE creator_id = ?))`
+        DELETE FROM ${Table.Answer} WHERE question_id in 
+        (SELECT id FROM ${Table.Question} WHERE quiz_id IN 
+        (SELECT id FROM ${Table.Quiz} WHERE creator_id = ?))`
         ).run(userId);
 
         db.prepare(`
             DELETE FROM ${Table.Question} WHERE quiz_id IN 
             (SELECT id FROM ${Table.Quiz} WHERE creator_id = ?)`
         ).run(userId);
+
+        db.prepare(`DELETE FROM ${Table.Hist} WHERE user_id = ? OR quiz_id IN
+        (SELECT id FROM ${Table.Quiz} WHERE creator_id = ?)`).run(userId, userId);
 
         db.prepare(`DELETE FROM ${Table.Quiz} WHERE creator_id = ?`).run(userId);
 
@@ -28,6 +31,8 @@ const DeleteUser = async (req: Request, res: Response) => {
             success: false,
             message: 'Error while deleting your datas',
         });
+        console.log(err);
+        return;
     }
 
     if (!user) {

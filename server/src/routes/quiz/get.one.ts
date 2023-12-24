@@ -51,15 +51,17 @@ const GetQuiz = async (req: Request, res: Response) => {
     });
 
     if (quiz !== undefined) {
-        return res.status(200).send({
+        res.status(200).send({
             success: true,
             quiz: (quiz as any)?.toJSON(),
         });
+        return;
     } else {
-        return res.status(404).send({
+        res.status(404).send({
             success: false,
             message: 'Quiz not found',
         });
+        return;
     }
 }
 

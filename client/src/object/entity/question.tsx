@@ -1,4 +1,11 @@
-import { Answer } from "./answer";
+import { Answer, AnswerInterface } from "./answer";
+
+export interface QuestionInterface {
+    id: number | undefined;
+    question_text: string;
+    is_unique_answer: boolean;
+    answers: AnswerInterface[];
+}
 
 export class Question {
 
@@ -30,5 +37,14 @@ export class Question {
         }
 
         return question;
+    }
+
+    toJSON(): QuestionInterface {
+        return {
+            question_text: this.question_text,
+            is_unique_answer: this.is_unique_answer,
+            id: this.id,
+            answers: this.answers.map((answer: Answer) => answer.toJSON())
+        }
     }
 }

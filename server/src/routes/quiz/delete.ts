@@ -20,22 +20,25 @@ const DeleteQuiz = async (req: Request, res: Response) => {
             db.prepare(`DELETE FROM ${table_question} WHERE quiz_id = ?`).run(quiz_id);
             db.prepare(`DELETE FROM ${table_quiz} WHERE id = ?`).run(quiz_id);
 
-            return res.status(200).send({
+            res.status(200).send({
                 success: true,
                 message: 'Quiz deleted successfully',
             });
+            return;
 
         } catch (err) {
-            return res.status(500).send({
+            res.status(500).send({
                 success: false,
                 message: 'An error occurred while deleting the quiz',
             });
+            return;
         }
     } else {
-        return res.status(403).send({
+        res.status(403).send({
             success: false,
             message: 'You are not allowed to delete this quiz !',
         });
+        return;
     }
 
 }

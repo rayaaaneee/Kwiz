@@ -16,10 +16,11 @@ const UserQuizzes = async (req: Request, res: Response) => {
         GROUP BY K.id;
     `).all(userId);
 
-    return res.status(200).send({
+    res.status(200).send({
         success: true,
         quizzes: rows,
     });
+    return;
 }
 
 export default UserQuizzes;

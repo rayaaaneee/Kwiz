@@ -1,3 +1,9 @@
+export interface AnswerInterface {
+    id: number | undefined;
+    answer_text: string;
+    is_ok: boolean;
+}
+
 export class Answer {
 
     id: number | undefined;
@@ -18,5 +24,13 @@ export class Answer {
         }
 
         return answer;
+    }
+
+    toJSON(): AnswerInterface {
+        return {
+            answer_text: this.answer_text,
+            is_ok: this.is_ok,
+            id: this.id
+        }
     }
 }

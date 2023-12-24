@@ -45,10 +45,11 @@ const Profile = () => {
     interface ConfirmStateInterface {
         isOpen: boolean;
         message?: string;
-        onConfirm?: React.MouseEventHandler<HTMLButtonElement>;
+        onConfirm: React.FormEventHandler<HTMLFormElement>;
     }
     const [confirmState, setConfirmState] = useState<ConfirmStateInterface>({
         isOpen: false,
+        onConfirm: (e) => {}
     });
 
     const [loaded, setLoaded] = useState<boolean>(false);
@@ -142,8 +143,7 @@ const Profile = () => {
         });
     }
 
-    const HandleDeleteAccount = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        e.preventDefault();
+    const HandleDeleteAccount = (e: React.MouseEvent<HTMLButtonElement>) => {
         setConfirmState({ 
             isOpen: true, 
             message: 'Enter your current password to delete your account',
@@ -183,11 +183,17 @@ const Profile = () => {
                 <>
                     { confirmState.isOpen && (
                         <Confirm message={ confirmState.message } onConfirm={ (e) => {
-                            confirmState.onConfirm && confirmState.onConfirm(e);
-                            setConfirmState({ isOpen: false });
+                            confirmState.onConfirm(e);
+                            setConfirmState({ 
+                                isOpen: false,
+                                onConfirm: (e) => {}
+                            });
                             currentPasswordInput.current!.value = '';
                         } } onCancel={ (e) => {
-                            setConfirmState({ isOpen: false });
+                            setConfirmState({ 
+                                isOpen: false,
+                                onConfirm: (e) => {}
+                            });
                             currentPasswordInput.current!.value = '';
                         } }>
                             <InputText style={{ textAlign: 'center' }} ref={ currentPasswordInput } type="password" placeholder="enter password" />

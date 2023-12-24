@@ -1,5 +1,6 @@
 export const deleteQuiz = (
-    jsonBody: {}, 
+    quiz_id: number,
+    creator_id: number,
     callback: (res: any) => void, 
     errcallback: (err: any) => void = (err: void) => {}) => 
 {
@@ -8,7 +9,10 @@ export const deleteQuiz = (
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(jsonBody),
+        body: JSON.stringify({
+            quiz_id,
+            creator_id,
+        }),
     }).then(res => res.json())
     .then(data => callback(data))
     .catch(err => errcallback(err));

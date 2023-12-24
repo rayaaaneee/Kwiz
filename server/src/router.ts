@@ -14,6 +14,7 @@ import DeleteUser from './routes/user/delete';
 import GetQuizHistorical from './routes/historical/get.quiz';
 import CreateHistorical from './routes/historical/post.quiz';
 import SearchQuiz from './routes/quiz/get.search';
+import EditQuiz from './routes/quiz/put.quiz';
 
 // Authentication
 app.post('/user/login', Login);
@@ -23,8 +24,9 @@ app.post('/user/register', Register);
 app.get('/quiz/all/:not', GetAllQuizzes);
 app.get('/quiz/user/:id', UserQuizzes);
 app.get('/quiz/:id', GetQuiz);
-app.get('/quiz/theme/:theme', SearchQuiz);
+app.get('/quiz/theme/:theme/not/:userid', SearchQuiz);
 app.post('/quiz/create', CreateQuiz);
+app.put('/quiz/edit', EditQuiz);
 app.delete('/quiz/delete', DeleteQuiz);
 
 // User

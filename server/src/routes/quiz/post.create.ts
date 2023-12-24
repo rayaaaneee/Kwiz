@@ -4,8 +4,11 @@ import Database from "better-sqlite3";
 import Table from "../../tables";
 
 const CreateQuiz = async (req: Request, res: Response) => {
+
     const quiz: any = req.body.quiz;
-    const creator_id: number = parseInt(req.body.creator_id);
+    const creator_id: number = quiz.creatorId;
+
+    console.log(quiz);
 
     if (quiz.questions.length === 0) {
         return res.status(200).json({ 
@@ -24,7 +27,7 @@ const CreateQuiz = async (req: Request, res: Response) => {
     });
 
     const table_quiz: string = Table.Quiz;
-    const quizResult: Database.RunResult = db.prepare(`INSERT INTO ${table_quiz} (creator_id, theme) VALUES (?, ?)`).run(creator_id, quiz.theme);
+    const quizResult: Database.RunResult = db.prepare(`INSERT INTO ${table_quiz} (creator_id, theme) VALUES (?, ?)`).run(creator_id, quiz.theme.toLowerCase());
 
     if (quizResult.changes === 0) {
         return res.status(200).json({ 

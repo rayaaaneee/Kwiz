@@ -3,15 +3,18 @@ import { db } from "../../main";
 import Table from "../../tables";
 
 const SearchQuiz = async (req: Request, res: Response) => {
-    const theme: string = req.params.theme;
+    const theme: string = (req.params.theme as string).toLowerCase();
+    const currentUserId: number = parseInt(req.params.userid as string);
+
+    console.log(currentUserId);
 
     try {
         const rows: any = db.prepare(`
             SELECT K.*, COUNT(Q.id) as nbQuestions FROM ${ Table.Quiz } K
             INNER JOIN ${ Table.Question } Q ON K.id = Q.quiz_id
-            WHERE lower(theme) LIKE ?
+            WHERE lower(theme) LIKE ? AND creator_id != ? 
             GROUP BY K.id
-        `).all(`%${theme.toLowerCase()}%`);
+        `).all(`%${theme.toLowerCase()}%`, currentUserId);
 
         res.status(200).send({
             message: 'Successfully searched for the quizes !',

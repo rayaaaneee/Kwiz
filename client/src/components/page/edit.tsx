@@ -22,6 +22,7 @@ import verifyQuiz from '../../function/create/verifyQuiz';
 import '../../asset/css/page/create.scss';
 import { deleteQuiz } from '../../function/api/delete-quiz';
 import Confirm from '../confirm';
+import { editQuiz } from '../../function/api/edit-quiz';
 
 export interface AnswerInterface {
     name: string;
@@ -166,6 +167,19 @@ const Edit = (): JSX.Element => {
         );
         
         if (isOk) {
+
+            if (selectedIndexQuestion !== -1) {
+                HandleToasts.push({
+                    message: 'Question modified !',
+                    type: ToastType.success,
+                });
+            } else {
+                HandleToasts.push({
+                    message: 'Question added !',
+                    type: ToastType.success,
+                });
+            }
+
             setQuiz((prevQuiz) => {
                 let newQuiz: Quiz = Quiz.copy(prevQuiz);
 
@@ -197,6 +211,7 @@ const Edit = (): JSX.Element => {
 
     const handleSubmitQuiz = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
 
+        console.log(quiz.toJSON());
         const isOk: boolean = verifyQuiz(
             theme,
             quiz,
@@ -209,11 +224,8 @@ const Edit = (): JSX.Element => {
 
             quiz.theme = theme;
 
-            createQuiz(
-                {
-                    quiz: quiz,
-                    creator_id: HandleUserIdCookie.get(),
-                },
+            editQuiz(
+                quiz,
                 (data) => {
                     setLoaded(true);
                     if (data.success === true) {
@@ -228,6 +240,13 @@ const Edit = (): JSX.Element => {
                             type: ToastType.error,
                         });
                     }
+                },
+                (err) => {
+                    setLoaded(true);
+                    HandleToasts.push({
+                        message: 'Cannot modify quiz, please try again later.',
+                        type: ToastType.error,
+                    });
                 }
             );
         } else {
@@ -235,14 +254,12 @@ const Edit = (): JSX.Element => {
         }
     }
 
-    const handleDeleteQuiz = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const handleDeleteQuiz = (e: React.FormEvent<HTMLFormElement>) => {
         setLoaded(false);
 
         deleteQuiz(
-            {
-                quiz_id: quiz.id,
-                creator_id: HandleUserIdCookie.get(),
-            },
+            quiz.id!,
+            HandleUserIdCookie.get(),
             (data) => {
                 setLoaded(true);
                 if (data.success === true) {

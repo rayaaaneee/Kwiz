@@ -127,6 +127,19 @@ const Create = (): JSX.Element => {
         );
 
         if (isOk) {
+
+            if (selectedIndexQuestion !== -1) {
+                HandleToasts.push({
+                    message: 'Question modified !',
+                    type: ToastType.success,
+                });
+            } else {
+                HandleToasts.push({
+                    message: 'Question added !',
+                    type: ToastType.success,
+                });
+            }
+
             setQuiz((prevQuiz) => {
                 let newQuiz: Quiz = Quiz.copy(prevQuiz);
 
@@ -171,12 +184,10 @@ const Create = (): JSX.Element => {
             setLoaded(false);
 
             quiz.theme = theme;
+            quiz.creatorId = HandleUserIdCookie.get();
 
             createQuiz(
-                {
-                    quiz: quiz,
-                    creator_id: HandleUserIdCookie.get(),
-                },
+                quiz,
                 (data) => {
                     setLoaded(true);
                     if (data.success === true) {
