@@ -1,4 +1,4 @@
-import '../../../asset/css/template/historical/historic-line.scss';
+import '../../../asset/scss/template/historical/historic-line.scss';
 
 interface HistoricLineInterface {
     pseudo: string, 

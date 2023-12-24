@@ -3,24 +3,25 @@ import { NavigateFunction, useLocation, useNavigate } from "react-router-dom";
 
 import Menu from "../menu";
 import Confirm from "../confirm";
+import Loader, { LoaderColor } from "../loader";
 
 import { Container } from "../template/container";
 import { InputText } from "../template/input-text";
 import { MainContainerPage } from "../template/main-container-page";
 import { Title } from "../template/title";
-
 import { Button, ButtonColor } from "../template/button";
-import { CookieInterface } from "../../interface/cookie-interface";
+
 import cookieContext from "../../context/cookie-context";
-import { ToastContextManager } from "../../object/toast-context-manager";
+import { CookieInterface } from "../../interface/cookie-interface";
 import toastContext from "../../context/toast-context";
 import { ToastType } from "../toast";
-import Loader, { LoaderColor } from "../loader";
+import { ToastContextManager } from "../../object/toast-context-manager";
+
 import { getUserInformations } from "../../function/api/get-user-informations";
+import { deleteUser } from "../../function/api/delete-user";
 
 import { setUsername as fetchSetUsername } from "../../function/api/set-username";
 import { setPassword as fetchSetPassword } from "../../function/api/set-password";
-import { deleteUser } from "../../function/api/delete-user";
 
 const Profile = () => {
 

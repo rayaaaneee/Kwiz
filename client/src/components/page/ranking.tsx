@@ -1,21 +1,25 @@
-import { To, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
+
 import Menu from "../menu";
+import Loader, { LoaderColor } from "../loader";
 
 import { Container } from "../template/container";
 import { MainContainerPage } from "../template/main-container-page";
 import { ResultLine } from "../template/result/result-line";
 import { ResultLinesContainer } from "../template/result/result-lines-container";
 import { Title } from "../template/title";
-import { getQuizHistorical } from "../../function/api/get-quiz-historical";
-import { ToastContextManager } from "../../object/toast-context-manager";
-import toastContext from "../../context/toast-context";
-import { ToastType } from "../toast";
-import Loader, { LoaderColor } from "../loader";
 
-import "../../asset/css/page/result.scss";
+import { getQuizHistorical } from "../../function/api/get-quiz-historical";
+
+import toastContext from "../../context/toast-context";
+import { ToastContextManager } from "../../object/toast-context-manager";
+import { ToastType } from "../toast";
 
 import emptyImg from '../../asset/img/nothing.png';
+
+import "../../asset/scss/page/result.scss";
+
 
 const Ranking = (): JSX.Element => {
 

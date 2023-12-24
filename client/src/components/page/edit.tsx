@@ -3,6 +3,7 @@ import { NavigateFunction, useNavigate, useParams } from 'react-router-dom';
 
 import Menu from '../menu';
 import QuizEditor from '../template/create/quiz-editor';
+import Confirm from '../confirm';
 
 import { Question } from '../../object/entity/question';
 import { Quiz } from '../../object/entity/quiz';
@@ -14,15 +15,13 @@ import toastContext from '../../context/toast-context';
 
 import { ToastType } from '../toast';
 
-import { createQuiz } from '../../function/api/create-quiz';
 import { getQuizById } from '../../function/api/get-quiz-by-id';
+import { deleteQuiz } from '../../function/api/delete-quiz';
+import { editQuiz } from '../../function/api/edit-quiz';
 import verifyQuestion from '../../function/create/verifyQuestion';
 import verifyQuiz from '../../function/create/verifyQuiz';
 
-import '../../asset/css/page/create.scss';
-import { deleteQuiz } from '../../function/api/delete-quiz';
-import Confirm from '../confirm';
-import { editQuiz } from '../../function/api/edit-quiz';
+import '../../asset/scss/page/create.scss';
 
 export interface AnswerInterface {
     name: string;

@@ -4,7 +4,6 @@ import { NavigateFunction, useLocation, useNavigate } from "react-router-dom";
 import { ChildrenInterface } from "../interface/children-interface";
 
 import cookieContext from "../context/cookie-context";
-
 import { CookieInterface } from "../interface/cookie-interface";
 
 const Redirector = (props: ChildrenInterface): JSX.Element => {

@@ -7,11 +7,12 @@ import Loader, { LoaderColor } from '../loader';
 import { Container } from '../template/container';
 import { MainContainerPage } from '../template/main-container-page';
 import { ViewQuiz } from '../template/view-quiz';
-import { InputTextGreenBorder } from '../template/input-text-green-border';
 import { Button } from '../template/button';
 import { Title } from '../template/title';
+import { InputText } from '../template/input-text';
 
 import { getAllQuizzes } from '../../function/api/get-all-quizzes';
+import { fetchSearchQuizzes } from '../../function/api/search-quizzes';
 
 import { ToastContextManager } from '../../object/toast-context-manager';
 import { ToastType } from '../toast';
@@ -20,9 +21,7 @@ import toastContext from '../../context/toast-context';
 import cookieContext from '../../context/cookie-context';
 import { CookieInterface } from '../../interface/cookie-interface';
 
-import '../../asset/css/page/play.scss';
-import { InputText } from '../template/input-text';
-import { fetchSearchQuizzes } from '../../function/api/search-quizzes';
+import '../../asset/scss/page/play.scss';
 
 const Play = (): JSX.Element => {
 

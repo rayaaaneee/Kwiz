@@ -1,4 +1,4 @@
-import '../asset/css/loader.scss';
+import '../asset/scss/loader.scss';
 
 export enum LoaderColor {
     green = 'green',

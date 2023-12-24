@@ -1,4 +1,4 @@
-import '../../asset/css/template/button.scss';
+import '../../asset/scss/template/button.scss';
 
 export enum ButtonColor {
     green = 'green-button',

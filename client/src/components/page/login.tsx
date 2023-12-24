@@ -1,4 +1,4 @@
-import { forwardRef, useState, useContext, useEffect } from "react";
+import { forwardRef, useState, useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import Loader, { LoaderColor } from "../loader";
@@ -10,13 +10,14 @@ import { Title } from "../template/title";
 
 import cookieContext from "../../context/cookie-context";
 import toastContext from "../../context/toast-context";
+import { ToastContextManager } from "../../object/toast-context-manager";
+import { ToastType } from "../toast";
 
 import { CookieInterface } from "../../interface/cookie-interface";
-import { ToastType } from "../toast";
 
 import { login } from "../../function/api/login";
 import { register } from "../../function/api/register";
-import { ToastContextManager } from "../../object/toast-context-manager";
+
 
 
 interface FlexColumnDivTemplateInterface {

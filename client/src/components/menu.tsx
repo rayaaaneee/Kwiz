@@ -5,14 +5,14 @@ import { ChildrenInterface } from '../interface/children-interface';
 import { CookieInterface } from '../interface/cookie-interface';
 
 import MenuItem from './menu-item';
+import Confirm from './confirm';
 
 import cookieContext from '../context/cookie-context';
 import toastContext from '../context/toast-context';
 import { ToastContextManager } from '../object/toast-context-manager';
 import { ToastType } from './toast';
 
-import '../asset/css/menu.scss';
-import Confirm from './confirm';
+import '../asset/scss/menu.scss';
 
 const Menu = (props: ChildrenInterface): JSX.Element => {
 

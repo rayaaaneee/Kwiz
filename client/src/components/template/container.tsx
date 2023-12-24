@@ -1,4 +1,4 @@
-import '../../asset/css/template/container.scss';
+import '../../asset/scss/template/container.scss';
 
 import { ChildrenInterface } from '../../interface/children-interface';
 

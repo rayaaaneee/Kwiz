@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-import '../asset/css/toast.scss';
+import '../asset/scss/toast.scss';
 
 export enum ToastType {
     success = "success",

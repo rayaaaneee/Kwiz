@@ -2,25 +2,26 @@ import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { NavigateFunction, useNavigate, useParams } from "react-router-dom";
 
 import Menu from "../menu";
+import Loader, { LoaderColor } from "../loader";
 
 import { Quiz as QuizObject } from "../../object/entity/quiz";
 import { Question } from "../../object/entity/question";
 
 import { Container } from "../template/container";
 import { MainContainerPage } from "../template/main-container-page";
-
 import { Title } from "../template/title";
-import { getQuizById } from "../../function/api/get-quiz-by-id";
+import { Button, ButtonColor } from "../template/button";
+import { InputCheckbox } from "../template/create/input-checkbox";
+
 import toastContext from "../../context/toast-context";
 import { ToastType } from "../toast";
 import { ToastContextManager } from "../../object/toast-context-manager";
 import cookieContext from "../../context/cookie-context";
-import Loader, { LoaderColor } from "../loader";
-import { Button, ButtonColor } from "../template/button";
-import { InputCheckbox } from "../template/create/input-checkbox";
+
+import { getQuizById } from "../../function/api/get-quiz-by-id";
+import { createHistorical } from "../../function/api/create-historical";
 
 import checkBoxIcon from '../../asset/img/checkbox.png';
-import { createHistorical } from "../../function/api/create-historical";
 
 const Quiz = (): JSX.Element => {
 

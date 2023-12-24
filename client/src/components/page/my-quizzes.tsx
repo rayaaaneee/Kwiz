@@ -13,9 +13,9 @@ import { getUserQuizzes } from '../../function/api/get-user-quizzes';
 import cookieContext from '../../context/cookie-context';
 import toastContext from '../../context/toast-context';
 import { ToastContextManager } from '../../object/toast-context-manager';
-
-import '../../asset/css/page/play.scss';
 import { ToastType } from '../toast';
+
+import '../../asset/scss/page/play.scss';
 
 const MyQuizzes = (): JSX.Element => {
 

@@ -6,7 +6,7 @@ import { ChildrenInterface } from "../interface/children-interface";
 
 import Toast, { ToastInterface } from "../components/toast";
 
-import '../asset/css/toast.scss';
+import '../asset/scss/toast.scss';
 
 const ToastContextManagerObj = new ToastContextManager();
 const toastContext = createContext<ToastContextManager>(ToastContextManagerObj);

@@ -1,4 +1,4 @@
-import { SetStateAction, useContext, useMemo, useRef, useState, useEffect } from 'react';
+import { SetStateAction, useContext, useMemo, useRef, useState } from 'react';
 import { NavigateFunction, useNavigate } from 'react-router-dom';
 
 import Menu from '../menu';
@@ -11,6 +11,7 @@ import QuizEditor from '../template/create/quiz-editor';
 
 import { createQuiz } from '../../function/api/create-quiz';
 import verifyQuestion from '../../function/create/verifyQuestion';
+import verifyQuiz from '../../function/create/verifyQuiz';
 
 import { ToastContextManager } from '../../object/toast-context-manager';
 import { ToastType } from '../toast';
@@ -18,8 +19,7 @@ import { CookieInterface } from '../../interface/cookie-interface';
 
 import toastContext from '../../context/toast-context';
 
-import '../../asset/css/page/create.scss';
-import verifyQuiz from '../../function/create/verifyQuiz';
+import '../../asset/scss/page/create.scss';
 
 export interface AnswerInterface {
     name: string;

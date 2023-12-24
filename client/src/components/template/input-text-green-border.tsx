@@ -1,4 +1,4 @@
-import '../../asset/css/template/input-text-green-border.scss';
+import '../../asset/scss/template/input-text-green-border.scss';
 
 export const InputTextGreenBorder = (): JSX.Element =>
 {

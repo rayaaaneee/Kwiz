@@ -1,5 +1,5 @@
 import { ChangeEvent, forwardRef, useEffect, useRef, useState } from 'react';
-import '../../asset/css/template/input-text.scss';
+import '../../asset/scss/template/input-text.scss';
 
 interface InputTextInterface {
     value?: string,
