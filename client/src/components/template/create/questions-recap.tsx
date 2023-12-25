@@ -19,7 +19,7 @@ export const QuestionsRecap = (props: QuestionRecapInterface) => {
     return (
     <div className="questions-recap flex flex-column">
         { props.questions.length === 0 && 
-            (<p style={{ cursor: 'default' }}>Aucune question n'a été ajoutée</p>) 
+            (<p style={{ cursor: 'default' }}>No questions yet.</p>)
         }
         {props.questions.map((question, index) =>
             (<Question key={index} index={index} question={ question.question_text } selectedIndex={props.selectedIndex} onClick={handleClick} />)

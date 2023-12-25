@@ -1,4 +1,4 @@
-import Router from './router/router';
+import Router from './router';
 import Contexts from './components/contexts';
 
 const App = (): JSX.Element => {

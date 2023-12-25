@@ -32,9 +32,9 @@ export interface AnswerInterface {
 
 const Create = (): JSX.Element => {
 
-    let titleText: string = "Nouveau quiz"
+    let titleText: string = "New quiz"
 
-    document.title = "Créer un quiz - Kwiz";
+    document.title = "Create a quiz - Kwiz";
 
     const [loaded, setLoaded] = useState<boolean>(true);
 

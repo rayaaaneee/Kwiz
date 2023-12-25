@@ -29,7 +29,7 @@ const Play = (): JSX.Element => {
     const [quizzes, setQuizzes] = useState<Array<any>>([]);
 
     const [loaded, setLoaded] = useState<boolean>(false);
-    document.title = "Jouer - Kwiz";
+    document.title = "Play - Kwiz";
 
     const HandleCookieUserId: CookieInterface = useContext(cookieContext).get('user_id');
     const HandleToasts: ToastContextManager = useContext(toastContext);
@@ -52,6 +52,7 @@ const Play = (): JSX.Element => {
             }
         );
     }
+
     useEffect(() => {
         getQuizzes();
     }, []);
@@ -80,20 +81,17 @@ const Play = (): JSX.Element => {
         }
     }
 
-    const containerHeight: React.CSSProperties | undefined = (loaded 
-        && quizzes.length !== 0) ? { height: '400px' } : undefined;
-
     return (
         <Menu>
             <>
-                <Title text={ 'Choix du quiz' } />
+                <Title text={ 'Choose your quiz' } />
                 <MainContainerPage>
                     <>
                         <Container className='flex flex-start' style={{ padding: '20px 0', alignItems: 'center' }} >
-                            <label style={{ fontSize: '25px'}} htmlFor='search-input'>Rechercher :</label>
+                            <label style={{ fontSize: '25px'}} htmlFor='search-input'>Search :</label>
                             <InputText onInput={ onSearch } placeholder='theme' id='search-input' />
                         </Container>
-                        <Container style={{ ...containerHeight, minHeight: '200px' }} className="play-container flex-row">
+                        <Container style={ !loaded ? { height: '400px' } : undefined } className="play-container flex-row">
                             <div className="quiz-container flex-column align-start">
                             { loaded ? (
                                 <>
@@ -102,7 +100,7 @@ const Play = (): JSX.Element => {
                                     )) }
                                     { quizzes.length === 0 && (
                                         <div className="no-quizzes flex-column flex-center">
-                                            <h2>Aucun quiz disponible</h2>
+                                            <h2>No quizzes available.</h2>
                                         </div>
                                     ) }
                                 </>
@@ -115,8 +113,6 @@ const Play = (): JSX.Element => {
                             <>
                                 { quizzes.length !== 0 && (
                                     <div className="informations-to-play flex-row flex-center" style={{ marginTop: '40px'}}>
-                                        {/* <h1 className='main-green'>Mon nom :</h1>
-                                        <InputTextGreenBorder/> */}
                                         <NavLink style={{ textDecoration: 'none' }} to={ `/play/${ selected }`} id="linkToPlay">
                                             <Button id="play" text="Jouer !"/>
                                         </NavLink>

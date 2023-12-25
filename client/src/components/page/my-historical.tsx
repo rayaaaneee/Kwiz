@@ -10,15 +10,15 @@ import { Title } from '../template/title';
 import toastContext from '../../context/toast-context';
 import cookieContext from '../../context/cookie-context';
 
-import { getAllHistorical } from '../../function/api/get-all-historical';
+import { getUserHistorical } from '../../function/api/get-user-historical';
 
 import { ToastContextManager } from '../../object/toast-context-manager';
 import { ToastType } from '../toast';
 import Loader, { LoaderColor } from '../loader';
 
-const Historical = (): JSX.Element => {
+const MyHistorical = (): JSX.Element => {
 
-    document.title = "Historical - Kwiz";
+    document.title = "My Historical - Kwiz";
 
     const [historicLines, setHistoricLines] = useState<Array<HistoricLineInterface>>([]);
 
@@ -28,7 +28,7 @@ const Historical = (): JSX.Element => {
     const [loaded, setLoaded] = useState<boolean>(false);
 
     useEffect(() => {
-        getAllHistorical(
+        getUserHistorical(
             HandleUserIdCookie.get(),
             (data) => {
                 if (data.success) {
@@ -52,7 +52,7 @@ const Historical = (): JSX.Element => {
     return (
         <Menu>
             <>
-                <Title text="Historical" />
+                <Title text="My Historical" />
                 <MainContainerPage>
                     <Container className="play-container flex align-center" style={ !loaded ? { height: '300px' } : undefined }>
                         { loaded ? (
@@ -71,4 +71,4 @@ const Historical = (): JSX.Element => {
     );
 }
 
-export default Historical;
+export default MyHistorical;

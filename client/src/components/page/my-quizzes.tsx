@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import Menu from '../menu';
 import Loader, { LoaderColor } from '../loader';
@@ -7,6 +8,7 @@ import { Container } from '../template/container';
 import { MainContainerPage } from '../template/main-container-page';
 import { Title } from '../template/title';
 import { ViewQuiz } from '../template/view-quiz';
+import { Button } from '../template/button';
 
 import { getUserQuizzes } from '../../function/api/get-user-quizzes';
 
@@ -17,11 +19,13 @@ import { ToastType } from '../toast';
 
 import '../../asset/scss/page/play.scss';
 
+import nothingImg from '../../asset/img/nothing.png';
+
 const MyQuizzes = (): JSX.Element => {
 
     const [selected, setSelected] = useState<number>(-1);
 
-    document.title = "Mes quiz";
+    document.title = "My quizzes";
 
     const HandleUserIdCookie = useContext(cookieContext).get('user_id');
     const HandleToasts: ToastContextManager = useContext(toastContext);
@@ -29,6 +33,9 @@ const MyQuizzes = (): JSX.Element => {
     const [quizzes, setQuizzes] = useState<Array<any>>([]);
 
     const [loaded, setLoaded] = useState<boolean>(false);
+
+    const location = useLocation();
+    const navigate = useNavigate();
 
     useEffect(
         () => getUserQuizzes(
@@ -53,12 +60,16 @@ const MyQuizzes = (): JSX.Element => {
         )
     );
 
+    const navigateToCreate = (e: React.MouseEvent<HTMLButtonElement>) => {
+        navigate('/new', { state: { from: location.pathname } });
+    }
+
     const loadedStyleGreenContainer: {} = { height: '400px'};
 
     return (
         <Menu>
             <>
-                <Title text='Mes quiz' />
+                <Title text='My quizzes' />
                 <MainContainerPage>
                     <Container className="play-container flex-row flex-center" style={ loaded ? {} : loadedStyleGreenContainer}>
                     { loaded ? (
@@ -66,7 +77,14 @@ const MyQuizzes = (): JSX.Element => {
                             { quizzes.map((quiz) => (
                                 <ViewQuiz quizId={ quiz.id } quizName={ quiz.theme } nbQuestions={ quiz.nbQuestions } selected={selected} selectQuiz={setSelected} canModify={ true }/>
                             )) }
-                            { (quizzes.length === 0 && loaded) && <p className="no-quiz">Vous n'avez pas encore créé de quiz</p> }
+                            { (quizzes.length === 0 && loaded) && (
+                                <div className='flex flex-column flex-center w-full' style={{ rowGap: '20px' }}>
+                                    <h2 className="no-quiz">You don't have any quiz.</h2>
+                                    <img style={{ width: '100px' }} className="no-quiz-img" src={ nothingImg } alt="No quiz" />
+                                    <Button text="Create one !" onClick={ navigateToCreate } />
+                                </div>
+                                )
+                            }
                         </div>
                         ) : (   
                         <Loader color={ LoaderColor.white } />

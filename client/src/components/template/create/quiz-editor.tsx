@@ -155,7 +155,7 @@ const QuizEditor = (props: QuizEditorInterface): JSX.Element => {
                     <>
                         <Container className="create-container theme-container flex-row align-center justify-start">
                             <>
-                                <h1 className='no-bold'>Thème -</h1>
+                                <h1 className='no-bold'>Theme -</h1>
                                 <InputText id={ "theme" } pattern={ initialRegex } value= { props.theme } setValue={ props.setTheme } name={ 'quiz-theme' }/>
                             </>
                         </Container>
@@ -163,11 +163,11 @@ const QuizEditor = (props: QuizEditorInterface): JSX.Element => {
                             <Container className="create-container new-question-container flex-column flex-center">
                                 <>
                                     <div className="enter-question-container flex-row align-center justify-start">
-                                        <h1 className='no-bold'>{ props.selectedIndexQuestion === -1 ? 'Nouvelle Question' : 'Modifier Question' } -</h1>
+                                        <h1 className='no-bold'>{ props.selectedIndexQuestion === -1 ? 'New question' : 'Modify question' } -</h1>
                                         <InputText pattern={ initialRegex } name={ 'question-name' } id={ "questionName" } value={ props.questionName } setValue={ props.setQuestionName } />
                                     </div>
                                     <div className='flex-row align-center justify-start' style={{ alignSelf: 'start', columnGap: '15px'}}>
-                                        <label htmlFor='multipleAnswersCheckbox' style={{ fontSize: '1.1em', 'fontWeight': 300, 'cursor': 'pointer' }}>• Plusieurs réponses possibles ?</label>
+                                        <label htmlFor='multipleAnswersCheckbox' style={{ fontSize: '1.1em', 'fontWeight': 300, 'cursor': 'pointer' }}>• Multiple answers</label>
                                         <InputCheckbox id={"multipleAnswersCheckbox"} onCheckDispatch={ props.setIsManyAnswers } checked={ props.isManyAnswers } name={'is-many-answers'} />
                                     </div>
                                     <div className="grid-answers">
@@ -189,8 +189,8 @@ const QuizEditor = (props: QuizEditorInterface): JSX.Element => {
                                                         if (index === i) return -1 * index;
                                                         return i;
                                                     } ) } checked={ answer.isAnswer } ref={ answer.checkBoxRef } disabled={ true } name={ `ans-${i}-is-answer` } title={    answer.name.length > 0 ? 
-                                                        'Séléctionner' :
-                                                        'Veuillez entrer une réponse'
+                                                        'Select this' :
+                                                        'Please enter an answer'
                                                     } />
                                                 </div>
                                             )
@@ -202,7 +202,7 @@ const QuizEditor = (props: QuizEditorInterface): JSX.Element => {
                         </form>
                         <Container className="create-container questions-container flex-column align-start justify-center">
                             <>
-                                <h1 className='no-bold'>Questions du quizz :</h1>
+                                <h1 className='no-bold'>Quiz questions :</h1>
                                 <QuestionsRecap selectedIndex={ props.selectedIndexQuestion } setSelectedIndex={ props.setSelectedIndexQuestion } questions={ props.quiz.questions }/>
                             </>
                         </Container>
@@ -210,11 +210,11 @@ const QuizEditor = (props: QuizEditorInterface): JSX.Element => {
                         <div className="validate-button-container flex align-center justify-end" style={{ columnGap: '20px' }}>
                             { props.handleDeleteQuiz !== undefined && (
                                 <form onSubmit={ props.handleDeleteQuiz }>
-                                    <Button color={ ButtonColor.red} id="delete" text="Supprimer"/>
+                                    <Button color={ ButtonColor.red} id="delete" text="Delete"/>
                                 </form>
                             )}
                             <NavLink style={{ textDecoration: 'none' }} to="/my-quizzes" onClick={ props.handleSubmitQuiz }>
-                                <Button id="validate" text="Valider"/>
+                                <Button id="validate" text="Validate"/>
                             </NavLink>
                         </div>
 

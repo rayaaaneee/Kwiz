@@ -45,7 +45,6 @@ const Ranking = (): JSX.Element => {
                 setRank(data.hist);
                 setTheme(data.theme);
                 setLoaded(true);
-                console.log(data);
             },
             (err) => {
                 HandleToasts.push({

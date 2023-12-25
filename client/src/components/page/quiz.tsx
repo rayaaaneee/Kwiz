@@ -130,12 +130,12 @@ const Quiz = (): JSX.Element => {
         if (isCorrect) {
             setScore((score) => ( score + 1 ));
             HandleToasts.push({
-                message: 'Bonne réponse !',
+                message: 'Good answer !',
                 type: ToastType.success,
             });
         } else {
             HandleToasts.push({
-                message: 'Mauvaise réponse !',
+                message: 'Bad answer !',
                 type: ToastType.error,
             });
         }
@@ -199,7 +199,7 @@ const Quiz = (): JSX.Element => {
                                 <Container className="flex flex-column flex-center">
                                     <h2 style={{ textAlign: 'center' }}>Votre score est de { score } / { quiz?.questions.length || 0 } !</h2>
                                     <img src={ checkBoxIcon } width={ '120px' } alt="checbkbox" />
-                                    <Button style={{ margin: '0 auto', marginBottom: '30px'}} color={ ButtonColor.blue } onClick={ (e) => navigate(`/ranking/${id}`) } text="Voir votre classement" />
+                                    <Button style={{ margin: '0 auto', marginBottom: '30px'}} color={ ButtonColor.blue } onClick={ (e) => navigate(`/ranking/${id}`) } text="See your rank" />
                                 </Container>
                             </>
                         ) : (

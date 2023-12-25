@@ -52,12 +52,12 @@ const Menu = (props: ChildrenInterface): JSX.Element => {
         </div>
         <nav className="menu-container flex-column align-start">
           <ul className="menu-list flex-column align-start">
-            <MenuItem to={ '/profile' } title={ 'Profile' } />
-            <MenuItem to={ '/friends' } title={ 'Friends' } />
             <MenuItem to={ '/play' } title={ 'Play !' } />
-            <MenuItem to={ '/new' } title={ 'Create a quiz' } />
-            <MenuItem to={ '/my-quizzes' } title={ 'My quizzes' } />
+            <MenuItem to={ '/new' } title={ 'Create' } />
             <MenuItem to={ '/historical' } title={ 'Historical' } />
+            <MenuItem to={ '/profile' } title={ 'My Profile' } />
+            <MenuItem to={ '/friends' } title={ 'My Friends' } />
+            <MenuItem to={ '/my-quizzes' } title={ 'My quizzes' } />
             <MenuItem to={ '/my-historical' } title={ 'My historical' } />
             <MenuItem to={ '/' } onClick={ HandleLogin } title={ 'Disconnect' } />
           </ul>

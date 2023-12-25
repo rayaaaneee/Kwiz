@@ -210,7 +210,6 @@ const Edit = (): JSX.Element => {
 
     const handleSubmitQuiz = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
 
-        console.log(quiz.toJSON());
         const isOk: boolean = verifyQuiz(
             theme,
             quiz,
