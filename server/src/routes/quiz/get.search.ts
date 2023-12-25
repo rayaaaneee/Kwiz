@@ -6,8 +6,6 @@ const SearchQuiz = async (req: Request, res: Response) => {
     const theme: string = (req.params.theme as string).toLowerCase();
     const currentUserId: number = parseInt(req.params.userid as string);
 
-    console.log(currentUserId);
-
     try {
         const rows: any = db.prepare(`
             SELECT K.*, COUNT(Q.id) as nbQuestions FROM ${ Table.Quiz } K
@@ -23,7 +21,6 @@ const SearchQuiz = async (req: Request, res: Response) => {
         });
         return;
     } catch (err) {
-        console.log(err);
         res.status(200).send({
             success: false,
             message: 'An error occurred while searching for the quiz. Please try again later.'

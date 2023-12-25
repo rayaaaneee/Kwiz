@@ -31,7 +31,6 @@ const DeleteUser = async (req: Request, res: Response) => {
             success: false,
             message: 'Error while deleting your datas',
         });
-        console.log(err);
         return;
     }
 

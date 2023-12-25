@@ -15,6 +15,8 @@ import GetQuizHistorical from './routes/historical/get.quiz';
 import CreateHistorical from './routes/historical/post.quiz';
 import SearchQuiz from './routes/quiz/get.search';
 import EditQuiz from './routes/quiz/put.quiz';
+import GetAllHistorical from './routes/historical/get.all';
+import GetUserHistorical from './routes/historical/get.user';
 
 // Authentication
 app.post('/user/login', Login);
@@ -36,5 +38,7 @@ app.put('/user/username/:id', SetUsername);
 app.delete('/user/delete/:id', DeleteUser);
 
 // Historical
+app.get('/hist/not/:userid', GetAllHistorical);
 app.get('/hist/quiz/:id', GetQuizHistorical);
+app.get('/hist/user/:id', GetUserHistorical);
 app.post('/hist/quiz/:id', CreateHistorical);

@@ -41,6 +41,7 @@ CREATE TABLE IF NOT EXISTS Historical (
   user_id INTEGER NOT NULL,
   quiz_id INTEGER NOT NULL,
   score INTEGER NOT NULL,
+  date TEXT DEFAULT (strftime('%Y/%m/%d', 'now')),
   UNIQUE (user_id, quiz_id),
   FOREIGN KEY (quiz_id) REFERENCES Quiz(id),
   FOREIGN KEY (user_id) REFERENCES User(id)

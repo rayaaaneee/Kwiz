@@ -18,7 +18,6 @@ const EditQuiz = async (req: Request, res: Response) => {
 
     quiz.questions.forEach((question: any) => {
         if(question.id === undefined) {
-            console.log("insert", question);
             const insertQuestionResult: Database.RunResult = db.prepare(`INSERT INTO ${Table.Question} (question_text, quiz_id, is_unique_answer) VALUES (?, ?, ?)`).run(question.question_text, quiz.id, question.is_unique_answer ? 1 : 0);
 
             if (insertQuestionResult.changes === 0) {

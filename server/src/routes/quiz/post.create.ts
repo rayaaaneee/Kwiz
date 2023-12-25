@@ -8,8 +8,6 @@ const CreateQuiz = async (req: Request, res: Response) => {
     const quiz: any = req.body.quiz;
     const creator_id: number = quiz.creatorId;
 
-    console.log(quiz);
-
     if (quiz.questions.length === 0) {
         return res.status(200).json({ 
             success: false,
